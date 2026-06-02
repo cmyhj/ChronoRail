@@ -123,7 +123,7 @@ export const GameCard: React.FC<GameCardProps> = ({
           </button>
         </div>
 
-        {game.autoFetch && onRefreshVersions && (
+        {onRefreshVersions && (
           <button
             onClick={handleRefresh}
             disabled={refreshing}
