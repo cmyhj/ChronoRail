@@ -54,17 +54,17 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
     <div className="flex border-b border-[#2d2d4a] hover:bg-[#1a1a2e]/50 transition-colors">
       {/* 游戏名称 */}
       <div 
-        className="w-48 shrink-0 px-4 py-3 border-r border-[#2d2d4a] flex items-center gap-3"
+        className="w-48 shrink-0 px-4 py-5 border-r border-[#2d2d4a] flex items-center gap-3"
         style={{ borderLeft: `4px solid ${game.color || gameColors[game.id] || '#6366f1'}` }}
       >
-        <GameIcon gameId={game.id} size={20} />
+        <GameIcon gameId={game.id} size={24} />
         <span className="text-sm font-medium text-[#e2e8f0] truncate">
           {game.name}
         </span>
       </div>
 
       {/* 版本块区域 */}
-      <div className="flex-1 relative min-h-[60px]">
+      <div className="flex-1 relative min-h-[80px]">
         {/* 时间网格线 */}
         <div className="absolute inset-0 flex">
           {Array.from({ length: 12 }).map((_, i) => (

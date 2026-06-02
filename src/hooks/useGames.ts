@@ -5,6 +5,13 @@ import { mihoyoService } from '../services/mihoyo';
 import { getGameIcon, getGameColor } from '../utils/parser';
 import type { MihoyoGameId } from '../utils/parser';
 
+// 预置游戏配置
+const PRESET_GAMES: Array<{ id: MihoyoGameId; name: string }> = [
+  { id: 'genshin', name: '原神' },
+  { id: 'starrail', name: '崩坏：星穹铁道' },
+  { id: 'zzz', name: '绝区零' },
+];
+
 /**
  * 游戏数据管理Hook
  */
@@ -12,10 +19,31 @@ export function useGames() {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // 初始化预置游戏
+  const initializePresetGames = useCallback(() => {
+    const existingGames = gameService.getAll();
+    const existingIds = existingGames.map(g => g.id);
+    
+    // 添加缺失的预置游戏
+    for (const preset of PRESET_GAMES) {
+      if (!existingIds.includes(preset.id)) {
+        gameService.add({
+          id: preset.id,
+          name: preset.name,
+          icon: getGameIcon(preset.id),
+          color: getGameColor(preset.id),
+          autoFetch: true,
+          fetchSource: 'mihoyo',
+        } as any);
+      }
+    }
+  }, []);
+
   // 加载游戏列表
   const loadGames = useCallback(() => {
     setLoading(true);
     try {
+      initializePresetGames();
       const data = gameService.getAll();
       setGames(data);
     } catch (error) {
@@ -23,7 +51,7 @@ export function useGames() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [initializePresetGames]);
 
   useEffect(() => {
     loadGames();
@@ -66,7 +94,12 @@ export function useGames() {
       const config = mihoyoService.getSupportedGames().find(g => g.id === gameId);
       if (!config) return null;
 
+      // 检查是否已存在
+      const existing = gameService.getAll().find(g => g.id === gameId);
+      if (existing) return existing;
+
       const newGame = gameService.add({
+        id: gameId,
         name: config.name,
         icon: getGameIcon(gameId),
         color: getGameColor(gameId),

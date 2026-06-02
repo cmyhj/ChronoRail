@@ -120,11 +120,15 @@ export const gameService = {
   /**
    * 添加游戏
    */
-  add(gameData: Omit<Game, 'id' | 'createdAt' | 'updatedAt'>): Game {
+  add(gameData: Partial<Game> & { name: string }): Game {
     const data = storage.getData();
     const newGame: Game = {
-      ...gameData,
-      id: generateId(),
+      id: gameData.id || generateId(),
+      name: gameData.name,
+      icon: gameData.icon || 'default',
+      color: gameData.color || '#6366f1',
+      autoFetch: gameData.autoFetch || false,
+      fetchSource: gameData.fetchSource || 'manual',
       createdAt: getCurrentTimestamp(),
       updatedAt: getCurrentTimestamp(),
     };
