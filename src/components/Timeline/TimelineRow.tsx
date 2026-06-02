@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import dayjs from 'dayjs';
 import { VersionBlock } from './VersionBlock';
 import { GameIcon, gameColors } from '../Common/GameIcon';
@@ -13,6 +13,7 @@ interface TimelineRowProps {
   };
   scale: TimelineScale;
   onVersionClick?: (version: Version) => void;
+  getVersionStyle: (version: Version) => React.CSSProperties;
 }
 
 export const TimelineRow: React.FC<TimelineRowProps> = ({
@@ -21,35 +22,8 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
   dateRange,
   scale,
   onVersionClick,
+  getVersionStyle,
 }) => {
-  // 计算版本块位置
-  const versionBlocks = useMemo(() => {
-    return versions.map(version => {
-      const startDate = dayjs(version.startDate);
-      const endDate = version.endDate ? dayjs(version.endDate) : startDate.add(scale === 'day' ? 1 : scale === 'week' ? 7 : 30, 'day');
-      
-      const totalDays = dateRange.end.diff(dateRange.start, 'day');
-      const startOffset = startDate.diff(dateRange.start, 'day');
-      const duration = endDate.diff(startDate, 'day');
-      
-      const left = Math.max(0, (startOffset / totalDays) * 100);
-      const width = Math.min(100 - left, (duration / totalDays) * 100);
-      
-      return {
-        version,
-        style: {
-          left: `${left}%`,
-          width: `${Math.max(width, 3)}%`,
-        },
-      };
-    }).filter(block => {
-      // 只显示在时间范围内的版本
-      const startDate = dayjs(block.version.startDate);
-      return startDate.isAfter(dateRange.start.subtract(1, 'day')) && 
-             startDate.isBefore(dateRange.end.add(1, 'day'));
-    });
-  }, [versions, dateRange, scale]);
-
   return (
     <div className="flex border-b border-[#2d2d4a] hover:bg-[#1a1a2e]/50 transition-colors">
       {/* 游戏名称 */}
@@ -58,29 +32,45 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
         style={{ borderLeft: `4px solid ${game.color || gameColors[game.id] || '#6366f1'}` }}
       >
         <GameIcon gameId={game.id} size={24} />
-        <span className="text-sm font-medium text-[#e2e8f0] truncate">
-          {game.name}
-        </span>
+        <div>
+          <span className="text-sm font-medium text-[#e2e8f0] block">
+            {game.name}
+          </span>
+          <span className="text-xs text-[#64748b]">
+            {versions.length} 个版本
+          </span>
+        </div>
       </div>
 
       {/* 版本块区域 */}
       <div className="flex-1 relative min-h-[80px]">
         {/* 时间网格线 */}
         <div className="absolute inset-0 flex">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <div
-              key={i}
-              className="flex-1 border-r border-[#2d2d4a]/50 last:border-r-0"
-            />
-          ))}
+          {scale === 'day' ? (
+            // 按天显示网格
+            Array.from({ length: dateRange.end.diff(dateRange.start, 'day') + 1 }).map((_, i) => (
+              <div
+                key={i}
+                className="flex-1 border-r border-[#2d2d4a]/30 last:border-r-0"
+              />
+            ))
+          ) : (
+            // 按周显示网格
+            Array.from({ length: Math.ceil((dateRange.end.diff(dateRange.start, 'day') + 1) / 7) }).map((_, i) => (
+              <div
+                key={i}
+                className="flex-1 border-r border-[#2d2d4a]/50 last:border-r-0"
+              />
+            ))
+          )}
         </div>
 
         {/* 今天的标记线 */}
-        {dayjs().isAfter(dateRange.start) && dayjs().isBefore(dateRange.end) && (
+        {dayjs().isSame(dateRange.start, 'month') && (
           <div
             className="absolute top-0 bottom-0 w-0.5 bg-[#6366f1] z-10"
             style={{
-              left: `${(dayjs().diff(dateRange.start, 'day') / dateRange.end.diff(dateRange.start, 'day')) * 100}%`,
+              left: `${(dayjs().diff(dateRange.start, 'day') / (dateRange.end.diff(dateRange.start, 'day') + 1)) * 100}%`,
             }}
           >
             <div className="absolute -top-1 -left-1.5 w-3 h-3 bg-[#6366f1] rounded-full" />
@@ -88,8 +78,11 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
         )}
 
         {/* 版本块 */}
-        <div className="absolute inset-0 flex items-center px-2">
-          {versionBlocks.map(({ version, style }) => (
+        {versions.map(version => {
+          const style = getVersionStyle(version);
+          if (style.display === 'none') return null;
+          
+          return (
             <VersionBlock
               key={version.id}
               version={version}
@@ -97,8 +90,15 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
               style={style}
               onClick={() => onVersionClick?.(version)}
             />
-          ))}
-        </div>
+          );
+        })}
+
+        {/* 无版本提示 */}
+        {versions.length === 0 && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="text-xs text-[#64748b]">本月暂无版本</span>
+          </div>
+        )}
       </div>
     </div>
   );

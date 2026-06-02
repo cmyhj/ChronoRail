@@ -20,21 +20,21 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   const [scale, setScale] = useState<TimelineScale>('month');
   const [currentDate, setCurrentDate] = useState(dayjs());
 
-  // 计算时间范围
+  // 计算时间范围 - 修改为按月显示
   const dateRange = useMemo(() => {
-    const start = currentDate.startOf(scale === 'day' ? 'week' : scale === 'week' ? 'month' : 'year');
-    const end = currentDate.endOf(scale === 'day' ? 'week' : scale === 'week' ? 'month' : 'year');
+    const start = currentDate.startOf('month');
+    const end = currentDate.endOf('month');
     return { start, end };
-  }, [currentDate, scale]);
+  }, [currentDate]);
 
-  // 生成时间刻度
+  // 生成时间刻度 - 按天或按周
   const timeMarkers = useMemo(() => {
     const markers: dayjs.Dayjs[] = [];
     let current = dateRange.start;
     
     while (current.isBefore(dateRange.end) || current.isSame(dateRange.end, 'day')) {
       markers.push(current);
-      current = current.add(1, scale === 'day' ? 'day' : scale === 'week' ? 'week' : 'month');
+      current = current.add(scale === 'day' ? 1 : 7, 'day');
     }
     
     return markers;
@@ -49,10 +49,10 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
     return grouped;
   }, [games, versions]);
 
-  // 导航
+  // 导航 - 按月导航
   const navigate = (direction: 'prev' | 'next') => {
     const amount = direction === 'prev' ? -1 : 1;
-    setCurrentDate(prev => prev.add(amount, scale === 'day' ? 'week' : scale === 'week' ? 'month' : 'year'));
+    setCurrentDate(prev => prev.add(amount, 'month'));
   };
 
   const goToToday = () => {
@@ -61,20 +61,53 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
 
   // 缩放
   const zoomIn = () => {
-    if (scale === 'month') setScale('week');
-    else if (scale === 'week') setScale('day');
+    if (scale === 'month') setScale('day');
   };
 
   const zoomOut = () => {
-    if (scale === 'day') setScale('week');
-    else if (scale === 'week') setScale('month');
+    if (scale === 'day') setScale('month');
   };
 
   // 格式化刻度标签
   const formatMarkerLabel = (date: dayjs.Dayjs) => {
     if (scale === 'day') return date.format('MM/DD');
-    if (scale === 'week') return date.format('MM/DD');
-    return date.format('YYYY/MM');
+    return `第${Math.ceil(date.date() / 7)}周`;
+  };
+
+  // 计算版本块在时间轴上的位置和宽度
+  const getVersionStyle = (version: Version): React.CSSProperties => {
+    const versionStart = dayjs(version.startDate);
+    const versionEnd = version.endDate ? dayjs(version.endDate) : versionStart.add(42, 'day');
+    
+    // 计算在当前月份范围内的位置
+    const monthStart = dateRange.start;
+    const monthEnd = dateRange.end;
+    const totalDays = monthEnd.diff(monthStart, 'day') + 1;
+    
+    // 计算版本在月份内的起始和结束位置
+    const startPos = Math.max(0, versionStart.diff(monthStart, 'day'));
+    const endPos = Math.min(totalDays, versionEnd.diff(monthStart, 'day') + 1);
+    
+    // 如果版本完全在月份范围外，不显示
+    if (startPos >= totalDays || endPos <= 0) {
+      return { display: 'none' };
+    }
+    
+    const left = (startPos / totalDays) * 100;
+    const width = ((endPos - startPos) / totalDays) * 100;
+    
+    return {
+      left: `${left}%`,
+      width: `${Math.max(width, 3)}%`,
+    };
+  };
+
+  // 判断版本是否在当前月份范围内可见
+  const isVersionVisible = (version: Version): boolean => {
+    const versionStart = dayjs(version.startDate);
+    const versionEnd = version.endDate ? dayjs(version.endDate) : versionStart.add(42, 'day');
+    
+    return versionStart.isBefore(dateRange.end) && versionEnd.isAfter(dateRange.start);
   };
 
   return (
@@ -118,7 +151,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           </button>
           
           <span className="text-xs text-[#64748b] min-w-[40px] text-center">
-            {scale === 'day' ? '日' : scale === 'week' ? '周' : '月'}
+            {scale === 'day' ? '日' : '周'}
           </span>
           
           <button
@@ -136,39 +169,44 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
         {isMobile ? (
           // 移动端：纵向布局
           <div className="p-4 space-y-4">
-            {games.map(game => (
-              <div key={game.id} className="bg-[#1a1a2e] rounded-xl p-4 border border-[#2d2d4a]">
-                <h3 className="text-sm font-semibold text-[#e2e8f0] mb-3 flex items-center gap-2">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: game.color }}
-                  />
-                  {game.name}
-                </h3>
-                <div className="space-y-2">
-                  {(versionsByGame[game.id] || []).map(version => (
+            {games.map(game => {
+              const gameVersions = (versionsByGame[game.id] || []).filter(isVersionVisible);
+              return (
+                <div key={game.id} className="bg-[#1a1a2e] rounded-xl p-4 border border-[#2d2d4a]">
+                  <h3 className="text-sm font-semibold text-[#e2e8f0] mb-3 flex items-center gap-2">
                     <div
-                      key={version.id}
-                      onClick={() => onVersionClick?.(version)}
-                      className="p-3 bg-[#252540] rounded-lg cursor-pointer hover:bg-[#2d2d50] transition-colors"
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm font-medium text-[#e2e8f0]">
-                          v{version.version}
-                        </span>
-                        <span className="text-xs text-[#64748b]">
-                          {dayjs(version.startDate).format('MM/DD')}
-                        </span>
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: game.color }}
+                    />
+                    {game.name}
+                  </h3>
+                  <div className="space-y-2">
+                    {gameVersions.map(version => (
+                      <div
+                        key={version.id}
+                        onClick={() => onVersionClick?.(version)}
+                        className="p-3 bg-[#252540] rounded-lg cursor-pointer hover:bg-[#2d2d50] transition-colors"
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium text-[#e2e8f0]">
+                            v{version.version} - {version.name}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-4 text-xs text-[#64748b]">
+                          <span>开始: {dayjs(version.startDate).format('MM/DD')}</span>
+                          {version.endDate && (
+                            <span>结束: {dayjs(version.endDate).format('MM/DD')}</span>
+                          )}
+                        </div>
                       </div>
-                      <p className="text-xs text-[#94a3b8] truncate">{version.name}</p>
-                    </div>
-                  ))}
-                  {(!versionsByGame[game.id] || versionsByGame[game.id].length === 0) && (
-                    <p className="text-xs text-[#64748b] text-center py-2">暂无版本数据</p>
-                  )}
+                    ))}
+                    {gameVersions.length === 0 && (
+                      <p className="text-xs text-[#64748b] text-center py-2">本月暂无版本</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
             {games.length === 0 && (
               <div className="text-center py-12 text-[#64748b]">
                 暂无游戏，请先添加游戏
@@ -197,15 +235,28 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
               </div>
             </div>
 
+            {/* 今天的标记线 */}
+            {dayjs().isSame(currentDate, 'month') && (
+              <div
+                className="absolute top-0 bottom-0 w-0.5 bg-[#6366f1] z-20"
+                style={{
+                  left: `calc(12rem + ${(dayjs().diff(dateRange.start, 'day') / (dateRange.end.diff(dateRange.start, 'day') + 1)) * 100}% * (100% - 12rem) / 100)`,
+                }}
+              >
+                <div className="absolute -top-1 -left-1.5 w-3 h-3 bg-[#6366f1] rounded-full" />
+              </div>
+            )}
+
             {/* 游戏行 */}
             {games.map(game => (
               <TimelineRow
                 key={game.id}
                 game={game}
-                versions={versionsByGame[game.id] || []}
+                versions={(versionsByGame[game.id] || []).filter(isVersionVisible)}
                 dateRange={dateRange}
                 scale={scale}
                 onVersionClick={onVersionClick}
+                getVersionStyle={getVersionStyle}
               />
             ))}
 
