@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import type { Version, VersionFormData } from '../types';
 import { versionService } from '../services/storage';
 import { mihoyoService } from '../services/mihoyo';
-import type { MihoyoGameId } from '../utils/parser';
 
 /**
  * 版本数据管理Hook
@@ -66,8 +65,8 @@ export function useVersions(gameId?: string) {
     return success;
   }, []);
 
-  // 从米哈游同步所有版本（一键更新）
-  const syncFromMihoyo = useCallback(async (targetGameId: MihoyoGameId): Promise<{ added: number; updated: number }> => {
+  // 同步所有版本（一键更新）
+  const syncFromMihoyo = useCallback(async (targetGameId: string): Promise<{ added: number; updated: number }> => {
     try {
       const history = await mihoyoService.fetchVersionHistory(targetGameId);
       if (!history.length) return { added: 0, updated: 0 };
@@ -124,13 +123,13 @@ export function useVersions(gameId?: string) {
 
       return { added, updated };
     } catch (error) {
-      console.error('Failed to sync from mihoyo:', error);
+      console.error('Failed to sync versions:', error);
       return { added: 0, updated: 0 };
     }
   }, [versions, loadVersions]);
 
-  // 从米哈游获取当前版本
-  const fetchFromMihoyo = useCallback(async (targetGameId: MihoyoGameId): Promise<Version | null> => {
+  // 获取当前版本
+  const fetchFromMihoyo = useCallback(async (targetGameId: string): Promise<Version | null> => {
     try {
       const currentVersion = await mihoyoService.fetchCurrentVersion(targetGameId);
       if (!currentVersion) return null;
@@ -153,7 +152,7 @@ export function useVersions(gameId?: string) {
       setVersions(prev => [...prev, newVersion]);
       return newVersion;
     } catch (error) {
-      console.error('Failed to fetch from mihoyo:', error);
+      console.error('Failed to fetch version:', error);
       return null;
     }
   }, [versions]);

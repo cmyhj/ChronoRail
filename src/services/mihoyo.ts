@@ -1,42 +1,40 @@
 import type { ParsedVersion } from '../types';
-import type { MihoyoGameId } from '../utils/parser';
 
 // 数据文件路径
-const DATA_URL = '/ChronoRail/data/mihoyo-versions.json';
+const DATA_URL = '/ChronoRail/data/game-versions.json';
 
 // 缓存数据
-let cachedData: MihoyoData | null = null;
+let cachedData: GameData | null = null;
 let lastFetchTime = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5分钟缓存
 
-interface MihoyoVersion {
+interface GameVersion {
   version: string;
   name: string;
   startDate: string;
   endDate: string;
-  title?: string;
 }
 
-interface MihoyoGameData {
+interface GameInfo {
   gameId: string;
   gameName: string;
-  current: MihoyoVersion;
-  history: MihoyoVersion[];
+  current: GameVersion;
+  history: GameVersion[];
 }
 
-interface MihoyoData {
+interface GameData {
   fetchedAt: string;
-  games: Record<string, MihoyoGameData>;
+  games: Record<string, GameInfo>;
 }
 
 /**
- * 米哈游API服务
+ * 游戏数据服务
  */
 export const mihoyoService = {
   /**
    * 获取游戏当前版本
    */
-  async fetchCurrentVersion(gameId: MihoyoGameId): Promise<ParsedVersion | null> {
+  async fetchCurrentVersion(gameId: string): Promise<ParsedVersion | null> {
     try {
       const data = await this.fetchData();
       const gameData = data.games[gameId];
@@ -57,7 +55,7 @@ export const mihoyoService = {
   /**
    * 获取游戏版本历史
    */
-  async fetchVersionHistory(gameId: MihoyoGameId): Promise<MihoyoVersion[]> {
+  async fetchVersionHistory(gameId: string): Promise<GameVersion[]> {
     try {
       const data = await this.fetchData();
       const gameData = data.games[gameId];
@@ -72,7 +70,7 @@ export const mihoyoService = {
   /**
    * 获取所有游戏的版本数据
    */
-  async fetchAllGameData(): Promise<Record<string, MihoyoGameData>> {
+  async fetchAllGameData(): Promise<Record<string, GameInfo>> {
     try {
       const data = await this.fetchData();
       return data.games;
@@ -85,7 +83,7 @@ export const mihoyoService = {
   /**
    * 获取数据（带缓存）
    */
-  async fetchData(): Promise<MihoyoData> {
+  async fetchData(): Promise<GameData> {
     const now = Date.now();
     
     // 使用缓存
@@ -101,7 +99,7 @@ export const mihoyoService = {
       lastFetchTime = now;
       return cachedData || { fetchedAt: '', games: {} };
     } catch (error) {
-      console.error('Failed to fetch mihoyo data:', error);
+      console.error('Failed to fetch game data:', error);
       return cachedData || { fetchedAt: '', games: {} };
     }
   },
@@ -121,7 +119,7 @@ export const mihoyoService = {
   /**
    * 检查API是否可用
    */
-  async checkAvailability(gameId: MihoyoGameId): Promise<boolean> {
+  async checkAvailability(gameId: string): Promise<boolean> {
     try {
       const data = await this.fetchData();
       return !!data.games[gameId];
@@ -133,11 +131,17 @@ export const mihoyoService = {
   /**
    * 获取所有支持的游戏列表
    */
-  getSupportedGames(): Array<{ id: MihoyoGameId; name: string }> {
+  getSupportedGames(): Array<{ id: string; name: string }> {
     return [
       { id: 'genshin', name: '原神' },
       { id: 'starrail', name: '崩坏：星穹铁道' },
       { id: 'zzz', name: '绝区零' },
+      { id: 'wutheringwaves', name: '鸣潮' },
+      { id: 'arknights', name: '明日方舟' },
+      { id: 'reverse1999', name: '重返未来:1999' },
+      { id: 'arknights_endfield', name: '明日方舟:终末地' },
+      { id: 'yihuan', name: '异环' },
+      { id: 'doublehelix', name: '二重螺旋' },
     ];
   },
 };
