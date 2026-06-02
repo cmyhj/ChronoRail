@@ -32,7 +32,6 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
     const markers: dayjs.Dayjs[] = [];
     let current = dateRange.start;
     
-    // 找到本月第一个周一（或月初）
     while (current.isBefore(dateRange.end) || current.isSame(dateRange.end, 'day')) {
       markers.push(current);
       current = current.add(7, 'day');
@@ -97,153 +96,104 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   return (
     <div className="h-full flex flex-col">
       {/* 工具栏 */}
-      <div className="flex items-center justify-between p-4 bg-[#1a1a2e] border-b border-[#2d2d4a]">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between p-3 md:p-4 bg-[#1a1a2e] border-b border-[#2d2d4a]">
+        <div className="flex items-center gap-1 md:gap-2">
           <button
             onClick={() => navigate('prev')}
-            className="p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+            className="p-1.5 md:p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={18} className="md:w-5 md:h-5" />
           </button>
           
           <button
             onClick={goToToday}
-            className="px-3 py-1.5 text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+            className="px-2 md:px-3 py-1 md:py-1.5 text-xs md:text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
           >
             今天
           </button>
           
           <button
             onClick={() => navigate('next')}
-            className="p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+            className="p-1.5 md:p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
           >
-            <ChevronRight size={20} />
+            <ChevronRight size={18} className="md:w-5 md:h-5" />
           </button>
           
-          <span className="text-[#e2e8f0] font-medium ml-2">
+          <span className="text-[#e2e8f0] font-medium ml-1 md:ml-2 text-sm md:text-base">
             {currentDate.format('YYYY年MM月')}
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 md:gap-2">
           <button
             onClick={zoomOut}
-            className="p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+            className="p-1.5 md:p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
             disabled={scale === 'month'}
           >
-            <ZoomOut size={18} />
+            <ZoomOut size={16} className="md:w-[18px] md:h-[18px]" />
           </button>
           
-          <span className="text-xs text-[#64748b] min-w-[40px] text-center">
+          <span className="text-[10px] md:text-xs text-[#64748b] min-w-[30px] md:min-w-[40px] text-center">
             {scale === 'day' ? '日' : '月'}
           </span>
           
           <button
             onClick={zoomIn}
-            className="p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+            className="p-1.5 md:p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
             disabled={scale === 'day'}
           >
-            <ZoomIn size={18} />
+            <ZoomIn size={16} className="md:w-[18px] md:h-[18px]" />
           </button>
         </div>
       </div>
 
       {/* 时间轴内容 */}
       <div className="flex-1 overflow-auto">
-        {isMobile ? (
-          // 移动端：纵向布局
-          <div className="p-3 space-y-3">
-            {games.map(game => {
-              const gameVersions = (versionsByGame[game.id] || []).filter(isVersionVisible);
-              return (
-                <div key={game.id} className="bg-[#1a1a2e] rounded-xl p-3 border border-[#2d2d4a]">
-                  <h3 className="text-sm font-semibold text-[#e2e8f0] mb-3 flex items-center gap-2">
-                    <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: game.color }}
-                    />
-                    {game.name}
-                  </h3>
-                  <div className="space-y-2">
-                    {gameVersions.map(version => (
-                      <div
-                        key={version.id}
-                        onClick={() => onVersionClick?.(version)}
-                        className="p-3 bg-[#252540] rounded-lg cursor-pointer active:bg-[#2d2d50] transition-colors"
-                      >
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-sm font-medium text-[#e2e8f0]">
-                            v{version.version}
-                          </span>
-                          <span className="text-xs text-[#64748b]">
-                            {dayjs(version.startDate).format('MM/DD')}
-                            {version.endDate && ` - ${dayjs(version.endDate).format('MM/DD')}`}
-                          </span>
-                        </div>
-                        <p className="text-xs text-[#94a3b8] truncate">{version.name}</p>
-                      </div>
-                    ))}
-                    {gameVersions.length === 0 && (
-                      <p className="text-xs text-[#64748b] text-center py-2">本月暂无版本</p>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-            {games.length === 0 && (
-              <div className="text-center py-12 text-[#64748b]">
-                暂无游戏，请先添加游戏
-              </div>
-            )}
-            {/* 底部留白 */}
-            <div className="h-4" />
-          </div>
-        ) : (
-          // 桌面端：横向时间轴
-          <div className="min-w-[800px] relative">
-            {/* 时间刻度标题 */}
-            <div className="flex border-b border-[#2d2d4a] bg-[#16162a] sticky top-0 z-10">
-              <div className="w-48 shrink-0 px-4 py-2 border-r border-[#2d2d4a]">
-                <span className="text-xs text-[#64748b]">游戏</span>
-              </div>
-              <div className="flex-1 relative h-8">
-                {/* 日期刻度标签 */}
-                {timeMarkers.map((marker, index) => (
-                  <div
-                    key={index}
-                    className="absolute text-xs text-[#64748b]"
-                    style={{ left: `${getDayPosition(marker)}%` }}
-                  >
-                    <span className="ml-1">{marker.format('MM/DD')}</span>
-                  </div>
-                ))}
-              </div>
+        {/* 横向时间轴 */}
+        <div className="min-w-[600px] md:min-w-[800px] relative">
+          {/* 时间刻度标题 */}
+          <div className="flex border-b border-[#2d2d4a] bg-[#16162a] sticky top-0 z-10">
+            <div className={`shrink-0 px-2 md:px-4 py-2 border-r border-[#2d2d4a] ${isMobile ? 'w-28' : 'w-48'}`}>
+              <span className="text-[10px] md:text-xs text-[#64748b]">游戏</span>
             </div>
-
-            {/* 游戏行 */}
-            {games.map(game => (
-              <TimelineRow
-                key={game.id}
-                game={game}
-                versions={(versionsByGame[game.id] || []).filter(isVersionVisible)}
-                dateRange={dateRange}
-                totalDays={totalDays}
-                scale={scale}
-                onVersionClick={onVersionClick}
-                todayPosition={todayPosition}
-              />
-            ))}
-
-            {games.length === 0 && (
-              <div className="text-center py-12 text-[#64748b]">
-                暂无游戏，请先添加游戏
-              </div>
-            )}
-
-            {/* 底部留白，确保滚动条能滚到底部 */}
-            <div className="h-8" />
+            <div className="flex-1 relative h-7 md:h-8">
+              {/* 日期刻度标签 */}
+              {timeMarkers.map((marker, index) => (
+                <div
+                  key={index}
+                  className="absolute text-[10px] md:text-xs text-[#64748b]"
+                  style={{ left: `${getDayPosition(marker)}%` }}
+                >
+                  <span className="ml-0.5 md:ml-1">{marker.format('MM/DD')}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        )}
+
+          {/* 游戏行 */}
+          {games.map(game => (
+            <TimelineRow
+              key={game.id}
+              game={game}
+              versions={(versionsByGame[game.id] || []).filter(isVersionVisible)}
+              dateRange={dateRange}
+              totalDays={totalDays}
+              scale={scale}
+              onVersionClick={onVersionClick}
+              todayPosition={todayPosition}
+              isMobile={isMobile}
+            />
+          ))}
+
+          {games.length === 0 && (
+            <div className="text-center py-12 text-[#64748b]">
+              暂无游戏，请先添加游戏
+            </div>
+          )}
+
+          {/* 底部留白 */}
+          <div className="h-8" />
+        </div>
       </div>
     </div>
   );

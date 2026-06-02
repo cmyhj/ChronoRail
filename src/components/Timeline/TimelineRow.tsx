@@ -23,6 +23,7 @@ interface TimelineRowProps {
   scale?: TimelineScale;
   onVersionClick?: (version: Version) => void;
   todayPosition: number | null;
+  isMobile?: boolean;
 }
 
 export const TimelineRow: React.FC<TimelineRowProps> = ({
@@ -32,6 +33,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
   totalDays,
   onVersionClick,
   todayPosition,
+  isMobile = false,
 }) => {
   const [banners, setBanners] = useState<Banner[]>([]);
 
@@ -101,22 +103,24 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
     <div className="flex border-b border-[#2d2d4a] hover:bg-[#1a1a2e]/50 transition-colors">
       {/* 游戏名称 */}
       <div 
-        className="w-48 shrink-0 px-4 py-5 border-r border-[#2d2d4a] flex items-center gap-3"
+        className={`shrink-0 border-r border-[#2d2d4a] flex items-center gap-2 md:gap-3 ${
+          isMobile ? 'w-28 px-2 py-4' : 'w-48 px-4 py-5'
+        }`}
         style={{ borderLeft: `4px solid ${game.color || gameColors[game.id] || '#6366f1'}` }}
       >
-        <GameIcon gameId={game.id} size={24} />
+        <GameIcon gameId={game.id} size={isMobile ? 18 : 24} />
         <div>
-          <span className="text-sm font-medium text-[#e2e8f0] block">
+          <span className={`font-medium text-[#e2e8f0] block ${isMobile ? 'text-xs' : 'text-sm'}`}>
             {game.name}
           </span>
-          <span className="text-xs text-[#64748b]">
-            {versions.length} 个版本 · {visibleBanners.length} 个卡池
+          <span className={`text-[#64748b] ${isMobile ? 'text-[10px]' : 'text-xs'}`}>
+            {versions.length}个版本
           </span>
         </div>
       </div>
 
       {/* 版本块区域 */}
-      <div className="flex-1 relative" style={{ minHeight: '100px' }}>
+      <div className="flex-1 relative" style={{ minHeight: isMobile ? '70px' : '100px' }}>
         {/* 时间网格线（每周一条） */}
         {Array.from({ length: Math.ceil(totalDays / 7) }).map((_, i) => {
           const dayNum = i * 7;
@@ -151,6 +155,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
                 gameColor={game.color || gameColors[game.id] || '#6366f1'}
                 style={style}
                 onClick={() => onVersionClick?.(version)}
+                isMobile={isMobile}
               />
             );
           })}

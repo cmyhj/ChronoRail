@@ -7,6 +7,7 @@ interface VersionBlockProps {
   gameColor: string;
   style: React.CSSProperties;
   onClick?: () => void;
+  isMobile?: boolean;
 }
 
 export const VersionBlock: React.FC<VersionBlockProps> = ({
@@ -14,6 +15,7 @@ export const VersionBlock: React.FC<VersionBlockProps> = ({
   gameColor,
   style,
   onClick,
+  isMobile = false,
 }) => {
   const startDate = dayjs(version.startDate);
   const endDate = version.endDate ? dayjs(version.endDate) : null;
@@ -36,7 +38,7 @@ export const VersionBlock: React.FC<VersionBlockProps> = ({
     >
       <div
         className={`
-          h-full rounded-md px-2 flex flex-col items-center justify-center transition-all duration-300
+          h-full rounded-md px-1 md:px-2 flex flex-col items-center justify-center transition-all duration-300
           ${isCurrent 
             ? 'ring-1 ring-current shadow-md' 
             : isPast 
@@ -53,7 +55,7 @@ export const VersionBlock: React.FC<VersionBlockProps> = ({
       >
         {/* 版本号 */}
         <div 
-          className="text-xs font-bold truncate text-center"
+          className={`font-bold truncate text-center ${isMobile ? 'text-[10px]' : 'text-xs'}`}
           style={{ color: gameColor }}
         >
           v{version.version}
@@ -61,14 +63,14 @@ export const VersionBlock: React.FC<VersionBlockProps> = ({
         
         {/* 版本名称 */}
         <div 
-          className="text-[10px] truncate text-center mt-0.5"
+          className={`truncate text-center ${isMobile ? 'text-[8px]' : 'text-[10px]'} mt-0.5`}
           style={{ color: `${gameColor}CC` }}
         >
           {version.name}
         </div>
 
         {/* 日期范围 */}
-        <div className="text-[9px] text-[#64748b] mt-0.5">
+        <div className={`text-[#64748b] ${isMobile ? 'text-[7px]' : 'text-[9px]'} mt-0.5`}>
           {startDate.format('MM/DD')}
           {endDate && ` - ${endDate.format('MM/DD')}`}
         </div>
