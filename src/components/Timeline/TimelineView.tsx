@@ -152,11 +152,11 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
       <div className="flex-1 overflow-auto">
         {isMobile ? (
           // 移动端：纵向布局
-          <div className="p-4 space-y-4">
+          <div className="p-3 space-y-3">
             {games.map(game => {
               const gameVersions = (versionsByGame[game.id] || []).filter(isVersionVisible);
               return (
-                <div key={game.id} className="bg-[#1a1a2e] rounded-xl p-4 border border-[#2d2d4a]">
+                <div key={game.id} className="bg-[#1a1a2e] rounded-xl p-3 border border-[#2d2d4a]">
                   <h3 className="text-sm font-semibold text-[#e2e8f0] mb-3 flex items-center gap-2">
                     <div
                       className="w-3 h-3 rounded-full"
@@ -169,19 +169,18 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                       <div
                         key={version.id}
                         onClick={() => onVersionClick?.(version)}
-                        className="p-3 bg-[#252540] rounded-lg cursor-pointer hover:bg-[#2d2d50] transition-colors"
+                        className="p-3 bg-[#252540] rounded-lg cursor-pointer active:bg-[#2d2d50] transition-colors"
                       >
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-sm font-medium text-[#e2e8f0]">
-                            v{version.version} - {version.name}
+                            v{version.version}
+                          </span>
+                          <span className="text-xs text-[#64748b]">
+                            {dayjs(version.startDate).format('MM/DD')}
+                            {version.endDate && ` - ${dayjs(version.endDate).format('MM/DD')}`}
                           </span>
                         </div>
-                        <div className="flex items-center gap-4 text-xs text-[#64748b]">
-                          <span>开始: {dayjs(version.startDate).format('MM/DD')}</span>
-                          {version.endDate && (
-                            <span>结束: {dayjs(version.endDate).format('MM/DD')}</span>
-                          )}
-                        </div>
+                        <p className="text-xs text-[#94a3b8] truncate">{version.name}</p>
                       </div>
                     ))}
                     {gameVersions.length === 0 && (
@@ -196,6 +195,8 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                 暂无游戏，请先添加游戏
               </div>
             )}
+            {/* 底部留白 */}
+            <div className="h-4" />
           </div>
         ) : (
           // 桌面端：横向时间轴

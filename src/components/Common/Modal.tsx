@@ -67,18 +67,20 @@ export const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm">
       <div
         ref={modalRef}
-        className={`relative w-full ${sizeClasses[size]} bg-[#1a1a2e] border border-[#2d2d4a] rounded-xl shadow-2xl animate-fade-in`}
+        className={`relative w-full ${sizeClasses[size]} bg-[#1a1a2e] border border-[#2d2d4a] md:rounded-xl shadow-2xl animate-fade-in
+          md:max-h-[85vh] max-h-[90vh] rounded-t-xl md:rounded-t-xl
+        `}
       >
         {/* 头部 */}
-        <div className="flex items-center justify-between p-4 border-b border-[#2d2d4a]">
-          <h2 className="text-lg font-semibold text-[#e2e8f0]">{title}</h2>
+        <div className="flex items-center justify-between p-3 md:p-4 border-b border-[#2d2d4a] sticky top-0 bg-[#1a1a2e] z-10">
+          <h2 className="text-base md:text-lg font-semibold text-[#e2e8f0]">{title}</h2>
           {showCloseButton && (
             <button
               onClick={onClose}
-              className="p-1 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+              className="p-1.5 md:p-1 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
             >
               <X size={20} />
             </button>
@@ -86,7 +88,9 @@ export const Modal: React.FC<ModalProps> = ({
         </div>
 
         {/* 内容 */}
-        <div className="p-4 max-h-[70vh] overflow-y-auto">{children}</div>
+        <div className="p-3 md:p-4 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 60px)' }}>
+          {children}
+        </div>
       </div>
     </div>
   );
