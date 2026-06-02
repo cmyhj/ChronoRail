@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Clock, Calendar, Gamepad2, Plus, RefreshCw } from 'lucide-react';
+import { Clock, Calendar, Gamepad2, Plus, RefreshCw, Check, AlertCircle } from 'lucide-react';
 import { GameIcon, gameColors } from '../Common/GameIcon';
 import type { Game } from '../../types';
 
 interface SidebarProps {
   games: Game[];
   onAddGame?: () => void;
-  onRefreshVersions?: () => void;
+  onRefreshGame?: (gameId: string) => Promise<boolean>;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   games,
   onAddGame,
-  onRefreshVersions,
+  onRefreshGame,
 }) => {
   const location = useLocation();
+  const [refreshingId, setRefreshingId] = useState<string | null>(null);
+  const [refreshStatus, setRefreshStatus] = useState<Record<string, 'success' | 'error'>>({});
 
   const navItems = [
     { path: '/', label: '时间轴', icon: Clock },
@@ -24,6 +26,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleRefresh = async (gameId: string) => {
+    if (!onRefreshGame || refreshingId) return;
+    
+    setRefreshingId(gameId);
+    setRefreshStatus(prev => ({ ...prev, [gameId]: undefined as any }));
+    
+    try {
+      const result = await onRefreshGame(gameId);
+      setRefreshStatus(prev => ({ ...prev, [gameId]: result ? 'success' : 'error' }));
+    } catch (error) {
+      setRefreshStatus(prev => ({ ...prev, [gameId]: 'error' }));
+    } finally {
+      setRefreshingId(null);
+      setTimeout(() => {
+        setRefreshStatus(prev => ({ ...prev, [gameId]: undefined as any }));
+      }, 3000);
+    }
+  };
 
   return (
     <aside className="w-64 bg-[#16162a] border-r border-[#2d2d4a] h-full overflow-y-auto">
@@ -70,17 +91,51 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
           
           <ul className="space-y-1">
-            {games.map((game) => (
-              <li key={game.id}>
-                <div
-                  className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] transition-colors cursor-pointer"
-                  style={{ borderLeft: `3px solid ${game.color || gameColors[game.id] || '#6366f1'}` }}
-                >
-                  <GameIcon gameId={game.id} size={18} />
-                  <span className="truncate">{game.name}</span>
-                </div>
-              </li>
-            ))}
+            {games.map((game) => {
+              const isRefreshing = refreshingId === game.id;
+              const status = refreshStatus[game.id];
+              
+              return (
+                <li key={game.id}>
+                  <div
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] transition-colors"
+                    style={{ borderLeft: `3px solid ${game.color || gameColors[game.id] || '#6366f1'}` }}
+                  >
+                    <GameIcon gameId={game.id} size={18} />
+                    <span className="truncate flex-1">{game.name}</span>
+                    
+                    {/* 刷新按钮 */}
+                    {onRefreshGame && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRefresh(game.id);
+                        }}
+                        disabled={isRefreshing}
+                        className={`p-1 rounded transition-colors ${
+                          isRefreshing
+                            ? 'text-[#6366f1] animate-spin'
+                            : status === 'success'
+                              ? 'text-[#67c23a]'
+                              : status === 'error'
+                                ? 'text-[#ef4444]'
+                                : 'text-[#64748b] hover:text-[#e2e8f0]'
+                        }`}
+                        title={isRefreshing ? '获取中...' : status === 'success' ? '已更新' : status === 'error' ? '失败' : '刷新版本'}
+                      >
+                        {status === 'success' ? (
+                          <Check size={14} />
+                        ) : status === 'error' ? (
+                          <AlertCircle size={14} />
+                        ) : (
+                          <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
+                        )}
+                      </button>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
 
           {games.length === 0 && (
@@ -88,17 +143,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
               暂无游戏，点击 + 添加
             </p>
           )}
-        </div>
-
-        {/* 快捷操作 */}
-        <div className="border-t border-[#2d2d4a] pt-4">
-          <button
-            onClick={onRefreshVersions}
-            className="flex items-center gap-2 w-full px-3 py-2 text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
-          >
-            <RefreshCw size={16} />
-            刷新版本数据
-          </button>
         </div>
       </div>
     </aside>

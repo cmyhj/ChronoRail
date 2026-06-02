@@ -21,7 +21,7 @@ const App: React.FC = () => {
   const { isMobile } = useResponsive();
   const { games, addGame, updateGame, deleteGame, addMihoyoGame } = useGames();
   const { versions, addVersion, updateVersion, deleteVersion, fetchFromMihoyo } = useVersions();
-  const { saveConfig, clearConfig, testConnection, sync } = useGitHub();
+  const { saveConfig, clearConfig, testConnection } = useGitHub();
 
   // 移动端抽屉状态
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -130,11 +130,6 @@ const App: React.FC = () => {
     clearConfig();
   }, [clearConfig]);
 
-  // 处理数据同步
-  const handleSync = useCallback(async () => {
-    await sync();
-  }, [sync]);
-
   return (
     <Router basename="/ChronoRail">
       <div className="h-screen flex flex-col bg-[#0f0f23]">
@@ -148,7 +143,7 @@ const App: React.FC = () => {
             <Sidebar
               games={games}
               onAddGame={handleAddGame}
-              onRefreshVersions={handleSync}
+              onRefreshGame={handleFetchFromMihoyo}
             />
           )}
 
@@ -203,7 +198,7 @@ const App: React.FC = () => {
             onClose={() => setDrawerOpen(false)}
             games={games}
             onAddGame={handleAddGame}
-            onRefreshVersions={handleSync}
+            onRefreshGame={handleFetchFromMihoyo}
           />
         )}
 
