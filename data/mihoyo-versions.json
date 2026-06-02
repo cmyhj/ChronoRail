@@ -1,0 +1,26 @@
+{
+  "genshin": {
+    "gameId": "genshin",
+    "gameName": "原神",
+    "version": "5.7",
+    "name": "空月之歌·行律",
+    "startDate": "2026-05-20",
+    "fetchedAt": "2026-06-02T00:00:00Z"
+  },
+  "starrail": {
+    "gameId": "starrail",
+    "gameName": "崩坏：星穹铁道",
+    "version": "4.3",
+    "name": "沉于生者的忘川",
+    "startDate": "2026-06-01",
+    "fetchedAt": "2026-06-02T00:00:00Z"
+  },
+  "zzz": {
+    "gameId": "zzz",
+    "gameName": "绝区零",
+    "version": "2.3",
+    "name": "直到长夜尽头",
+    "startDate": "2026-05-28",
+    "fetchedAt": "2026-06-02T00:00:00Z"
+  }
+}
