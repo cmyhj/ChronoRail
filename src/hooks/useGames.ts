@@ -1,15 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { Game, GameFormData } from '../types';
 import { gameService } from '../services/storage';
-import { mihoyoService } from '../services/mihoyo';
-import { getGameIcon, getGameColor } from '../utils/parser';
-import type { MihoyoGameId } from '../utils/parser';
+import { GAME_CONFIGS } from '../utils/parser';
+import type { GameId } from '../utils/parser';
 
-// 预置游戏配置
-const PRESET_GAMES: Array<{ id: MihoyoGameId; name: string }> = [
-  { id: 'genshin', name: '原神' },
-  { id: 'starrail', name: '崩坏：星穹铁道' },
-  { id: 'zzz', name: '绝区零' },
+// 默认预置游戏列表（显示在侧边栏）
+const DEFAULT_PRESET_GAMES: GameId[] = [
+  'genshin',
+  'starrail',
+  'zzz',
+  'wutheringwaves',
+  'arknights',
+  'reverse1999',
+  'arknights_endfield',
 ];
 
 // 已删除预置游戏的存储键
@@ -45,23 +48,26 @@ export function useGames() {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // 初始化预置游戏（仅首次使用时）
+  // 初始化预置游戏
   const initializePresetGames = useCallback(() => {
     const existingGames = gameService.getAll();
     const existingIds = existingGames.map(g => g.id);
     const deletedPresets = getDeletedPresets();
     
-    // 添加缺失的预置游戏（排除已删除的）
-    for (const preset of PRESET_GAMES) {
-      if (!existingIds.includes(preset.id) && !deletedPresets.includes(preset.id)) {
-        gameService.add({
-          id: preset.id,
-          name: preset.name,
-          icon: getGameIcon(preset.id),
-          color: getGameColor(preset.id),
-          autoFetch: true,
-          fetchSource: 'mihoyo',
-        } as any);
+    // 添加缺失的默认预置游戏（排除已删除的）
+    for (const gameId of DEFAULT_PRESET_GAMES) {
+      if (!existingIds.includes(gameId) && !deletedPresets.includes(gameId)) {
+        const config = GAME_CONFIGS[gameId];
+        if (config) {
+          gameService.add({
+            id: config.id,
+            name: config.name,
+            icon: config.icon,
+            color: config.color,
+            autoFetch: config.autoFetch,
+            fetchSource: config.autoFetch ? 'mihoyo' : 'manual',
+          } as any);
+        }
       }
     }
   }, []);
@@ -109,7 +115,7 @@ export function useGames() {
   // 删除游戏
   const deleteGame = useCallback((id: string): boolean => {
     // 如果是预置游戏，记录到已删除列表
-    const isPreset = PRESET_GAMES.some(p => p.id === id);
+    const isPreset = DEFAULT_PRESET_GAMES.includes(id as GameId);
     if (isPreset) {
       saveDeletedPreset(id);
     }
@@ -121,44 +127,39 @@ export function useGames() {
     return success;
   }, []);
 
-  // 重置预置游戏（恢复被删除的预置游戏）
+  // 重置预置游戏
   const resetPresets = useCallback(() => {
     localStorage.removeItem(DELETED_PRESETS_KEY);
     loadGames();
   }, [loadGames]);
 
-  // 添加米哈游游戏
-  const addMihoyoGame = useCallback(async (gameId: MihoyoGameId): Promise<Game | null> => {
-    try {
-      const config = mihoyoService.getSupportedGames().find(g => g.id === gameId);
-      if (!config) return null;
+  // 添加预置游戏（从游戏库）
+  const addPresetGame = useCallback((gameId: GameId): Game | null => {
+    const config = GAME_CONFIGS[gameId];
+    if (!config) return null;
 
-      // 检查是否已存在
-      const existing = gameService.getAll().find(g => g.id === gameId);
-      if (existing) return existing;
+    // 检查是否已存在
+    const existing = gameService.getAll().find(g => g.id === gameId);
+    if (existing) return existing;
 
-      // 如果之前被删除过，从删除列表移除
-      const deleted = getDeletedPresets();
-      if (deleted.includes(gameId)) {
-        const newDeleted = deleted.filter(d => d !== gameId);
-        localStorage.setItem(DELETED_PRESETS_KEY, JSON.stringify(newDeleted));
-      }
-
-      const newGame = gameService.add({
-        id: gameId,
-        name: config.name,
-        icon: getGameIcon(gameId),
-        color: getGameColor(gameId),
-        autoFetch: true,
-        fetchSource: 'mihoyo',
-      });
-
-      setGames(prev => [...prev, newGame]);
-      return newGame;
-    } catch (error) {
-      console.error('Failed to add mihoyo game:', error);
-      return null;
+    // 如果之前被删除过，从删除列表移除
+    const deleted = getDeletedPresets();
+    if (deleted.includes(gameId)) {
+      const newDeleted = deleted.filter(d => d !== gameId);
+      localStorage.setItem(DELETED_PRESETS_KEY, JSON.stringify(newDeleted));
     }
+
+    const newGame = gameService.add({
+      id: config.id,
+      name: config.name,
+      icon: config.icon,
+      color: config.color,
+      autoFetch: config.autoFetch,
+      fetchSource: config.autoFetch ? 'mihoyo' : 'manual',
+    } as any);
+
+    setGames(prev => [...prev, newGame]);
+    return newGame;
   }, []);
 
   // 根据ID获取游戏
@@ -172,9 +173,9 @@ export function useGames() {
     addGame,
     updateGame,
     deleteGame,
-    addMihoyoGame,
-    getGameById,
+    addPresetGame,
     resetPresets,
+    getGameById,
     refresh: loadGames,
   };
 }

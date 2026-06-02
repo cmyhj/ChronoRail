@@ -20,7 +20,7 @@ import type { MihoyoGameId } from './utils/parser';
 
 const App: React.FC = () => {
   const { isMobile } = useResponsive();
-  const { games, addGame, updateGame, deleteGame, addMihoyoGame, resetPresets } = useGames();
+  const { games, addGame, updateGame, deleteGame, addPresetGame, resetPresets } = useGames();
   const { versions, addVersion, updateVersion, deleteVersion, fetchFromMihoyo, syncFromMihoyo } = useVersions();
   const { saveConfig, clearConfig, testConnection } = useGitHub();
 
@@ -85,10 +85,10 @@ const App: React.FC = () => {
     }
   }, [editingGame, addGame, updateGame]);
 
-  // 处理米哈游游戏添加
-  const handleAddMihoyoGame = useCallback((gameId: MihoyoGameId) => {
-    addMihoyoGame(gameId);
-  }, [addMihoyoGame]);
+  // 处理预置游戏添加
+  const handleAddPresetGame = useCallback((gameId: string) => {
+    addPresetGame(gameId as any);
+  }, [addPresetGame]);
 
   // 处理版本编辑
   const handleEditVersion = useCallback((version: Version) => {
@@ -255,7 +255,7 @@ const App: React.FC = () => {
           isOpen={gameFormOpen}
           onClose={() => setGameFormOpen(false)}
           onSubmit={handleGameFormSubmit}
-          onAddMihoyo={handleAddMihoyoGame}
+          onAddPreset={handleAddPresetGame}
           onResetPresets={resetPresets}
           initialData={editingGame}
           existingGames={games}

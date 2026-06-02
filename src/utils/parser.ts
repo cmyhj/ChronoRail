@@ -1,37 +1,122 @@
 import type { ParsedVersion, MihoyoApiResponse } from '../types';
 
-// 米哈游游戏配置
-export const MIHOYO_GAMES = {
+// 游戏配置接口
+export interface GameConfig {
+  id: string;
+  name: string;
+  api?: string;
+  versionPattern?: RegExp;
+  autoFetch: boolean;
+  color: string;
+  icon: string;
+}
+
+// 所有支持的游戏配置
+export const GAME_CONFIGS: Record<string, GameConfig> = {
+  // 米哈游游戏
   genshin: {
     id: 'genshin',
     name: '原神',
     api: 'https://hk4e-ann-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList',
-    versionPattern: /(\d+\.\d+)版本[「「](.+?)[」」]/,
-    channelId: 150,
+    versionPattern: /(\d+\.\d+)版本.*?[「「](.+?)[」」]/,
+    autoFetch: true,
+    color: '#4a90d9',
+    icon: 'genshin',
   },
   starrail: {
     id: 'starrail',
     name: '崩坏：星穹铁道',
     api: 'https://hkrpg-ann-api.mihoyo.com/common/hkrpg_cn/announcement/api/getAnnList',
-    versionPattern: /(\d+\.\d+)版本[「「](.+?)[」」]/,
-    channelId: 150,
+    versionPattern: /(\d+\.\d+)版本.*?[「「](.+?)[」」]/,
+    autoFetch: true,
+    color: '#e6a23c',
+    icon: 'starrail',
   },
   zzz: {
     id: 'zzz',
     name: '绝区零',
     api: 'https://announcement-api.mihoyo.com/common/nap_cn/announcement/api/getAnnList',
-    versionPattern: /(\d+\.\d+)版本[「「](.+?)[」」]/,
-    channelId: 150,
+    versionPattern: /(\d+\.\d+)版本.*?[「「](.+?)[」」]/,
+    autoFetch: true,
+    color: '#67c23a',
+    icon: 'zzz',
   },
-} as const;
+  // 库洛游戏
+  wutheringwaves: {
+    id: 'wutheringwaves',
+    name: '鸣潮',
+    // 库洛API需要认证，暂不支持自动获取
+    autoFetch: false,
+    color: '#00b4d8',
+    icon: 'wutheringwaves',
+  },
+  // 鹰角网络
+  arknights: {
+    id: 'arknights',
+    name: '明日方舟',
+    // 鹰角公告API
+    api: 'https://ak-fs.hypergryph.com/announce/Android/announcement.json',
+    versionPattern: /(\d+\.\d+)版本.*?[「「](.+?)[」」]/,
+    autoFetch: true,
+    color: '#f4845f',
+    icon: 'arknights',
+  },
+  // 深蓝互动
+  reverse1999: {
+    id: 'reverse1999',
+    name: '重返未来:1999',
+    autoFetch: false,
+    color: '#7c3aed',
+    icon: 'reverse1999',
+  },
+  // 鹰角网络 - 终末地
+  arknights_endfield: {
+    id: 'arknights_endfield',
+    name: '明日方舟:终末地',
+    autoFetch: false,
+    color: '#f97316',
+    icon: 'arknights_endfield',
+  },
+  // 二重螺旋
+  doublehelix: {
+    id: 'doublehelix',
+    name: '二重螺旋',
+    autoFetch: false,
+    color: '#ec4899',
+    icon: 'doublehelix',
+  },
+  // 异环
+  yihuan: {
+    id: 'yihuan',
+    name: '异环',
+    autoFetch: false,
+    color: '#14b8a6',
+    icon: 'yihuan',
+  },
+};
 
-export type MihoyoGameId = keyof typeof MIHOYO_GAMES;
+// 米哈游游戏ID类型
+export type MihoyoGameId = 'genshin' | 'starrail' | 'zzz';
+
+// 所有游戏ID类型
+export type GameId = keyof typeof GAME_CONFIGS;
+
+/**
+ * 获取游戏配置
+ */
+export function getGameConfig(gameId: string): GameConfig | undefined {
+  return GAME_CONFIGS[gameId];
+}
+
+/**
+ * 获取所有预置游戏列表
+ */
+export function getPresetGames(): GameConfig[] {
+  return Object.values(GAME_CONFIGS);
+}
 
 /**
  * 从公告标题中解析版本信息
- * @param title 公告标题
- * @param pattern 版本匹配模式
- * @returns 解析后的版本信息
  */
 export function parseVersionFromTitle(title: string, pattern: RegExp): ParsedVersion | null {
   const match = title.match(pattern);
@@ -40,27 +125,23 @@ export function parseVersionFromTitle(title: string, pattern: RegExp): ParsedVer
   return {
     version: match[1],
     name: match[2],
-    startDate: '', // 需要从其他字段获取
+    startDate: '',
   };
 }
 
 /**
  * 从米哈游API响应中提取版本信息
- * @param response API响应
- * @param gameId 游戏ID
- * @returns 解析后的版本信息数组
  */
 export function extractVersionsFromResponse(
   response: MihoyoApiResponse,
   gameId: MihoyoGameId
 ): ParsedVersion[] {
-  const gameConfig = MIHOYO_GAMES[gameId];
-  if (!gameConfig) return [];
+  const gameConfig = GAME_CONFIGS[gameId];
+  if (!gameConfig?.api || !gameConfig?.versionPattern) return [];
   
   const versions: ParsedVersion[] = [];
   const seenVersions = new Set<string>();
   
-  // 遍历所有公告类型
   for (const typeGroup of response.data.list) {
     for (const announcement of typeGroup.list) {
       const parsed = parseVersionFromTitle(announcement.title, gameConfig.versionPattern);
@@ -69,71 +150,27 @@ export function extractVersionsFromResponse(
         seenVersions.add(parsed.version);
         versions.push({
           ...parsed,
-          startDate: announcement.start_time.split(' ')[0], // 只取日期部分
+          startDate: announcement.start_time.split(' ')[0],
         });
       }
     }
   }
   
-  // 按版本号排序
-  return versions.sort((a, b) => {
-    const aNum = parseFloat(a.version);
-    const bNum = parseFloat(b.version);
-    return bNum - aNum; // 降序
-  });
-}
-
-/**
- * 获取米哈游游戏的当前版本
- * @param gameId 游戏ID
- * @returns 当前版本信息
- */
-export async function fetchMihoyoCurrentVersion(gameId: MihoyoGameId): Promise<ParsedVersion | null> {
-  const gameConfig = MIHOYO_GAMES[gameId];
-  if (!gameConfig) return null;
-  
-  try {
-    const response = await fetch(gameConfig.api);
-    if (!response.ok) return null;
-    
-    const data: MihoyoApiResponse = await response.json();
-    if (data.retcode !== 0) return null;
-    
-    const versions = extractVersionsFromResponse(data, gameId);
-    return versions.length > 0 ? versions[0] : null;
-  } catch (error) {
-    console.error(`Failed to fetch version for ${gameId}:`, error);
-    return null;
-  }
+  return versions.sort((a, b) => parseFloat(b.version) - parseFloat(a.version));
 }
 
 /**
  * 获取游戏图标
- * @param gameId 游戏ID
- * @returns 图标标识或URL
  */
 export function getGameIcon(gameId: string): string {
-  // 预置游戏使用内置图标标识
-  const presetIcons: Record<string, string> = {
-    genshin: 'genshin',
-    starrail: 'starrail',
-    zzz: 'zzz',
-  };
-  
-  return presetIcons[gameId] || 'default';
+  const config = GAME_CONFIGS[gameId];
+  return config?.icon || 'default';
 }
 
 /**
  * 获取游戏主题色
- * @param gameId 游戏ID
- * @returns 主题色
  */
 export function getGameColor(gameId: string): string {
-  const presetColors: Record<string, string> = {
-    genshin: '#4a90d9',
-    starrail: '#e6a23c',
-    zzz: '#67c23a',
-  };
-  
-  return presetColors[gameId] || '#6366f1';
+  const config = GAME_CONFIGS[gameId];
+  return config?.color || '#6366f1';
 }

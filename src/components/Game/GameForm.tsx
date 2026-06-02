@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from '../Common/Modal';
 import { Button } from '../Common/Button';
+import { GameIcon } from '../Common/GameIcon';
 import type { Game, GameFormData } from '../../types';
-import { MIHOYO_GAMES } from '../../utils/parser';
-import type { MihoyoGameId } from '../../utils/parser';
+import { getPresetGames } from '../../utils/parser';
+import type { GameId } from '../../utils/parser';
 
 interface GameFormProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: GameFormData) => void;
-  onAddMihoyo?: (gameId: MihoyoGameId) => void;
+  onAddPreset?: (gameId: GameId) => void;
   onResetPresets?: () => void;
   initialData?: Game;
   existingGames?: Game[];
@@ -26,7 +27,7 @@ export const GameForm: React.FC<GameFormProps> = ({
   isOpen,
   onClose,
   onSubmit,
-  onAddMihoyo,
+  onAddPreset,
   onResetPresets,
   initialData,
   existingGames = [],
@@ -64,15 +65,15 @@ export const GameForm: React.FC<GameFormProps> = ({
     }
   }, [initialData, isOpen]);
 
-  // 检查米哈游游戏是否已添加
-  const isMihoyoGameAdded = (gameId: MihoyoGameId) => {
+  // 检查游戏是否已添加
+  const isGameAdded = (gameId: string) => {
     return existingGames.some(g => g.id === gameId);
   };
 
-  // 处理米哈游游戏添加
-  const handleAddMihoyoGame = (gameId: MihoyoGameId) => {
-    if (onAddMihoyo) {
-      onAddMihoyo(gameId);
+  // 处理预置游戏添加
+  const handleAddPresetGame = (gameId: GameId) => {
+    if (onAddPreset) {
+      onAddPreset(gameId);
       onClose();
     }
   };
@@ -84,6 +85,9 @@ export const GameForm: React.FC<GameFormProps> = ({
     onSubmit(formData);
     onClose();
   };
+
+  // 获取所有预置游戏
+  const presetGames = getPresetGames();
 
   return (
     <Modal
@@ -103,7 +107,7 @@ export const GameForm: React.FC<GameFormProps> = ({
                 : 'text-[#94a3b8] hover:text-[#e2e8f0]'
             }`}
           >
-            预置游戏
+            游戏库
           </button>
           <button
             onClick={() => setActiveTab('custom')}
@@ -120,30 +124,38 @@ export const GameForm: React.FC<GameFormProps> = ({
 
       {/* 预置游戏列表 */}
       {activeTab === 'preset' && !initialData && (
-        <div className="space-y-3">
+        <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
           <p className="text-sm text-[#94a3b8] mb-4">
-            选择预置的米哈游游戏，将自动配置API获取版本信息
+            从游戏库中选择游戏，支持自动获取的会自动配置API
           </p>
           
-          {Object.entries(MIHOYO_GAMES).map(([id, config]) => {
-            const isAdded = isMihoyoGameAdded(id as MihoyoGameId);
+          {presetGames.map(config => {
+            const isAdded = isGameAdded(config.id);
             return (
               <div
-                key={id}
-                className={`flex items-center justify-between p-4 rounded-lg border transition-colors ${
+                key={config.id}
+                className={`flex items-center justify-between p-3 rounded-lg border transition-colors ${
                   isAdded
-                    ? 'bg-[#252540]/50 border-[#2d2d4a] opacity-50'
+                    ? 'bg-[#252540]/50 border-[#2d2d4a] opacity-60'
                     : 'bg-[#1a1a2e] border-[#2d2d4a] hover:border-[#6366f1]/50 cursor-pointer'
                 }`}
-                onClick={() => !isAdded && handleAddMihoyoGame(id as MihoyoGameId)}
+                onClick={() => !isAdded && handleAddPresetGame(config.id as GameId)}
               >
-                <div>
-                  <h4 className="text-sm font-medium text-[#e2e8f0]">
-                    {config.name}
-                  </h4>
-                  <p className="text-xs text-[#64748b] mt-1">
-                    {isAdded ? '已添加' : '支持自动获取版本信息'}
-                  </p>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-10 h-10 rounded-lg flex items-center justify-center"
+                    style={{ backgroundColor: `${config.color}20` }}
+                  >
+                    <GameIcon gameId={config.id} size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium text-[#e2e8f0]">
+                      {config.name}
+                    </h4>
+                    <p className="text-xs text-[#64748b] mt-0.5">
+                      {config.autoFetch ? '✅ 支持自动获取' : '⚠️ 需要手动输入'}
+                    </p>
+                  </div>
                 </div>
                 <Button
                   variant={isAdded ? 'ghost' : 'primary'}
@@ -151,7 +163,7 @@ export const GameForm: React.FC<GameFormProps> = ({
                   disabled={isAdded}
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (!isAdded) handleAddMihoyoGame(id as MihoyoGameId);
+                    if (!isAdded) handleAddPresetGame(config.id as GameId);
                   }}
                 >
                   {isAdded ? '已添加' : '添加'}
@@ -162,7 +174,7 @@ export const GameForm: React.FC<GameFormProps> = ({
           
           {/* 重置预置游戏按钮 */}
           {onResetPresets && (
-            <div className="pt-4 border-t border-[#2d2d4a]">
+            <div className="pt-4 border-t border-[#2d2d4a] mt-4">
               <Button
                 variant="ghost"
                 size="sm"
