@@ -10,6 +10,7 @@ interface GameFormProps {
   onClose: () => void;
   onSubmit: (data: GameFormData) => void;
   onAddMihoyo?: (gameId: MihoyoGameId) => void;
+  onResetPresets?: () => void;
   initialData?: Game;
   existingGames?: Game[];
 }
@@ -26,6 +27,7 @@ export const GameForm: React.FC<GameFormProps> = ({
   onClose,
   onSubmit,
   onAddMihoyo,
+  onResetPresets,
   initialData,
   existingGames = [],
 }) => {
@@ -157,6 +159,25 @@ export const GameForm: React.FC<GameFormProps> = ({
               </div>
             );
           })}
+          
+          {/* 重置预置游戏按钮 */}
+          {onResetPresets && (
+            <div className="pt-4 border-t border-[#2d2d4a]">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  if (window.confirm('确定要恢复所有预置游戏吗？这将重新添加被删除的预置游戏。')) {
+                    onResetPresets();
+                    onClose();
+                  }
+                }}
+                className="w-full"
+              >
+                恢复所有预置游戏
+              </Button>
+            </div>
+          )}
         </div>
       )}
 

@@ -12,6 +12,32 @@ const PRESET_GAMES: Array<{ id: MihoyoGameId; name: string }> = [
   { id: 'zzz', name: '绝区零' },
 ];
 
+// 已删除预置游戏的存储键
+const DELETED_PRESETS_KEY = 'chronorail_deleted_presets';
+
+/**
+ * 获取已删除的预置游戏ID列表
+ */
+function getDeletedPresets(): string[] {
+  try {
+    const data = localStorage.getItem(DELETED_PRESETS_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * 保存已删除的预置游戏ID
+ */
+function saveDeletedPreset(id: string): void {
+  const deleted = getDeletedPresets();
+  if (!deleted.includes(id)) {
+    deleted.push(id);
+    localStorage.setItem(DELETED_PRESETS_KEY, JSON.stringify(deleted));
+  }
+}
+
 /**
  * 游戏数据管理Hook
  */
@@ -19,14 +45,15 @@ export function useGames() {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // 初始化预置游戏
+  // 初始化预置游戏（仅首次使用时）
   const initializePresetGames = useCallback(() => {
     const existingGames = gameService.getAll();
     const existingIds = existingGames.map(g => g.id);
+    const deletedPresets = getDeletedPresets();
     
-    // 添加缺失的预置游戏
+    // 添加缺失的预置游戏（排除已删除的）
     for (const preset of PRESET_GAMES) {
-      if (!existingIds.includes(preset.id)) {
+      if (!existingIds.includes(preset.id) && !deletedPresets.includes(preset.id)) {
         gameService.add({
           id: preset.id,
           name: preset.name,
@@ -81,12 +108,24 @@ export function useGames() {
 
   // 删除游戏
   const deleteGame = useCallback((id: string): boolean => {
+    // 如果是预置游戏，记录到已删除列表
+    const isPreset = PRESET_GAMES.some(p => p.id === id);
+    if (isPreset) {
+      saveDeletedPreset(id);
+    }
+    
     const success = gameService.delete(id);
     if (success) {
       setGames(prev => prev.filter(g => g.id !== id));
     }
     return success;
   }, []);
+
+  // 重置预置游戏（恢复被删除的预置游戏）
+  const resetPresets = useCallback(() => {
+    localStorage.removeItem(DELETED_PRESETS_KEY);
+    loadGames();
+  }, [loadGames]);
 
   // 添加米哈游游戏
   const addMihoyoGame = useCallback(async (gameId: MihoyoGameId): Promise<Game | null> => {
@@ -97,6 +136,13 @@ export function useGames() {
       // 检查是否已存在
       const existing = gameService.getAll().find(g => g.id === gameId);
       if (existing) return existing;
+
+      // 如果之前被删除过，从删除列表移除
+      const deleted = getDeletedPresets();
+      if (deleted.includes(gameId)) {
+        const newDeleted = deleted.filter(d => d !== gameId);
+        localStorage.setItem(DELETED_PRESETS_KEY, JSON.stringify(newDeleted));
+      }
 
       const newGame = gameService.add({
         id: gameId,
@@ -128,6 +174,7 @@ export function useGames() {
     deleteGame,
     addMihoyoGame,
     getGameById,
+    resetPresets,
     refresh: loadGames,
   };
 }

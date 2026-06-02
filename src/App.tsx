@@ -20,7 +20,7 @@ import type { MihoyoGameId } from './utils/parser';
 
 const App: React.FC = () => {
   const { isMobile } = useResponsive();
-  const { games, addGame, updateGame, deleteGame, addMihoyoGame } = useGames();
+  const { games, addGame, updateGame, deleteGame, addMihoyoGame, resetPresets } = useGames();
   const { versions, addVersion, updateVersion, deleteVersion, fetchFromMihoyo, syncFromMihoyo } = useVersions();
   const { saveConfig, clearConfig, testConnection } = useGitHub();
 
@@ -256,6 +256,7 @@ const App: React.FC = () => {
           onClose={() => setGameFormOpen(false)}
           onSubmit={handleGameFormSubmit}
           onAddMihoyo={handleAddMihoyoGame}
+          onResetPresets={resetPresets}
           initialData={editingGame}
           existingGames={games}
         />
