@@ -189,32 +189,34 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
             <div className="absolute bottom-2 left-0 right-0 h-6">
               {bannerGroups.map(group => {
                 const count = group.length;
+                const divider = count + 1; // n+1等分
                 
                 return group.map((bannerIdx, posInGroup) => {
                   const banner = visibleBanners[bannerIdx];
                   const style = getBannerStyle(banner);
                   if (style.display === 'none') return null;
                   
-                  // 在卡池块内按比例分布角色名
-                  const leftPercent = parseFloat(style.left as string);
-                  const widthPercent = parseFloat(style.width as string);
-                  const nameLeft = leftPercent + (widthPercent / count) * posInGroup;
-                  const nameWidth = widthPercent / count;
+                  // 名字位置：(posInGroup + 1) / (count + 1)
+                  const nameLeftPercent = ((posInGroup + 1) / divider) * 100;
                   
                   return (
                     <div
                       key={bannerIdx}
                       className="absolute top-0 h-full cursor-pointer group"
-                      style={{ left: `${nameLeft}%`, width: `${nameWidth}%` }}
+                      style={style}
                     >
                       <div
-                        className="h-full rounded px-1 flex items-center justify-center overflow-hidden transition-all duration-200 hover:ring-1 hover:ring-white/50"
+                        className="h-full rounded transition-all duration-200 hover:ring-1 hover:ring-white/50 relative"
                         style={{
                           backgroundColor: `${game.color || gameColors[game.id] || '#6366f1'}40`,
                           border: `1px solid ${game.color || gameColors[game.id] || '#6366f1'}60`,
                         }}
                       >
-                        <span className="text-[9px] text-white/80 truncate">
+                        {/* 角色名，按比例定位 */}
+                        <span 
+                          className="absolute top-0 bottom-0 flex items-center text-[9px] text-white/80 whitespace-nowrap"
+                          style={{ left: `${nameLeftPercent}%`, transform: 'translateX(-50%)' }}
+                        >
                           {banner.character}
                         </span>
                       </div>
