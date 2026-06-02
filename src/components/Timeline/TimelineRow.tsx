@@ -11,19 +11,43 @@ interface TimelineRowProps {
     start: dayjs.Dayjs;
     end: dayjs.Dayjs;
   };
-  scale: TimelineScale;
+  totalDays: number;
+  scale?: TimelineScale;
   onVersionClick?: (version: Version) => void;
-  getVersionStyle: (version: Version) => React.CSSProperties;
+  todayPosition: number | null;
 }
 
 export const TimelineRow: React.FC<TimelineRowProps> = ({
   game,
   versions,
   dateRange,
-  scale,
+  totalDays,
   onVersionClick,
-  getVersionStyle,
+  todayPosition,
 }) => {
+  // 计算版本块位置
+  const getVersionStyle = (version: Version): React.CSSProperties => {
+    const versionStart = dayjs(version.startDate);
+    const versionEnd = version.endDate ? dayjs(version.endDate) : versionStart.add(42, 'day');
+    
+    // 计算在当前月份范围内的位置
+    const startPos = Math.max(0, versionStart.diff(dateRange.start, 'day'));
+    const endPos = Math.min(totalDays, versionEnd.diff(dateRange.start, 'day') + 1);
+    
+    // 如果版本完全在月份范围外，不显示
+    if (startPos >= totalDays || endPos <= 0) {
+      return { display: 'none' };
+    }
+    
+    const left = (startPos / totalDays) * 100;
+    const width = ((endPos - startPos) / totalDays) * 100;
+    
+    return {
+      left: `${left}%`,
+      width: `${Math.max(width, 3)}%`,
+    };
+  };
+
   return (
     <div className="flex border-b border-[#2d2d4a] hover:bg-[#1a1a2e]/50 transition-colors">
       {/* 游戏名称 */}
@@ -44,41 +68,26 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
 
       {/* 版本块区域 */}
       <div className="flex-1 relative min-h-[80px]">
-        {/* 时间网格线 */}
-        <div className="absolute inset-0 flex">
-          {scale === 'day' ? (
-            // 按天显示网格
-            Array.from({ length: dateRange.end.diff(dateRange.start, 'day') + 1 }).map((_, i) => (
-              <div
-                key={i}
-                className="flex-1 border-r border-[#2d2d4a]/30 last:border-r-0"
-              />
-            ))
-          ) : (
-            // 按周显示网格
-            Array.from({ length: Math.ceil((dateRange.end.diff(dateRange.start, 'day') + 1) / 7) }).map((_, i) => (
-              <div
-                key={i}
-                className="flex-1 border-r border-[#2d2d4a]/50 last:border-r-0"
-              />
-            ))
-          )}
-        </div>
-
-        {/* 今天的标记线 */}
-        {dayjs().isSame(dateRange.start, 'month') && (() => {
-          const today = dayjs();
-          const dayOfMonth = today.date();
-          const totalDays = dateRange.end.date();
-          const leftPercent = (dayOfMonth / totalDays) * 100;
-          
+        {/* 时间网格线（每周一条） */}
+        {Array.from({ length: Math.ceil(totalDays / 7) }).map((_, i) => {
+          const dayNum = i * 7;
+          const left = (dayNum / totalDays) * 100;
           return (
             <div
-              className="absolute top-0 bottom-0 w-0.5 bg-[#6366f1] z-10 pointer-events-none"
-              style={{ left: `${leftPercent}%` }}
+              key={i}
+              className="absolute top-0 bottom-0 w-px bg-[#2d2d4a]/40"
+              style={{ left: `${left}%` }}
             />
           );
-        })()}
+        })}
+
+        {/* 今天的标记线 */}
+        {todayPosition !== null && (
+          <div
+            className="absolute top-0 bottom-0 w-0.5 bg-[#6366f1] z-10 pointer-events-none"
+            style={{ left: `${todayPosition}%` }}
+          />
+        )}
 
         {/* 版本块 */}
         {versions.map(version => {

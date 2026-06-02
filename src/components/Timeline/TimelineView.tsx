@@ -20,25 +20,31 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   const [scale, setScale] = useState<TimelineScale>('month');
   const [currentDate, setCurrentDate] = useState(dayjs());
 
-  // 计算时间范围 - 修改为按月显示
+  // 计算时间范围 - 按月显示
   const dateRange = useMemo(() => {
     const start = currentDate.startOf('month');
     const end = currentDate.endOf('month');
     return { start, end };
   }, [currentDate]);
 
-  // 生成时间刻度 - 按天或按周
+  // 生成时间刻度（每周一）
   const timeMarkers = useMemo(() => {
     const markers: dayjs.Dayjs[] = [];
     let current = dateRange.start;
     
+    // 找到本月第一个周一（或月初）
     while (current.isBefore(dateRange.end) || current.isSame(dateRange.end, 'day')) {
       markers.push(current);
-      current = current.add(scale === 'day' ? 1 : 7, 'day');
+      current = current.add(7, 'day');
     }
     
     return markers;
-  }, [dateRange, scale]);
+  }, [dateRange]);
+
+  // 总天数
+  const totalDays = useMemo(() => {
+    return dateRange.end.diff(dateRange.start, 'day') + 1;
+  }, [dateRange]);
 
   // 按游戏分组版本
   const versionsByGame = useMemo(() => {
@@ -68,39 +74,10 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
     if (scale === 'day') setScale('month');
   };
 
-  // 格式化刻度标签
-  const formatMarkerLabel = (date: dayjs.Dayjs) => {
-    if (scale === 'day') return date.format('MM/DD');
-    // 按周显示时，显示周起始日期
-    return date.format('MM/DD');
-  };
-
-  // 计算版本块在时间轴上的位置和宽度
-  const getVersionStyle = (version: Version): React.CSSProperties => {
-    const versionStart = dayjs(version.startDate);
-    const versionEnd = version.endDate ? dayjs(version.endDate) : versionStart.add(42, 'day');
-    
-    // 计算在当前月份范围内的位置
-    const monthStart = dateRange.start;
-    const monthEnd = dateRange.end;
-    const totalDays = monthEnd.diff(monthStart, 'day') + 1;
-    
-    // 计算版本在月份内的起始和结束位置
-    const startPos = Math.max(0, versionStart.diff(monthStart, 'day'));
-    const endPos = Math.min(totalDays, versionEnd.diff(monthStart, 'day') + 1);
-    
-    // 如果版本完全在月份范围外，不显示
-    if (startPos >= totalDays || endPos <= 0) {
-      return { display: 'none' };
-    }
-    
-    const left = (startPos / totalDays) * 100;
-    const width = ((endPos - startPos) / totalDays) * 100;
-    
-    return {
-      left: `${left}%`,
-      width: `${Math.max(width, 3)}%`,
-    };
+  // 计算某天在时间轴上的位置百分比
+  const getDayPosition = (date: dayjs.Dayjs): number => {
+    const dayNum = date.diff(dateRange.start, 'day');
+    return (dayNum / totalDays) * 100;
   };
 
   // 判断版本是否在当前月份范围内可见
@@ -110,6 +87,12 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
     
     return versionStart.isBefore(dateRange.end) && versionEnd.isAfter(dateRange.start);
   };
+
+  // 今天位置
+  const todayPosition = useMemo(() => {
+    if (!dayjs().isSame(currentDate, 'month')) return null;
+    return getDayPosition(dayjs());
+  }, [currentDate, dateRange, totalDays]);
 
   return (
     <div className="h-full flex flex-col">
@@ -152,7 +135,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           </button>
           
           <span className="text-xs text-[#64748b] min-w-[40px] text-center">
-            {scale === 'day' ? '日' : '周'}
+            {scale === 'day' ? '日' : '月'}
           </span>
           
           <button
@@ -216,21 +199,21 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           </div>
         ) : (
           // 桌面端：横向时间轴
-          <div className="min-w-[800px]">
-            {/* 时间刻度 */}
+          <div className="min-w-[800px] relative">
+            {/* 时间刻度标题 */}
             <div className="flex border-b border-[#2d2d4a] bg-[#16162a] sticky top-0 z-10">
               <div className="w-48 shrink-0 px-4 py-2 border-r border-[#2d2d4a]">
                 <span className="text-xs text-[#64748b]">游戏</span>
               </div>
-              <div className="flex-1 flex">
+              <div className="flex-1 relative h-8">
+                {/* 日期刻度标签 */}
                 {timeMarkers.map((marker, index) => (
                   <div
                     key={index}
-                    className="flex-1 px-2 py-2 text-center border-r border-[#2d2d4a] last:border-r-0"
+                    className="absolute text-xs text-[#64748b]"
+                    style={{ left: `${getDayPosition(marker)}%` }}
                   >
-                    <span className="text-xs text-[#64748b]">
-                      {formatMarkerLabel(marker)}
-                    </span>
+                    <span className="ml-1">{marker.format('MM/DD')}</span>
                   </div>
                 ))}
               </div>
@@ -243,9 +226,10 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                 game={game}
                 versions={(versionsByGame[game.id] || []).filter(isVersionVisible)}
                 dateRange={dateRange}
+                totalDays={totalDays}
                 scale={scale}
                 onVersionClick={onVersionClick}
-                getVersionStyle={getVersionStyle}
+                todayPosition={todayPosition}
               />
             ))}
 
