@@ -116,7 +116,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
       </div>
 
       {/* 版本块区域 */}
-      <div className="flex-1 relative" style={{ minHeight: visibleBanners.length > 0 ? '100px' : '80px' }}>
+      <div className="flex-1 relative" style={{ minHeight: visibleBanners.length > 0 ? '120px' : '80px' }}>
         {/* 时间网格线（每周一条） */}
         {Array.from({ length: Math.ceil(totalDays / 7) }).map((_, i) => {
           const dayNum = i * 7;
@@ -138,8 +138,8 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
           />
         )}
 
-        {/* 版本块（居中显示） */}
-        <div className="absolute top-2 bottom-2 left-0 right-0">
+        {/* 版本块（上半部分） */}
+        <div className="absolute top-2 left-0 right-0" style={{ height: '55%' }}>
           {versions.map(version => {
             const style = getVersionStyle(version);
             if (style.display === 'none') return null;
@@ -156,7 +156,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
           })}
         </div>
 
-        {/* 卡池块（版本块下方，重叠卡池分行显示） */}
+        {/* 卡池块（下半部分，重叠卡池分行显示） */}
         {visibleBanners.length > 0 && (() => {
           // 计算卡池的行分配，避免重叠
           const bannerRows: number[] = [];
@@ -183,10 +183,10 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
           });
           
           const totalRows = Math.max(...bannerRows) + 1;
-          const rowHeight = 20; // 每行高度
+          const rowHeight = 18; // 每行高度
           
           return (
-            <div className="absolute bottom-2 left-0 right-0" style={{ height: `${totalRows * rowHeight}px` }}>
+            <div className="absolute bottom-1 left-0 right-0" style={{ top: '58%', height: `${totalRows * rowHeight}px` }}>
               {visibleBanners.map((banner, index) => {
                 const style = getBannerStyle(banner);
                 if (style.display === 'none') return null;
