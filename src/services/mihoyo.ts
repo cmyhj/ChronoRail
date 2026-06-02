@@ -1,9 +1,13 @@
-import type { MihoyoApiResponse, ParsedVersion } from '../types';
-import { MIHOYO_GAMES, extractVersionsFromResponse } from '../utils/parser';
+import type { ParsedVersion } from '../types';
 import type { MihoyoGameId } from '../utils/parser';
 
-// CORS代理地址（用于解决跨域问题）
-const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+// 数据文件路径（相对于base URL）
+const DATA_URL = '/ChronoRail/data/mihoyo-versions.json';
+
+// 缓存数据
+let cachedData: Record<string, any> | null = null;
+let lastFetchTime = 0;
+const CACHE_DURATION = 5 * 60 * 1000; // 5分钟缓存
 
 /**
  * 米哈游API服务
@@ -13,44 +17,62 @@ export const mihoyoService = {
    * 获取游戏版本列表
    */
   async fetchVersions(gameId: MihoyoGameId): Promise<ParsedVersion[]> {
-    const gameConfig = MIHOYO_GAMES[gameId];
-    if (!gameConfig) return [];
-
-    try {
-      // 使用CORS代理
-      const proxyUrl = `${CORS_PROXY}${encodeURIComponent(gameConfig.api)}`;
-      const response = await fetch(proxyUrl);
-      if (!response.ok) return [];
-
-      const data: MihoyoApiResponse = await response.json();
-      if (data.retcode !== 0) return [];
-
-      return extractVersionsFromResponse(data, gameId);
-    } catch (error) {
-      console.error(`Failed to fetch versions for ${gameId}:`, error);
-      return [];
-    }
+    const currentVersion = await this.fetchCurrentVersion(gameId);
+    return currentVersion ? [currentVersion] : [];
   },
 
   /**
    * 获取当前版本
    */
   async fetchCurrentVersion(gameId: MihoyoGameId): Promise<ParsedVersion | null> {
-    const versions = await this.fetchVersions(gameId);
-    return versions.length > 0 ? versions[0] : null;
+    try {
+      const data = await this.fetchData();
+      const gameData = data[gameId];
+      
+      if (!gameData) return null;
+      
+      return {
+        version: gameData.version,
+        name: gameData.name,
+        startDate: gameData.startDate,
+      };
+    } catch (error) {
+      console.error(`Failed to fetch version for ${gameId}:`, error);
+      return null;
+    }
+  },
+
+  /**
+   * 获取数据（带缓存）
+   */
+  async fetchData(): Promise<Record<string, any>> {
+    const now = Date.now();
+    
+    // 使用缓存
+    if (cachedData && (now - lastFetchTime) < CACHE_DURATION) {
+      return cachedData;
+    }
+    
+    try {
+      const response = await fetch(DATA_URL);
+      if (!response.ok) throw new Error('Failed to fetch data');
+      
+      cachedData = await response.json();
+      lastFetchTime = now;
+      return cachedData || {};
+    } catch (error) {
+      console.error('Failed to fetch mihoyo data:', error);
+      return cachedData || {};
+    }
   },
 
   /**
    * 检查API是否可用
    */
   async checkAvailability(gameId: MihoyoGameId): Promise<boolean> {
-    const gameConfig = MIHOYO_GAMES[gameId];
-    if (!gameConfig) return false;
-
     try {
-      const proxyUrl = `${CORS_PROXY}${encodeURIComponent(gameConfig.api)}`;
-      const response = await fetch(proxyUrl, { method: 'GET' });
-      return response.ok;
+      const data = await this.fetchData();
+      return !!data[gameId];
     } catch {
       return false;
     }
@@ -60,9 +82,10 @@ export const mihoyoService = {
    * 获取所有支持的游戏列表
    */
   getSupportedGames(): Array<{ id: MihoyoGameId; name: string }> {
-    return Object.entries(MIHOYO_GAMES).map(([id, config]) => ({
-      id: id as MihoyoGameId,
-      name: config.name,
-    }));
+    return [
+      { id: 'genshin', name: '原神' },
+      { id: 'starrail', name: '崩坏：星穹铁道' },
+      { id: 'zzz', name: '绝区零' },
+    ];
   },
 };

@@ -1,0 +1,118 @@
+name: Fetch Mihoyo Version Data
+
+on:
+  schedule:
+    # 每天UTC时间0点运行（北京时间8点）
+    - cron: '0 0 * * *'
+  workflow_dispatch: # 允许手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-versions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch version data
+        run: |
+          node -e "
+          const https = require('https');
+          const fs = require('fs');
+
+          const games = [
+            {
+              id: 'genshin',
+              name: '原神',
+              api: 'https://hk4e-ann-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList?game=hk4e&game_biz=hk4e_cn&lang=zh-cn&bundle_id=hk4e_cn&platform=pc&region=cn_gf01&level=55&uid=100000000',
+              pattern: /(\\d+\\.\\d+)版本[「「](.+?)[」」]/
+            },
+            {
+              id: 'starrail',
+              name: '崩坏：星穹铁道',
+              api: 'https://hkrpg-ann-api.mihoyo.com/common/hkrpg_cn/announcement/api/getAnnList?game=hkrpg&game_biz=hkrpg_cn&lang=zh-cn&bundle_id=hkrpg_cn&platform=pc&region=prod_gf_cn&level=65&uid=100000000',
+              pattern: /(\\d+\\.\\d+)版本[「「](.+?)[」」]/
+            },
+            {
+              id: 'zzz',
+              name: '绝区零',
+              api: 'https://announcement-api.mihoyo.com/common/nap_cn/announcement/api/getAnnList?game=nap&game_biz=nap_cn&lang=zh-cn&bundle_id=nap_cn&platform=pc&region=prod_gf_cn&level=60&uid=100000000',
+              pattern: /(\\d+\\.\\d+)版本[「「](.+?)[」」]/
+            }
+          ];
+
+          async function fetchGame(game) {
+            return new Promise((resolve, reject) => {
+              https.get(game.api, (res) => {
+                let data = '';
+                res.on('data', (chunk) => data += chunk);
+                res.on('end', () => {
+                  try {
+                    const json = JSON.parse(data);
+                    if (json.retcode !== 0) {
+                      resolve(null);
+                      return;
+                    }
+                    
+                    const versions = [];
+                    const seen = new Set();
+                    
+                    for (const group of json.data.list) {
+                      for (const item of group.list) {
+                        const match = item.title.match(game.pattern);
+                        if (match && !seen.has(match[1])) {
+                          seen.add(match[1]);
+                          versions.push({
+                            version: match[1],
+                            name: match[2],
+                            startDate: item.start_time.split(' ')[0]
+                          });
+                        }
+                      }
+                    }
+                    
+                    versions.sort((a, b) => parseFloat(b.version) - parseFloat(a.version));
+                    resolve(versions.length > 0 ? versions[0] : null);
+                  } catch (e) {
+                    resolve(null);
+                  }
+                });
+              }).on('error', () => resolve(null));
+            });
+          }
+
+          async function main() {
+            const results = {};
+            for (const game of games) {
+              const version = await fetchGame(game);
+              if (version) {
+                results[game.id] = {
+                  gameId: game.id,
+                  gameName: game.name,
+                  ...version,
+                  fetchedAt: new Date().toISOString()
+                };
+              }
+            }
+            
+            fs.writeFileSync('data/mihoyo-versions.json', JSON.stringify(results, null, 2));
+            console.log('Fetched versions:', JSON.stringify(results, null, 2));
+          }
+
+          main().catch(console.error);
+          "
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/mihoyo-versions.json
+          git diff --staged --quiet || git commit -m "chore: 更新米哈游版本数据 [skip ci]"
+          git push
