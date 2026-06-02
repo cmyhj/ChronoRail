@@ -116,7 +116,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
       </div>
 
       {/* 版本块区域 */}
-      <div className="flex-1 relative" style={{ minHeight: visibleBanners.length > 0 ? '120px' : '80px' }}>
+      <div className="flex-1 relative" style={{ minHeight: '100px' }}>
         {/* 时间网格线（每周一条） */}
         {Array.from({ length: Math.ceil(totalDays / 7) }).map((_, i) => {
           const dayNum = i * 7;
@@ -138,8 +138,8 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
           />
         )}
 
-        {/* 版本块（上半部分） */}
-        <div className="absolute top-2 left-0 right-0" style={{ height: '55%' }}>
+        {/* 版本块 */}
+        <div className="absolute top-2 bottom-2 left-0 right-0">
           {versions.map(version => {
             const style = getVersionStyle(version);
             if (style.display === 'none') return null;
@@ -156,72 +156,80 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
           })}
         </div>
 
-        {/* 卡池块（下半部分，重叠卡池分行显示） */}
+        {/* 卡池块（底部，重叠卡池角色名按比例分布） */}
         {visibleBanners.length > 0 && (() => {
-          // 计算卡池的行分配，避免重叠
-          const bannerRows: number[] = [];
-          const rowEndPositions: number[] = [];
+          // 计算重叠卡池组
+          const bannerGroups: number[][] = [];
+          const processed = new Set<number>();
           
-          visibleBanners.forEach((banner, index) => {
-            const bannerStart = dayjs(banner.startDate).diff(dateRange.start, 'day');
-            let assignedRow = 0;
+          visibleBanners.forEach((banner, i) => {
+            if (processed.has(i)) return;
+            const group = [i];
+            processed.add(i);
             
-            // 找到第一个可用的行
-            for (let row = 0; row < rowEndPositions.length; row++) {
-              if (bannerStart >= rowEndPositions[row]) {
-                assignedRow = row;
-                break;
+            const start = dayjs(banner.startDate).diff(dateRange.start, 'day');
+            const end = dayjs(banner.endDate).diff(dateRange.start, 'day');
+            
+            // 找与此卡池重叠的其他卡池
+            visibleBanners.forEach((other, j) => {
+              if (i === j || processed.has(j)) return;
+              const otherStart = dayjs(other.startDate).diff(dateRange.start, 'day');
+              const otherEnd = dayjs(other.endDate).diff(dateRange.start, 'day');
+              
+              if (start < otherEnd && end > otherStart) {
+                group.push(j);
+                processed.add(j);
               }
-              assignedRow = row + 1;
-            }
+            });
             
-            bannerRows[index] = assignedRow;
-            if (!rowEndPositions[assignedRow]) {
-              rowEndPositions[assignedRow] = 0;
-            }
-            rowEndPositions[assignedRow] = dayjs(banner.endDate).diff(dateRange.start, 'day');
+            bannerGroups.push(group);
           });
           
-          const totalRows = Math.max(...bannerRows) + 1;
-          const rowHeight = 18; // 每行高度
-          
           return (
-            <div className="absolute bottom-1 left-0 right-0" style={{ top: '58%', height: `${totalRows * rowHeight}px` }}>
-              {visibleBanners.map((banner, index) => {
-                const style = getBannerStyle(banner);
-                if (style.display === 'none') return null;
+            <div className="absolute bottom-2 left-0 right-0 h-6">
+              {bannerGroups.map(group => {
+                const count = group.length;
                 
-                const row = bannerRows[index];
-                const top = row * rowHeight;
-                
-                return (
-                  <div
-                    key={index}
-                    className="absolute cursor-pointer group"
-                    style={{ ...style, top: `${top}px`, height: `${rowHeight - 2}px` }}
-                  >
+                return group.map((bannerIdx, posInGroup) => {
+                  const banner = visibleBanners[bannerIdx];
+                  const style = getBannerStyle(banner);
+                  if (style.display === 'none') return null;
+                  
+                  // 在卡池块内按比例分布角色名
+                  const leftPercent = parseFloat(style.left as string);
+                  const widthPercent = parseFloat(style.width as string);
+                  const nameLeft = leftPercent + (widthPercent / count) * posInGroup;
+                  const nameWidth = widthPercent / count;
+                  
+                  return (
                     <div
-                      className="h-full rounded px-1 flex items-center justify-center overflow-hidden transition-all duration-200 hover:ring-1 hover:ring-white/50"
-                      style={{
-                        backgroundColor: `${game.color || gameColors[game.id] || '#6366f1'}40`,
-                        border: `1px solid ${game.color || gameColors[game.id] || '#6366f1'}60`,
-                      }}
+                      key={bannerIdx}
+                      className="absolute top-0 h-full cursor-pointer group"
+                      style={{ left: `${nameLeft}%`, width: `${nameWidth}%` }}
                     >
-                      <span className="text-[9px] text-white/80 truncate">
-                        {banner.character}
-                      </span>
-                    </div>
-                    
-                    {/* 悬浮提示 */}
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#1a1a2e] border border-[#2d2d4a] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
-                      <div className="text-xs text-[#e2e8f0] font-medium">{banner.name}</div>
-                      <div className="text-[10px] text-[#94a3b8]">{banner.character}</div>
-                      <div className="text-[10px] text-[#64748b]">
-                        {dayjs(banner.startDate).format('MM/DD')} - {dayjs(banner.endDate).format('MM/DD')}
+                      <div
+                        className="h-full rounded px-1 flex items-center justify-center overflow-hidden transition-all duration-200 hover:ring-1 hover:ring-white/50"
+                        style={{
+                          backgroundColor: `${game.color || gameColors[game.id] || '#6366f1'}40`,
+                          border: `1px solid ${game.color || gameColors[game.id] || '#6366f1'}60`,
+                        }}
+                      >
+                        <span className="text-[9px] text-white/80 truncate">
+                          {banner.character}
+                        </span>
+                      </div>
+                      
+                      {/* 悬浮提示 */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#1a1a2e] border border-[#2d2d4a] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
+                        <div className="text-xs text-[#e2e8f0] font-medium">{banner.name}</div>
+                        <div className="text-[10px] text-[#94a3b8]">{banner.character}</div>
+                        <div className="text-[10px] text-[#64748b]">
+                          {dayjs(banner.startDate).format('MM/DD')} - {dayjs(banner.endDate).format('MM/DD')}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
+                  );
+                });
               })}
             </div>
           );
