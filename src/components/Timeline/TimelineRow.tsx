@@ -66,16 +66,19 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
         </div>
 
         {/* 今天的标记线 */}
-        {dayjs().isSame(dateRange.start, 'month') && (
-          <div
-            className="absolute top-0 bottom-0 w-0.5 bg-[#6366f1] z-10"
-            style={{
-              left: `${(dayjs().diff(dateRange.start, 'day') / (dateRange.end.diff(dateRange.start, 'day') + 1)) * 100}%`,
-            }}
-          >
-            <div className="absolute -top-1 -left-1.5 w-3 h-3 bg-[#6366f1] rounded-full" />
-          </div>
-        )}
+        {dayjs().isSame(dateRange.start, 'month') && (() => {
+          const today = dayjs();
+          const dayOfMonth = today.date();
+          const totalDays = dateRange.end.date();
+          const leftPercent = (dayOfMonth / totalDays) * 100;
+          
+          return (
+            <div
+              className="absolute top-0 bottom-0 w-0.5 bg-[#6366f1] z-10 pointer-events-none"
+              style={{ left: `${leftPercent}%` }}
+            />
+          );
+        })()}
 
         {/* 版本块 */}
         {versions.map(version => {
