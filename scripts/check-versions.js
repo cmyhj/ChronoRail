@@ -2,7 +2,16 @@
 
 /**
  * 版本数据更新脚本
- * 用于检查和更新游戏版本信息
+ * 
+ * 功能：
+ * 1. 从米哈游官方API获取原神、星穹铁道、绝区零的版本数据
+ * 2. 合并其他游戏的手动维护数据
+ * 3. 输出到 public/data/game-versions.json
+ * 
+ * 日期说明：
+ * - startDate: 版本更新维护结束、服务器开服的日期
+ * - endDate: 下一个版本更新维护开始的日期（来自官方公告/API）
+ * - 米哈游游戏的日期直接从API获取，其他游戏需要手动维护
  */
 
 const https = require('https');
@@ -10,9 +19,10 @@ const fs = require('fs');
 const path = require('path');
 
 // 数据文件路径
-const DATA_FILE = path.join(__dirname, 'public/data/game-versions.json');
+const DATA_FILE = path.join(__dirname, '../public/data/game-versions.json');
 
 // 米哈游游戏API配置
+// startDate和endDate均来自官方API，无需手动维护
 const MIHOYO_GAMES = [
   {
     id: 'genshin',
@@ -59,10 +69,12 @@ async function fetchMihoyoGame(game) {
 
     for (const group of json.data.list) {
       for (const item of group.list) {
+        // 只处理版本更新说明公告
         if (item.title.includes('版本更新说明') || item.title.includes('更新公告')) {
           const match = item.title.match(game.pattern);
           if (match && !seen.has(match[1])) {
             seen.add(match[1]);
+            // start_time 和 end_time 来自官方API，是准确的版本周期
             versions.push({
               version: match[1],
               name: match[2],
@@ -74,64 +86,82 @@ async function fetchMihoyoGame(game) {
       }
     }
 
+    // 按版本号降序排序
     versions.sort((a, b) => parseFloat(b.version) - parseFloat(a.version));
-    return versions.length > 0 ? versions[0] : null;
+    
+    return {
+      gameId: game.id,
+      gameName: game.name,
+      current: versions[0] || null,
+      history: versions.slice(0, 10) // 保留最近10个版本
+    };
   } catch (e) {
     console.error(`Error fetching ${game.id}:`, e.message);
     return null;
   }
 }
 
-async function main() {
-  console.log('检查版本更新...\n');
-
-  // 读取现有数据
-  let data = { fetchedAt: '', games: {} };
+// 读取现有的其他游戏数据（手动维护部分）
+function loadExistingOtherGames() {
   try {
-    data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-  } catch (e) {
-    console.log('数据文件不存在，将创建新文件');
-  }
-
-  let updated = false;
-
-  // 检查米哈游游戏
-  for (const game of MIHOYO_GAMES) {
-    console.log(`检查 ${game.name}...`);
-    const latest = await fetchMihoyoGame(game);
+    const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+    const otherGames = {};
     
-    if (latest) {
-      const current = data.games[game.id]?.current;
-      if (!current || current.version !== latest.version) {
-        console.log(`  发现新版本: v${latest.version} ${latest.name}`);
-        updated = true;
-        
-        // 更新数据
-        if (!data.games[game.id]) {
-          data.games[game.id] = { gameId: game.id, gameName: game.name, current: null, history: [] };
-        }
-        
-        data.games[game.id].current = latest;
-        
-        // 添加到历史记录（如果不存在）
-        if (!data.games[game.id].history.find(v => v.version === latest.version)) {
-          data.games[game.id].history.unshift(latest);
-        }
-      } else {
-        console.log(`  当前版本: v${current.version} ${current.name} (无更新)`);
+    // 保留非米哈游游戏的数据
+    const mihoyoIds = MIHOYO_GAMES.map(g => g.id);
+    for (const [id, gameData] of Object.entries(data.games)) {
+      if (!mihoyoIds.includes(id)) {
+        otherGames[id] = gameData;
       }
+    }
+    
+    return otherGames;
+  } catch (e) {
+    console.log('数据文件不存在或无法读取，将创建新文件');
+    return {};
+  }
+}
+
+async function main() {
+  console.log('=== 游戏版本数据更新 ===\n');
+  console.log('时间:', new Date().toISOString());
+  console.log('');
+
+  // 读取现有的其他游戏数据
+  const otherGames = loadExistingOtherGames();
+  console.log(`已加载 ${Object.keys(otherGames).length } 个手动维护游戏的数据\n`);
+
+  const results = {
+    fetchedAt: new Date().toISOString(),
+    games: {}
+  };
+
+  // 获取米哈游游戏数据（自动从API获取）
+  console.log('--- 米哈游游戏（自动获取） ---');
+  for (const game of MIHOYO_GAMES) {
+    console.log(`正在获取 ${game.name}...`);
+    const data = await fetchMihoyoGame(game);
+    
+    if (data && data.current) {
+      results.games[game.id] = data;
+      console.log(`  ✓ 当前版本: v${data.current.version} ${data.current.name}`);
+      console.log(`    周期: ${data.current.startDate} ~ ${data.current.endDate}`);
     } else {
-      console.log(`  获取失败`);
+      console.log(`  ✗ 获取失败`);
     }
   }
 
-  if (updated) {
-    data.fetchedAt = new Date().toISOString();
-    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-    console.log('\n数据已更新！');
-  } else {
-    console.log('\n所有游戏都是最新版本。');
+  // 合并其他游戏数据（手动维护）
+  console.log('\n--- 其他游戏（手动维护） ---');
+  for (const [id, data] of Object.entries(otherGames)) {
+    results.games[id] = data;
+    console.log(`  ✓ ${data.gameName}: v${data.current.version} ${data.current.name}`);
   }
+
+  // 保存数据
+  fs.writeFileSync(DATA_FILE, JSON.stringify(results, null, 2));
+  console.log(`\n数据已保存到 ${DATA_FILE}`);
+  console.log(`共 ${Object.keys(results.games).length} 个游戏`);
 }
 
 main().catch(console.error);
