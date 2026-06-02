@@ -120,7 +120,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
       </div>
 
       {/* 版本块区域 */}
-      <div className="flex-1 relative" style={{ minHeight: isMobile ? '70px' : '100px' }}>
+      <div className="flex-1 relative" style={{ minHeight: isMobile ? '80px' : '110px' }}>
         {/* 时间网格线（每周一条） */}
         {Array.from({ length: Math.ceil(totalDays / 7) }).map((_, i) => {
           const dayNum = i * 7;
@@ -142,8 +142,8 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
           />
         )}
 
-        {/* 版本块 */}
-        <div className="absolute top-2 bottom-2 left-0 right-0">
+        {/* 版本块（上半部分） */}
+        <div className="absolute top-1 left-0 right-0" style={{ height: '55%' }}>
           {versions.map(version => {
             const style = getVersionStyle(version);
             if (style.display === 'none') return null;
@@ -191,7 +191,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
           });
           
           return (
-            <div className="absolute bottom-2 left-0 right-0 h-6">
+            <div className="absolute left-0 right-0 h-5" style={{ top: '60%' }}>
               {bannerGroups.map(group => {
                 const count = group.length;
                 const divider = count + 1; // n+1等分
