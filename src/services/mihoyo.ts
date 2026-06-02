@@ -2,6 +2,9 @@ import type { MihoyoApiResponse, ParsedVersion } from '../types';
 import { MIHOYO_GAMES, extractVersionsFromResponse } from '../utils/parser';
 import type { MihoyoGameId } from '../utils/parser';
 
+// CORS代理地址（用于解决跨域问题）
+const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+
 /**
  * 米哈游API服务
  */
@@ -14,7 +17,9 @@ export const mihoyoService = {
     if (!gameConfig) return [];
 
     try {
-      const response = await fetch(gameConfig.api);
+      // 使用CORS代理
+      const proxyUrl = `${CORS_PROXY}${encodeURIComponent(gameConfig.api)}`;
+      const response = await fetch(proxyUrl);
       if (!response.ok) return [];
 
       const data: MihoyoApiResponse = await response.json();
@@ -43,7 +48,8 @@ export const mihoyoService = {
     if (!gameConfig) return false;
 
     try {
-      const response = await fetch(gameConfig.api, { method: 'HEAD' });
+      const proxyUrl = `${CORS_PROXY}${encodeURIComponent(gameConfig.api)}`;
+      const response = await fetch(proxyUrl, { method: 'GET' });
       return response.ok;
     } catch {
       return false;
