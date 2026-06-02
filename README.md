@@ -13,12 +13,67 @@
 
 ## 支持的游戏
 
-| 游戏 | 自动获取 | 说明 |
+| 游戏 | 数据来源 | 更新方式 | 说明 |
+|------|----------|----------|------|
+| 原神 | 米哈游官方API | 自动 | startDate/endDate均来自API |
+| 崩坏：星穹铁道 | 米哈游官方API | 自动 | startDate/endDate均来自API |
+| 绝区零 | 米哈游官方API | 自动 | startDate/endDate均来自API |
+| 鸣潮 | Fandom Wiki / 官方公告 | 手动 | 根据官方更新公告维护 |
+| 明日方舟 | 官方公告 / Bilibili Wiki | 手动 | 根据官方更新公告维护 |
+| 重返未来:1999 | Bilibili Wiki / 灰机Wiki | 手动 | 根据官方更新公告维护 |
+| 明日方舟:终末地 | 官方公告 | 手动 | 新游戏，数据较少 |
+| 异环 | 官方公告 | 手动 | 新游戏，数据较少 |
+| 二重螺旋 | TapTap / 官方公告 | 手动 | 根据官方更新公告维护 |
+
+## 数据来源说明
+
+### 米哈游游戏（自动获取）
+
+米哈游游戏的版本数据通过官方公告API获取，**startDate** 和 **endDate** 均来自API返回的 `start_time` 和 `end_time` 字段。
+
+**API端点：**
+```
+原神: https://hk4e-ann-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList
+星铁: https://hkrpg-ann-api.mihoyo.com/common/hkrpg_cn/announcement/api/getAnnList
+绝区零: https://announcement-api.mihoyo.com/common/nap_cn/announcement/api/getAnnList
+```
+
+**数据更新频率：** 每日自动更新（北京时间 8:00 和 20:00）
+
+### 其他游戏（手动维护）
+
+由于这些游戏没有公开的版本API，版本数据需要根据官方公告手动维护。
+
+**数据来源：**
+- **鸣潮**：Fandom Wiki、官方公告
+- **明日方舟**：官方公告、Bilibili Wiki
+- **重返未来:1999**：Bilibili Wiki、灰机Wiki
+- **明日方舟:终末地**：官方公告
+- **异环**：官方公告
+- **二重螺旋**：TapTap、官方公告
+
+**日期获取规则：**
+- `startDate`：版本更新维护结束、服务器开服的日期
+- `endDate`：下一个版本更新维护开始的日期
+- **endDate 必须基于官方公告，不要估算**
+
+### 版本周期说明
+
+**注意：版本周期不是固定的，需要根据官方公告确定。**
+
+各游戏版本周期参考（仅供参考，实际以官方公告为准）：
+
+| 游戏 | 参考周期 | 说明 |
 |------|----------|------|
-| 原神 | ✅ | 通过米哈游官方API获取 |
-| 崩坏：星穹铁道 | ✅ | 通过米哈游官方API获取 |
-| 绝区零 | ✅ | 通过米哈游官方API获取 |
-| 自定义游戏 | ❌ | 手动输入版本信息 |
+| 原神 | ~42天 | 以官方更新公告为准 |
+| 崩坏：星穹铁道 | ~42天 | 以官方更新公告为准 |
+| 绝区零 | ~42天 | 以官方更新公告为准 |
+| 鸣潮 | ~42天 | 以官方更新公告为准 |
+| 明日方舟 | 不固定 | 以官方公告为准 |
+| 重返未来:1999 | ~42天 | 以官方公告为准 |
+| 终末地 | 不固定 | 新游戏，周期待观察 |
+| 异环 | 不固定 | 新游戏，周期待观察 |
+| 二重螺旋 | 不固定 | 新游戏，周期待观察 |
 
 ## 快速开始
 
@@ -34,6 +89,7 @@
 
 - **自动获取**: 对于米哈游游戏，点击游戏卡片上的"刷新版本"按钮
 - **手动添加**: 点击游戏详情页的"手动添加"按钮
+- **一键更新**: 点击右上角"一键更新"按钮同步所有游戏版本
 
 ## GitHub 云端同步配置
 
@@ -149,6 +205,15 @@ jobs:
       - uses: actions/deploy-pages@v4
 ```
 
+### 版本数据自动更新
+
+版本数据通过 `.github/workflows/fetch-versions.yml` 自动更新：
+
+- **更新频率**：每日 2 次（北京时间 8:00 和 20:00）
+- **更新范围**：米哈游游戏（原神、星铁、绝区零）
+- **数据来源**：米哈游官方公告API
+- **其他游戏**：需要手动维护版本数据
+
 ### 启用 GitHub Pages
 
 1. 进入仓库 **Settings** → **Pages**
@@ -214,48 +279,36 @@ npm run preview
 ChronoRail/
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml        # GitHub Actions 部署配置
+│       ├── deploy.yml              # 部署配置
+│       └── fetch-versions.yml      # 版本数据更新配置
 ├── public/
-│   └── favicon.svg           # 网站图标
+│   ├── data/
+│   │   └── game-versions.json      # 游戏版本数据
+│   ├── favicon.svg                 # 网站图标
+│   └── 404.html                    # SPA路由重定向
+├── scripts/
+│   └── check-versions.js           # 版本检查脚本
 ├── src/
-│   ├── components/           # React 组件
-│   │   ├── Calendar/         # 日历视图
-│   │   ├── Common/           # 通用组件
-│   │   ├── Game/             # 游戏管理
-│   │   ├── Layout/           # 布局组件
-│   │   ├── Timeline/         # 时间轴视图
-│   │   └── Version/          # 版本管理
-│   ├── hooks/                # 自定义 Hooks
-│   ├── services/             # API 服务
-│   ├── styles/               # 样式配置
-│   ├── types/                # TypeScript 类型
-│   ├── utils/                # 工具函数
-│   ├── App.tsx               # 主应用组件
-│   └── main.tsx              # 入口文件
-├── data/
-│   └── chronorail.json       # 数据文件
-├── index.html                # HTML 模板
-├── package.json              # 项目配置
-├── tailwind.config.js        # Tailwind 配置
-├── tsconfig.json             # TypeScript 配置
-└── vite.config.ts            # Vite 配置
-```
-
-## API 说明
-
-### 米哈游公告API
-
-```
-原神: https://hk4e-ann-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList
-星铁: https://hkrpg-ann-api.mihoyo.com/common/hkrpg_cn/announcement/api/getAnnList
-绝区零: https://announcement-api.mihoyo.com/common/nap_cn/announcement/api/getAnnList
-```
-
-### GitHub API
-
-用于数据云端同步：
-```
-GET/PUT https://api.github.com/repos/{owner}/{repo}/contents/{path}
+│   ├── components/                 # React 组件
+│   │   ├── Calendar/               # 日历视图
+│   │   ├── Common/                 # 通用组件
+│   │   ├── Game/                   # 游戏管理
+│   │   ├── Layout/                 # 布局组件
+│   │   ├── Timeline/               # 时间轴视图
+│   │   └── Version/                # 版本管理
+│   ├── hooks/                      # 自定义 Hooks
+│   ├── services/                   # API 服务
+│   ├── styles/                     # 样式配置
+│   ├── types/                      # TypeScript 类型
+│   ├── utils/                      # 工具函数
+│   ├── App.tsx                     # 主应用组件
+│   └── main.tsx                    # 入口文件
+├── VERSION_MANAGEMENT.md           # 版本管理指南
+├── index.html                      # HTML 模板
+├── package.json                    # 项目配置
+├── tailwind.config.js              # Tailwind 配置
+├── tsconfig.json                   # TypeScript 配置
+└── vite.config.ts                  # Vite 配置
 ```
 
 ## 常见问题
@@ -275,6 +328,10 @@ A: 支持所有现代浏览器：Chrome、Firefox、Safari、Edge。
 ### Q: 手机端怎么使用？
 
 A: 直接在手机浏览器访问即可，网站会自动适配移动端。
+
+### Q: 版本数据准确吗？
+
+A: 米哈游游戏的数据来自官方API，准确可靠。其他游戏的数据根据官方公告维护，如有错误请提交Issue反馈。
 
 ## 许可证
 
