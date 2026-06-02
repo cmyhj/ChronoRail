@@ -238,6 +238,9 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                 暂无游戏，请先添加游戏
               </div>
             )}
+
+            {/* 底部留白，确保滚动条能滚到底部 */}
+            <div className="h-8" />
           </div>
         )}
       </div>

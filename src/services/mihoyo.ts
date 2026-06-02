@@ -40,6 +40,14 @@ interface GameData {
  */
 export const mihoyoService = {
   /**
+   * 清除缓存，强制下次获取新数据
+   */
+  clearCache(): void {
+    cachedData = null;
+    lastFetchTime = 0;
+  },
+
+  /**
    * 获取游戏当前版本
    */
   async fetchCurrentVersion(gameId: string): Promise<ParsedVersion | null> {
