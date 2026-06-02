@@ -82,9 +82,27 @@ export function useVersions(gameId?: string) {
         );
 
         if (existing) {
-          // 更新结束日期（如果之前没有）
-          if (!existing.endDate && mihoyoVersion.endDate) {
-            versionService.update(existing.id, { endDate: mihoyoVersion.endDate });
+          // 需要更新的字段
+          const updates: Partial<Version> = {};
+          
+          // 更新名称（如果不同）
+          if (mihoyoVersion.name && existing.name !== mihoyoVersion.name) {
+            updates.name = mihoyoVersion.name;
+          }
+          
+          // 更新开始日期（如果不同）
+          if (mihoyoVersion.startDate && existing.startDate !== mihoyoVersion.startDate) {
+            updates.startDate = mihoyoVersion.startDate;
+          }
+          
+          // 更新结束日期（如果之前没有或不同）
+          if (mihoyoVersion.endDate && (!existing.endDate || existing.endDate !== mihoyoVersion.endDate)) {
+            updates.endDate = mihoyoVersion.endDate;
+          }
+          
+          // 如果有需要更新的字段
+          if (Object.keys(updates).length > 0) {
+            versionService.update(existing.id, updates);
             updated++;
           }
         } else {
