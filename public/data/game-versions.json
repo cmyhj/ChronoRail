@@ -165,7 +165,10 @@
         "startDate": "2026-05-28",
         "endDate": "2026-07-09"
       },
-      "banners": [],
+      "banners": [
+        { "name": "上半卡池", "character": "安魂曲", "startDate": "2026-05-28", "endDate": "2026-06-11" },
+        { "name": "下半卡池", "character": "卡厄斯", "startDate": "2026-06-11", "endDate": "2026-07-02" }
+      ],
       "history": [
         { "version": "1.1", "name": "游梦洄廊", "startDate": "2026-05-28", "endDate": "2026-07-09" },
         { "version": "1.0", "name": "公测", "startDate": "2026-04-22", "endDate": "2026-05-28" }

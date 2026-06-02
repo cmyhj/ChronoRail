@@ -144,24 +144,26 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
 
         {/* 版本块 + 卡池块 */}
         <div className="absolute top-1 bottom-1 left-0 right-0">
-          {/* 版本块 */}
-          {versions.map(version => {
-            const style = getVersionStyle(version);
-            if (style.display === 'none') return null;
-            
-            return (
-              <VersionBlock
-                key={version.id}
-                version={version}
-                gameColor={game.color || gameColors[game.id] || '#6366f1'}
-                style={{ ...style, bottom: visibleBanners.length > 0 ? '20px' : '0', top: '0' }}
-                onClick={() => onVersionClick?.(version)}
-                isMobile={isMobile}
-              />
-            );
-          })}
+          {/* 版本块（上方60%） */}
+          <div className="absolute top-0 left-0 right-0" style={{ height: '60%' }}>
+            {versions.map(version => {
+              const style = getVersionStyle(version);
+              if (style.display === 'none') return null;
+              
+              return (
+                <VersionBlock
+                  key={version.id}
+                  version={version}
+                  gameColor={game.color || gameColors[game.id] || '#6366f1'}
+                  style={style}
+                  onClick={() => onVersionClick?.(version)}
+                  isMobile={isMobile}
+                />
+              );
+            })}
+          </div>
 
-          {/* 卡池块（版本块下方，重叠卡池角色名按比例分布） */}
+          {/* 卡池块（下方40%） */}
           {visibleBanners.length > 0 && (() => {
             // 计算重叠卡池组
             const bannerGroups: number[][] = [];
