@@ -8,7 +8,7 @@ interface GameListProps {
   onAdd: () => void;
   onEdit: (game: Game) => void;
   onDelete: (game: Game) => void;
-  onRefreshVersions?: (game: Game) => void;
+  onRefreshVersions?: (game: Game) => Promise<boolean>;
 }
 
 export const GameList: React.FC<GameListProps> = ({

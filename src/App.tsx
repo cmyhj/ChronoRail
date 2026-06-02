@@ -110,8 +110,14 @@ const App: React.FC = () => {
   }, []);
 
   // 处理从米哈游获取版本
-  const handleFetchFromMihoyo = useCallback(async (gameId: string) => {
-    await fetchFromMihoyo(gameId as MihoyoGameId);
+  const handleFetchFromMihoyo = useCallback(async (gameId: string): Promise<boolean> => {
+    try {
+      const result = await fetchFromMihoyo(gameId as MihoyoGameId);
+      return result !== null;
+    } catch (error) {
+      console.error('Failed to fetch from mihoyo:', error);
+      return false;
+    }
   }, [fetchFromMihoyo]);
 
   // 处理GitHub配置保存
