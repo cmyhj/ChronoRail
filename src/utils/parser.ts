@@ -17,8 +17,6 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
   genshin: {
     id: 'genshin',
     name: '原神',
-    api: 'https://hk4e-ann-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList',
-    versionPattern: /(\d+\.\d+)版本.*?[「「](.+?)[」」]/,
     autoFetch: true,
     color: '#4a90d9',
     icon: 'genshin',
@@ -26,8 +24,6 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
   starrail: {
     id: 'starrail',
     name: '崩坏：星穹铁道',
-    api: 'https://hkrpg-ann-api.mihoyo.com/common/hkrpg_cn/announcement/api/getAnnList',
-    versionPattern: /(\d+\.\d+)版本.*?[「「](.+?)[」」]/,
     autoFetch: true,
     color: '#e6a23c',
     icon: 'starrail',
@@ -35,8 +31,6 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
   zzz: {
     id: 'zzz',
     name: '绝区零',
-    api: 'https://announcement-api.mihoyo.com/common/nap_cn/announcement/api/getAnnList',
-    versionPattern: /(\d+\.\d+)版本.*?[「「](.+?)[」」]/,
     autoFetch: true,
     color: '#67c23a',
     icon: 'zzz',
@@ -45,8 +39,7 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
   wutheringwaves: {
     id: 'wutheringwaves',
     name: '鸣潮',
-    // 库洛API需要认证，暂不支持自动获取
-    autoFetch: false,
+    autoFetch: true,
     color: '#00b4d8',
     icon: 'wutheringwaves',
   },
@@ -54,9 +47,6 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
   arknights: {
     id: 'arknights',
     name: '明日方舟',
-    // 鹰角公告API
-    api: 'https://ak-fs.hypergryph.com/announce/Android/announcement.json',
-    versionPattern: /(\d+\.\d+)版本.*?[「「](.+?)[」」]/,
     autoFetch: true,
     color: '#f4845f',
     icon: 'arknights',
@@ -65,7 +55,7 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
   reverse1999: {
     id: 'reverse1999',
     name: '重返未来:1999',
-    autoFetch: false,
+    autoFetch: true,
     color: '#7c3aed',
     icon: 'reverse1999',
   },
@@ -73,25 +63,25 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
   arknights_endfield: {
     id: 'arknights_endfield',
     name: '明日方舟:终末地',
-    autoFetch: false,
+    autoFetch: true,
     color: '#f97316',
     icon: 'arknights_endfield',
-  },
-  // 二重螺旋
-  doublehelix: {
-    id: 'doublehelix',
-    name: '二重螺旋',
-    autoFetch: false,
-    color: '#ec4899',
-    icon: 'doublehelix',
   },
   // 异环
   yihuan: {
     id: 'yihuan',
     name: '异环',
-    autoFetch: false,
+    autoFetch: true,
     color: '#14b8a6',
     icon: 'yihuan',
+  },
+  // 二重螺旋
+  doublehelix: {
+    id: 'doublehelix',
+    name: '二重螺旋',
+    autoFetch: true,
+    color: '#ec4899',
+    icon: 'doublehelix',
   },
 };
 
