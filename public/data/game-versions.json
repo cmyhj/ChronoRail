@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-06-02T00:00:00Z",
+  "fetchedAt": "2026-06-02T12:00:00Z",
   "games": {
     "genshin": {
       "gameId": "genshin",
@@ -15,7 +15,12 @@
         { "version": "5.6", "name": "空月之歌·鸣弦", "startDate": "2026-04-08", "endDate": "2026-05-20" },
         { "version": "5.5", "name": "空月之歌·序曲", "startDate": "2026-02-25", "endDate": "2026-04-08" },
         { "version": "5.4", "name": "彩糖与蔷薇的幻宴", "startDate": "2026-01-14", "endDate": "2026-02-25" },
-        { "version": "5.3", "name": "烈焰与焚毁的战歌", "startDate": "2025-12-03", "endDate": "2026-01-14" }
+        { "version": "5.3", "name": "烈焰与焚毁的战歌", "startDate": "2025-12-03", "endDate": "2026-01-14" },
+        { "version": "5.2", "name": "灵谜之森", "startDate": "2025-10-22", "endDate": "2025-12-03" },
+        { "version": "5.1", "name": "命定将熄的火焰", "startDate": "2025-09-10", "endDate": "2025-10-22" },
+        { "version": "5.0", "name": "荣花与炎之歌", "startDate": "2025-07-29", "endDate": "2025-09-10" },
+        { "version": "4.8", "name": "欢夏！邪龙？童话国！", "startDate": "2025-06-17", "endDate": "2025-07-29" },
+        { "version": "4.7", "name": "纺坠终久之梦", "startDate": "2025-05-06", "endDate": "2025-06-17" }
       ]
     },
     "starrail": {
@@ -32,7 +37,12 @@
         { "version": "4.2", "name": "混沌兽的黄金时代", "startDate": "2026-04-20", "endDate": "2026-06-01" },
         { "version": "4.1", "name": "银河沦陷日", "startDate": "2026-03-09", "endDate": "2026-04-20" },
         { "version": "4.0", "name": "冬梦中的拥抱", "startDate": "2026-01-26", "endDate": "2026-03-09" },
-        { "version": "3.7", "name": "尘世奇谭录", "startDate": "2025-12-15", "endDate": "2026-01-26" }
+        { "version": "3.7", "name": "尘世奇谭录", "startDate": "2025-12-15", "endDate": "2026-01-26" },
+        { "version": "3.6", "name": "于长夜月光下", "startDate": "2025-11-03", "endDate": "2025-12-15" },
+        { "version": "3.5", "name": "走向未来的人", "startDate": "2025-09-22", "endDate": "2025-11-03" },
+        { "version": "3.4", "name": "匹诺康尼大饭店", "startDate": "2025-08-11", "endDate": "2025-09-22" },
+        { "version": "3.3", "name": "再见，匹诺康尼", "startDate": "2025-06-30", "endDate": "2025-08-11" },
+        { "version": "3.2", "name": "美梦往事", "startDate": "2025-05-19", "endDate": "2025-06-30" }
       ]
     },
     "zzz": {
@@ -49,7 +59,12 @@
         { "version": "2.7", "name": "幕影通告", "startDate": "2026-03-25", "endDate": "2026-05-06" },
         { "version": "2.6", "name": "云端遗梦", "startDate": "2026-02-11", "endDate": "2026-03-25" },
         { "version": "2.5", "name": "来自深渊", "startDate": "2026-01-01", "endDate": "2026-02-11" },
-        { "version": "2.4", "name": "灼热金属", "startDate": "2025-11-20", "endDate": "2026-01-01" }
+        { "version": "2.4", "name": "灼热金属", "startDate": "2025-11-20", "endDate": "2026-01-01" },
+        { "version": "2.3", "name": "直到长夜尽头", "startDate": "2025-10-09", "endDate": "2025-11-20" },
+        { "version": "2.2", "name": "虚拟偶像", "startDate": "2025-08-28", "endDate": "2025-10-09" },
+        { "version": "2.1", "name": "空洞挑战", "startDate": "2025-07-17", "endDate": "2025-08-28" },
+        { "version": "2.0", "name": "新艾利都", "startDate": "2025-06-05", "endDate": "2025-07-17" },
+        { "version": "1.6", "name": "迷城回响", "startDate": "2025-04-24", "endDate": "2025-06-05" }
       ]
     },
     "wutheringwaves": {
@@ -66,7 +81,19 @@
         { "version": "3.1", "name": "月之暗面", "startDate": "2026-02-06", "endDate": "2026-03-19" },
         { "version": "3.0", "name": "潮起", "startDate": "2025-12-25", "endDate": "2026-02-06" },
         { "version": "2.8", "name": "星辉", "startDate": "2025-11-13", "endDate": "2025-12-25" },
-        { "version": "2.7", "name": "回响", "startDate": "2025-10-02", "endDate": "2025-11-13" }
+        { "version": "2.7", "name": "回响", "startDate": "2025-10-02", "endDate": "2025-11-13" },
+        { "version": "2.6", "name": "破晓", "startDate": "2025-08-21", "endDate": "2025-10-02" },
+        { "version": "2.5", "name": "夜归", "startDate": "2025-07-10", "endDate": "2025-08-21" },
+        { "version": "2.4", "name": "鸣潮往复", "startDate": "2025-05-29", "endDate": "2025-07-10" },
+        { "version": "2.3", "name": "深眠", "startDate": "2025-04-17", "endDate": "2025-05-29" },
+        { "version": "2.2", "name": "明月", "startDate": "2025-03-06", "endDate": "2025-04-17" },
+        { "version": "2.1", "name": "拂晓", "startDate": "2025-01-23", "endDate": "2025-03-06" },
+        { "version": "2.0", "name": "潮汐", "startDate": "2024-12-12", "endDate": "2025-01-23" },
+        { "version": "1.4", "name": "荒原", "startDate": "2024-10-31", "endDate": "2024-12-12" },
+        { "version": "1.3", "name": "归途", "startDate": "2024-09-19", "endDate": "2024-10-31" },
+        { "version": "1.2", "name": "远航", "startDate": "2024-08-08", "endDate": "2024-09-19" },
+        { "version": "1.1", "name": "往岁乘霄醒惊蛰", "startDate": "2024-06-28", "endDate": "2024-08-08" },
+        { "version": "1.0", "name": "鸣潮往复，文明不屈", "startDate": "2024-05-23", "endDate": "2024-06-28" }
       ]
     },
     "arknights": {
@@ -83,7 +110,12 @@
         { "version": "4.4", "name": "空想花庭", "startDate": "2026-04-03", "endDate": "2026-05-15" },
         { "version": "4.3", "name": "水晶箭行动", "startDate": "2026-02-20", "endDate": "2026-04-03" },
         { "version": "4.2", "name": "尘影余音", "startDate": "2026-01-09", "endDate": "2026-02-20" },
-        { "version": "4.1", "name": "叙拉古人", "startDate": "2025-11-28", "endDate": "2026-01-09" }
+        { "version": "4.1", "name": "叙拉古人", "startDate": "2025-11-28", "endDate": "2026-01-09" },
+        { "version": "4.0", "name": "照我以火", "startDate": "2025-10-17", "endDate": "2025-11-28" },
+        { "version": "3.9", "name": "孤星", "startDate": "2025-09-05", "endDate": "2025-10-17" },
+        { "version": "3.8", "name": "淬火尘心", "startDate": "2025-07-25", "endDate": "2025-09-05" },
+        { "version": "3.7", "name": "空想之梦", "startDate": "2025-06-13", "endDate": "2025-07-25" },
+        { "version": "3.6", "name": "怒号光明", "startDate": "2025-05-02", "endDate": "2025-06-13" }
       ]
     },
     "reverse1999": {
@@ -100,7 +132,12 @@
         { "version": "3.0", "name": "复兴！米卢特兰", "startDate": "2026-03-27", "endDate": "2026-05-08" },
         { "version": "2.8", "name": "飞驰明日之城", "startDate": "2026-02-13", "endDate": "2026-03-27" },
         { "version": "2.7", "name": "洞穴的黄金国", "startDate": "2025-12-26", "endDate": "2026-02-13" },
-        { "version": "2.6", "name": "忧郁的热带", "startDate": "2025-11-14", "endDate": "2025-12-26" }
+        { "version": "2.6", "name": "忧郁的热带", "startDate": "2025-11-14", "endDate": "2025-12-26" },
+        { "version": "2.5", "name": "旧齿与狮鹫", "startDate": "2025-10-03", "endDate": "2025-11-14" },
+        { "version": "2.4", "name": "迷途之城", "startDate": "2025-08-22", "endDate": "2025-10-03" },
+        { "version": "2.3", "name": "行至摩洛哥", "startDate": "2025-07-11", "endDate": "2025-08-22" },
+        { "version": "2.2", "name": "尘封的雪莉", "startDate": "2025-05-30", "endDate": "2025-07-11" },
+        { "version": "2.1", "name": "复兴！米卢特兰（上）", "startDate": "2025-04-18", "endDate": "2025-05-30" }
       ]
     },
     "arknights_endfield": {
