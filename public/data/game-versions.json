@@ -10,6 +10,13 @@
         "startDate": "2026-05-20",
         "endDate": "2026-07-01"
       },
+      "banners": [
+        { "name": "「寂烬之歌」祈愿", "character": "阿蕾奇诺", "startDate": "2026-05-20", "endDate": "2026-06-10" },
+        { "name": "「焰帘之仪」祈愿", "character": "仆人", "startDate": "2026-05-20", "endDate": "2026-06-10" },
+        { "name": "「神铸赋形」祈愿", "character": "赤沙之杖 / 贯月矢", "startDate": "2026-05-20", "endDate": "2026-06-10" },
+        { "name": "「寂烬之歌」祈愿", "character": "克洛琳德", "startDate": "2026-06-10", "endDate": "2026-07-01" },
+        { "name": "「焰帘之仪」祈愿", "character": "希格雯", "startDate": "2026-06-10", "endDate": "2026-07-01" }
+      ],
       "history": [
         { "version": "5.7", "name": "空月之歌·行律", "startDate": "2026-05-20", "endDate": "2026-07-01" },
         { "version": "5.6", "name": "空月之歌·鸣弦", "startDate": "2026-04-08", "endDate": "2026-05-20" },
@@ -32,6 +39,13 @@
         "startDate": "2026-06-01",
         "endDate": "2026-07-15"
       },
+      "banners": [
+        { "name": "「湍流疾行」限定跃迁", "character": "千冶·刃", "startDate": "2026-06-01", "endDate": "2026-06-18" },
+        { "name": "「溯回忆旅」限定跃迁", "character": "花火", "startDate": "2026-06-01", "endDate": "2026-06-18" },
+        { "name": "「流光定影」光锥跃迁", "character": "于夜色中 / 比阳光更明亮", "startDate": "2026-06-01", "endDate": "2026-06-18" },
+        { "name": "「湍流疾行」限定跃迁", "character": "飞霄", "startDate": "2026-06-18", "endDate": "2026-07-15" },
+        { "name": "「溯回忆旅」限定跃迁", "character": "镜流", "startDate": "2026-06-18", "endDate": "2026-07-15" }
+      ],
       "history": [
         { "version": "4.3", "name": "沉于生者的忘川", "startDate": "2026-06-01", "endDate": "2026-07-15" },
         { "version": "4.2", "name": "混沌兽的黄金时代", "startDate": "2026-04-20", "endDate": "2026-06-01" },
@@ -54,6 +68,10 @@
         "startDate": "2026-05-06",
         "endDate": "2026-06-17"
       },
+      "banners": [
+        { "name": "「独家频段」限定调频", "character": "仪玄", "startDate": "2026-05-06", "endDate": "2026-05-27" },
+        { "name": "「独家频段」限定调频", "character": "青衣", "startDate": "2026-05-27", "endDate": "2026-06-17" }
+      ],
       "history": [
         { "version": "2.8", "name": "新·艾利都日落时", "startDate": "2026-05-06", "endDate": "2026-06-17" },
         { "version": "2.7", "name": "幕影通告", "startDate": "2026-03-25", "endDate": "2026-05-06" },
@@ -76,6 +94,11 @@
         "startDate": "2026-06-08",
         "endDate": "2026-07-20"
       },
+      "banners": [
+        { "name": "定向共鸣活动", "character": "露西（联动）", "startDate": "2026-06-08", "endDate": "2026-07-06" },
+        { "name": "定向共鸣活动", "character": "丽贝卡（联动）", "startDate": "2026-06-08", "endDate": "2026-07-06" },
+        { "name": "定向武器活动", "character": "联动武器", "startDate": "2026-06-08", "endDate": "2026-07-06" }
+      ],
       "history": [
         { "version": "3.4", "name": "未选择的梦", "startDate": "2026-06-08", "endDate": "2026-07-20" },
         { "version": "3.3", "name": "边缘行者联动", "startDate": "2026-04-27", "endDate": "2026-06-08" },
@@ -98,6 +121,9 @@
         "startDate": "2026-06-01",
         "endDate": "2026-06-22"
       },
+      "banners": [
+        { "name": "「幽境狩人」限定寻访", "character": "焰狐龙梓兰", "startDate": "2026-06-01", "endDate": "2026-06-15" }
+      ],
       "history": [
         { "version": "泡影苍霆", "name": "明日方舟×怪物猎人联动", "startDate": "2026-06-01", "endDate": "2026-06-22" },
         { "version": "慈悲灯塔", "name": "主线活动", "startDate": "2026-05-15", "endDate": "2026-06-01" },
@@ -120,6 +146,10 @@
         "startDate": "2026-04-30",
         "endDate": "2026-06-08"
       },
+      "banners": [
+        { "name": "「未见疆域」限定征集", "character": "新角色", "startDate": "2026-04-30", "endDate": "2026-05-21" },
+        { "name": "「未见疆域」限定征集", "character": "复刻角色", "startDate": "2026-05-21", "endDate": "2026-06-08" }
+      ],
       "history": [
         { "version": "3.7", "name": "他者的悲哀", "startDate": "2026-04-30", "endDate": "2026-06-08" },
         { "version": "3.6", "name": "孤独之歌", "startDate": "2026-03-19", "endDate": "2026-04-30" },
@@ -142,6 +172,7 @@
         "startDate": "2026-06-05",
         "endDate": "2026-07-17"
       },
+      "banners": [],
       "history": [
         { "version": "寻遗散记", "name": "新版本活动", "startDate": "2026-06-05", "endDate": "2026-07-17" },
         { "version": "春晓时", "name": "版本活动", "startDate": "2026-04-17", "endDate": "2026-06-05" },
@@ -158,6 +189,7 @@
         "startDate": "2026-05-28",
         "endDate": "2026-07-09"
       },
+      "banners": [],
       "history": [
         { "version": "1.1", "name": "游梦洄廊", "startDate": "2026-05-28", "endDate": "2026-07-09" },
         { "version": "1.0", "name": "公测", "startDate": "2026-04-22", "endDate": "2026-05-28" }
@@ -172,6 +204,7 @@
         "startDate": "2026-06-02",
         "endDate": "2026-07-14"
       },
+      "banners": [],
       "history": [
         { "version": "1.4", "name": "银星奔流", "startDate": "2026-06-02", "endDate": "2026-07-14" },
         { "version": "1.3", "name": "皓苍诀", "startDate": "2026-04-07", "endDate": "2026-06-02" },

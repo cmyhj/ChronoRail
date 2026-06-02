@@ -15,10 +15,18 @@ interface GameVersion {
   endDate: string;
 }
 
+interface Banner {
+  name: string;
+  character: string;
+  startDate: string;
+  endDate: string;
+}
+
 interface GameInfo {
   gameId: string;
   gameName: string;
   current: GameVersion;
+  banners: Banner[];
   history: GameVersion[];
 }
 
@@ -49,6 +57,21 @@ export const mihoyoService = {
     } catch (error) {
       console.error(`Failed to fetch version for ${gameId}:`, error);
       return null;
+    }
+  },
+
+  /**
+   * 获取游戏卡池信息
+   */
+  async fetchBanners(gameId: string): Promise<Banner[]> {
+    try {
+      const data = await this.fetchData();
+      const gameData = data.games[gameId];
+      
+      return gameData?.banners || [];
+    } catch (error) {
+      console.error(`Failed to fetch banners for ${gameId}:`, error);
+      return [];
     }
   },
 
