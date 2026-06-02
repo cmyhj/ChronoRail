@@ -156,44 +156,76 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
           })}
         </div>
 
-        {/* 卡池块（版本块下方） */}
-        {visibleBanners.length > 0 && (
-          <div className="absolute bottom-2 left-0 right-0 h-5">
-            {visibleBanners.map((banner, index) => {
-              const style = getBannerStyle(banner);
-              if (style.display === 'none') return null;
-              
-              return (
-                <div
-                  key={index}
-                  className="absolute top-0 h-full cursor-pointer group"
-                  style={style}
-                >
+        {/* 卡池块（版本块下方，重叠卡池分行显示） */}
+        {visibleBanners.length > 0 && (() => {
+          // 计算卡池的行分配，避免重叠
+          const bannerRows: number[] = [];
+          const rowEndPositions: number[] = [];
+          
+          visibleBanners.forEach((banner, index) => {
+            const bannerStart = dayjs(banner.startDate).diff(dateRange.start, 'day');
+            let assignedRow = 0;
+            
+            // 找到第一个可用的行
+            for (let row = 0; row < rowEndPositions.length; row++) {
+              if (bannerStart >= rowEndPositions[row]) {
+                assignedRow = row;
+                break;
+              }
+              assignedRow = row + 1;
+            }
+            
+            bannerRows[index] = assignedRow;
+            if (!rowEndPositions[assignedRow]) {
+              rowEndPositions[assignedRow] = 0;
+            }
+            rowEndPositions[assignedRow] = dayjs(banner.endDate).diff(dateRange.start, 'day');
+          });
+          
+          const totalRows = Math.max(...bannerRows) + 1;
+          const rowHeight = 20; // 每行高度
+          
+          return (
+            <div className="absolute bottom-2 left-0 right-0" style={{ height: `${totalRows * rowHeight}px` }}>
+              {visibleBanners.map((banner, index) => {
+                const style = getBannerStyle(banner);
+                if (style.display === 'none') return null;
+                
+                const row = bannerRows[index];
+                const top = row * rowHeight;
+                
+                return (
                   <div
-                    className="h-full rounded px-1 flex items-center justify-center overflow-hidden transition-all duration-200 hover:ring-1 hover:ring-white/50"
-                    style={{
-                      backgroundColor: `${game.color || gameColors[game.id] || '#6366f1'}40`,
-                      border: `1px solid ${game.color || gameColors[game.id] || '#6366f1'}60`,
-                    }}
+                    key={index}
+                    className="absolute cursor-pointer group"
+                    style={{ ...style, top: `${top}px`, height: `${rowHeight - 2}px` }}
                   >
-                    <span className="text-[9px] text-white/80 truncate">
-                      {banner.character}
-                    </span>
-                  </div>
-                  
-                  {/* 悬浮提示 */}
-                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#1a1a2e] border border-[#2d2d4a] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
-                    <div className="text-xs text-[#e2e8f0] font-medium">{banner.name}</div>
-                    <div className="text-[10px] text-[#94a3b8]">{banner.character}</div>
-                    <div className="text-[10px] text-[#64748b]">
-                      {dayjs(banner.startDate).format('MM/DD')} - {dayjs(banner.endDate).format('MM/DD')}
+                    <div
+                      className="h-full rounded px-1 flex items-center justify-center overflow-hidden transition-all duration-200 hover:ring-1 hover:ring-white/50"
+                      style={{
+                        backgroundColor: `${game.color || gameColors[game.id] || '#6366f1'}40`,
+                        border: `1px solid ${game.color || gameColors[game.id] || '#6366f1'}60`,
+                      }}
+                    >
+                      <span className="text-[9px] text-white/80 truncate">
+                        {banner.character}
+                      </span>
+                    </div>
+                    
+                    {/* 悬浮提示 */}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#1a1a2e] border border-[#2d2d4a] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
+                      <div className="text-xs text-[#e2e8f0] font-medium">{banner.name}</div>
+                      <div className="text-[10px] text-[#94a3b8]">{banner.character}</div>
+                      <div className="text-[10px] text-[#64748b]">
+                        {dayjs(banner.startDate).format('MM/DD')} - {dayjs(banner.endDate).format('MM/DD')}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+                );
+              })}
+            </div>
+          );
+        })()}
 
         {/* 无版本提示 */}
         {versions.length === 0 && (
