@@ -190,6 +190,46 @@ const App: React.FC = () => {
     mihoyoService.clearCache();
   }, []);
 
+  // 页面加载时自动同步所有游戏版本
+  useEffect(() => {
+    const autoSync = async () => {
+      // 等待游戏数据加载完成
+      if (games.length === 0) return;
+      
+      // 检查是否今天已经同步过
+      const lastSyncKey = 'chronorail_last_sync';
+      const lastSync = localStorage.getItem(lastSyncKey);
+      const today = new Date().toISOString().split('T')[0];
+      
+      if (lastSync === today) return;
+      
+      // 静默同步，不显示Toast
+      let hasUpdates = false;
+      for (const game of games) {
+        if (game.autoFetch) {
+          try {
+            const result = await syncFromMihoyo(game.id);
+            if (result.added > 0 || result.updated > 0) {
+              hasUpdates = true;
+            }
+          } catch (error) {
+            console.error(`Auto sync failed for ${game.id}:`, error);
+          }
+        }
+      }
+      
+      // 记录同步日期
+      localStorage.setItem(lastSyncKey, today);
+      
+      // 如果有更新，显示提示
+      if (hasUpdates) {
+        showToast('版本数据已自动更新', 'success');
+      }
+    };
+    
+    autoSync();
+  }, [games, syncFromMihoyo, showToast]);
+
   return (
     <Router basename="/ChronoRail">
       <div className="h-screen flex flex-col bg-[#0f0f23]">
