@@ -143,7 +143,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
             </button>
           </div>
           
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             {games.map((game) => {
               const isRefreshing = refreshingId === game.id;
               const status = refreshStatus[game.id];
@@ -151,11 +151,11 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
               return (
                 <li key={game.id}>
                   <div
-                    className="flex items-center gap-3 px-3 py-3 rounded-lg text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] transition-colors"
+                    className="flex items-center gap-3 px-3 py-3.5 rounded-lg text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] transition-colors"
                     style={{ borderLeft: `3px solid ${game.color || gameColors[game.id] || '#6366f1'}` }}
                   >
-                    <GameIcon gameId={game.id} size={28} />
-                    <span className="truncate flex-1">{game.name}</span>
+                    <GameIcon gameId={game.id} size={32} />
+                    <span className="truncate flex-1 font-medium">{game.name}</span>
                     
                     {/* 刷新按钮 */}
                     {onRefreshGame && (

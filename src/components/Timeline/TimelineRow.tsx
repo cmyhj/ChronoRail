@@ -142,8 +142,9 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
           />
         )}
 
-        {/* 版本块（上半部分） */}
-        <div className="absolute top-1 left-0 right-0" style={{ height: '55%' }}>
+        {/* 版本块 + 卡池块 */}
+        <div className="absolute top-1 bottom-1 left-0 right-0">
+          {/* 版本块 */}
           {versions.map(version => {
             const style = getVersionStyle(version);
             if (style.display === 'none') return null;
@@ -153,94 +154,92 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
                 key={version.id}
                 version={version}
                 gameColor={game.color || gameColors[game.id] || '#6366f1'}
-                style={style}
+                style={{ ...style, bottom: visibleBanners.length > 0 ? '20px' : '0', top: '0' }}
                 onClick={() => onVersionClick?.(version)}
                 isMobile={isMobile}
               />
             );
           })}
-        </div>
 
-        {/* 卡池块（底部，重叠卡池角色名按比例分布） */}
-        {visibleBanners.length > 0 && (() => {
-          // 计算重叠卡池组
-          const bannerGroups: number[][] = [];
-          const processed = new Set<number>();
-          
-          visibleBanners.forEach((banner, i) => {
-            if (processed.has(i)) return;
-            const group = [i];
-            processed.add(i);
+          {/* 卡池块（版本块下方，重叠卡池角色名按比例分布） */}
+          {visibleBanners.length > 0 && (() => {
+            // 计算重叠卡池组
+            const bannerGroups: number[][] = [];
+            const processed = new Set<number>();
             
-            const start = dayjs(banner.startDate).diff(dateRange.start, 'day');
-            const end = dayjs(banner.endDate).diff(dateRange.start, 'day');
-            
-            // 找与此卡池重叠的其他卡池
-            visibleBanners.forEach((other, j) => {
-              if (i === j || processed.has(j)) return;
-              const otherStart = dayjs(other.startDate).diff(dateRange.start, 'day');
-              const otherEnd = dayjs(other.endDate).diff(dateRange.start, 'day');
+            visibleBanners.forEach((banner, i) => {
+              if (processed.has(i)) return;
+              const group = [i];
+              processed.add(i);
               
-              if (start < otherEnd && end > otherStart) {
-                group.push(j);
-                processed.add(j);
-              }
+              const start = dayjs(banner.startDate).diff(dateRange.start, 'day');
+              const end = dayjs(banner.endDate).diff(dateRange.start, 'day');
+              
+              // 找与此卡池重叠的其他卡池
+              visibleBanners.forEach((other, j) => {
+                if (i === j || processed.has(j)) return;
+                const otherStart = dayjs(other.startDate).diff(dateRange.start, 'day');
+                const otherEnd = dayjs(other.endDate).diff(dateRange.start, 'day');
+                
+                if (start < otherEnd && end > otherStart) {
+                  group.push(j);
+                  processed.add(j);
+                }
+              });
+              
+              bannerGroups.push(group);
             });
             
-            bannerGroups.push(group);
-          });
-          
-          return (
-            <div className="absolute left-0 right-0 h-5" style={{ top: '60%' }}>
-              {bannerGroups.map(group => {
-                const count = group.length;
-                const divider = count + 1; // n+1等分
-                
-                return group.map((bannerIdx, posInGroup) => {
-                  const banner = visibleBanners[bannerIdx];
-                  const style = getBannerStyle(banner);
-                  if (style.display === 'none') return null;
+            return (
+              <div className="absolute bottom-0 left-0 right-0 h-5">
+                {bannerGroups.map(group => {
+                  const count = group.length;
+                  const divider = count + 1;
                   
-                  // 名字位置：(posInGroup + 1) / (count + 1)
-                  const nameLeftPercent = ((posInGroup + 1) / divider) * 100;
-                  
-                  return (
-                    <div
-                      key={bannerIdx}
-                      className="absolute top-0 h-full cursor-pointer group"
-                      style={style}
-                    >
+                  return group.map((bannerIdx, posInGroup) => {
+                    const banner = visibleBanners[bannerIdx];
+                    const style = getBannerStyle(banner);
+                    if (style.display === 'none') return null;
+                    
+                    const nameLeftPercent = ((posInGroup + 1) / divider) * 100;
+                    
+                    return (
                       <div
-                        className="h-full rounded transition-all duration-200 hover:ring-1 hover:ring-white/50 relative"
-                        style={{
-                          backgroundColor: `${game.color || gameColors[game.id] || '#6366f1'}40`,
-                          border: `1px solid ${game.color || gameColors[game.id] || '#6366f1'}60`,
-                        }}
+                        key={bannerIdx}
+                        className="absolute top-0 h-full cursor-pointer group"
+                        style={style}
                       >
-                        {/* 角色名，按比例定位 */}
-                        <span 
-                          className="absolute top-0 bottom-0 flex items-center text-[9px] text-white/80 whitespace-nowrap"
-                          style={{ left: `${nameLeftPercent}%`, transform: 'translateX(-50%)' }}
+                        <div
+                          className="h-full rounded transition-all duration-200 hover:ring-1 hover:ring-white/50 relative"
+                          style={{
+                            backgroundColor: `${game.color || gameColors[game.id] || '#6366f1'}40`,
+                            border: `1px solid ${game.color || gameColors[game.id] || '#6366f1'}60`,
+                          }}
                         >
-                          {banner.character}
-                        </span>
-                      </div>
-                      
-                      {/* 悬浮提示 */}
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#1a1a2e] border border-[#2d2d4a] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
-                        <div className="text-xs text-[#e2e8f0] font-medium">{banner.name}</div>
-                        <div className="text-[10px] text-[#94a3b8]">{banner.character}</div>
-                        <div className="text-[10px] text-[#64748b]">
-                          {dayjs(banner.startDate).format('MM/DD')} - {dayjs(banner.endDate).format('MM/DD')}
+                          <span 
+                            className="absolute top-0 bottom-0 flex items-center text-[9px] text-white/80 whitespace-nowrap"
+                            style={{ left: `${nameLeftPercent}%`, transform: 'translateX(-50%)' }}
+                          >
+                            {banner.character}
+                          </span>
+                        </div>
+                        
+                        {/* 悬浮提示 */}
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[#1a1a2e] border border-[#2d2d4a] rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
+                          <div className="text-xs text-[#e2e8f0] font-medium">{banner.name}</div>
+                          <div className="text-[10px] text-[#94a3b8]">{banner.character}</div>
+                          <div className="text-[10px] text-[#64748b]">
+                            {dayjs(banner.startDate).format('MM/DD')} - {dayjs(banner.endDate).format('MM/DD')}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                });
-              })}
-            </div>
-          );
-        })()}
+                    );
+                  });
+                })}
+              </div>
+            );
+          })()}
+        </div>
 
         {/* 无版本提示 */}
         {versions.length === 0 && (
