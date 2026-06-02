@@ -71,7 +71,8 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   // 格式化刻度标签
   const formatMarkerLabel = (date: dayjs.Dayjs) => {
     if (scale === 'day') return date.format('MM/DD');
-    return `第${Math.ceil(date.date() / 7)}周`;
+    // 按周显示时，显示周起始日期
+    return date.format('MM/DD');
   };
 
   // 计算版本块在时间轴上的位置和宽度
