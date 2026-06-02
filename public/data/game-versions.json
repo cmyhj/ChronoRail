@@ -37,7 +37,8 @@
         { "name": "上半卡池", "character": "千冶·刃", "startDate": "2026-06-01", "endDate": "2026-06-24" },
         { "name": "上半卡池", "character": "爻光", "startDate": "2026-06-01", "endDate": "2026-06-24" },
         { "name": "下半卡池", "character": "昔涟", "startDate": "2026-06-24", "endDate": "2026-07-15" },
-        { "name": "下半卡池", "character": "白厄", "startDate": "2026-06-24", "endDate": "2026-07-15" }
+        { "name": "下半卡池", "character": "白厄", "startDate": "2026-06-24", "endDate": "2026-07-15" },
+        { "name": "联动跃迁", "character": "远坂凛（Fate联动）", "startDate": "2026-07-24", "endDate": "2026-08-15" }
       ],
       "history": [
         { "version": "4.3", "name": "沉于生者的忘川", "startDate": "2026-06-01", "endDate": "2026-07-15" },
