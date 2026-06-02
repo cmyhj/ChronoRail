@@ -13,6 +13,8 @@ const DEFAULT_PRESET_GAMES: GameId[] = [
   'arknights',
   'reverse1999',
   'arknights_endfield',
+  'yihuan',
+  'doublehelix',
 ];
 
 // 已删除预置游戏的存储键
