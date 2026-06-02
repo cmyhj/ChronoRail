@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-06-02T18:00:00Z",
+  "fetchedAt": "2026-06-02T20:00:00Z",
   "games": {
     "genshin": {
       "gameId": "genshin",
@@ -85,7 +85,7 @@
       ],
       "history": [
         { "version": "3.4", "name": "未选择的梦", "startDate": "2026-06-08", "endDate": "2026-07-22" },
-        { "version": "3.3", "name": "边缘行者联动", "startDate": "2026-04-27", "endDate": "2026-06-08" },
+        { "version": "3.3", "name": "自星海尽处回响", "startDate": "2026-04-30", "endDate": "2026-06-08" },
         { "version": "3.2", "name": "于影中启明的决心", "startDate": "2026-03-19", "endDate": "2026-04-27" },
         { "version": "3.1", "name": "月之暗面", "startDate": "2026-02-06", "endDate": "2026-03-19" },
         { "version": "3.0", "name": "潮起", "startDate": "2025-12-25", "endDate": "2026-02-06" }
@@ -124,7 +124,9 @@
         "endDate": "2026-06-11"
       },
       "banners": [
-        { "name": "限定征集", "character": "待确认", "startDate": "2026-04-30", "endDate": "2026-06-11" }
+        { "name": "上半卡池", "character": "小瑞安侬", "startDate": "2026-04-30", "endDate": "2026-05-20" },
+        { "name": "下半卡池", "character": "无名者", "startDate": "2026-05-21", "endDate": "2026-06-10" },
+        { "name": "湖心追述", "character": "曲娘/露西/天使娜娜/梁月", "startDate": "2026-05-29", "endDate": "2026-06-10" }
       ],
       "history": [
         { "version": "3.7", "name": "他者的悲哀", "startDate": "2026-04-30", "endDate": "2026-06-11" },
@@ -148,7 +150,7 @@
         { "name": "下半卡池", "character": "卡缪", "startDate": "2026-06-26", "endDate": "2026-07-17" }
       ],
       "history": [
-        { "version": "1.3", "name": "寻遗散记", "startDate": "2026-06-05", "endDate": "2026-07-27" },
+        { "version": "1.3", "name": "寻遗散记", "startDate": "2026-06-05", "endDate": "2026-07-17" },
         { "version": "1.2", "name": "春晓时", "startDate": "2026-04-17", "endDate": "2026-06-05" },
         { "version": "1.1", "name": "新潮起，故渊离", "startDate": "2026-03-12", "endDate": "2026-04-17" },
         { "version": "1.0", "name": "公测", "startDate": "2026-01-16", "endDate": "2026-03-12" }
