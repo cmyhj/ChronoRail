@@ -236,30 +236,41 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
               </div>
             </div>
 
-            {/* 今天的标记线 */}
-            {dayjs().isSame(currentDate, 'month') && (
-              <div
-                className="absolute top-0 bottom-0 w-0.5 bg-[#6366f1] z-20"
-                style={{
-                  left: `calc(12rem + ${(dayjs().diff(dateRange.start, 'day') / (dateRange.end.diff(dateRange.start, 'day') + 1)) * 100}% * (100% - 12rem) / 100)`,
-                }}
-              >
-                <div className="absolute -top-1 -left-1.5 w-3 h-3 bg-[#6366f1] rounded-full" />
-              </div>
-            )}
+            {/* 游戏行（包含今天的标记线） */}
+            <div className="relative">
+              {/* 今天的标记线 */}
+              {dayjs().isSame(currentDate, 'month') && (() => {
+                const today = dayjs();
+                const dayOfMonth = today.date();
+                const totalDays = dateRange.end.date();
+                const leftPercent = (dayOfMonth / totalDays) * 100;
+                
+                return (
+                  <div
+                    className="absolute top-0 bottom-0 w-0.5 bg-[#6366f1] z-20 pointer-events-none"
+                    style={{ left: `calc(12rem + ${leftPercent}% * (100% - 12rem) / 100%)` }}
+                  >
+                    <div className="absolute -top-1 -left-1.5 w-3 h-3 bg-[#6366f1] rounded-full" />
+                    <div className="absolute -top-6 -left-6 text-xs text-[#6366f1] font-medium whitespace-nowrap">
+                      今天
+                    </div>
+                  </div>
+                );
+              })()}
 
-            {/* 游戏行 */}
-            {games.map(game => (
-              <TimelineRow
-                key={game.id}
-                game={game}
-                versions={(versionsByGame[game.id] || []).filter(isVersionVisible)}
-                dateRange={dateRange}
-                scale={scale}
-                onVersionClick={onVersionClick}
-                getVersionStyle={getVersionStyle}
-              />
-            ))}
+              {/* 游戏行 */}
+              {games.map(game => (
+                <TimelineRow
+                  key={game.id}
+                  game={game}
+                  versions={(versionsByGame[game.id] || []).filter(isVersionVisible)}
+                  dateRange={dateRange}
+                  scale={scale}
+                  onVersionClick={onVersionClick}
+                  getVersionStyle={getVersionStyle}
+                />
+              ))}
+            </div>
 
             {games.length === 0 && (
               <div className="text-center py-12 text-[#64748b]">
