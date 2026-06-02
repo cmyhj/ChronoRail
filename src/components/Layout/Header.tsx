@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, Settings } from 'lucide-react';
+import { Menu, RefreshCw } from 'lucide-react';
 import { useResponsive } from '../../hooks/useResponsive';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
+  onSyncAll?: () => Promise<void>;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
+export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onSyncAll }) => {
   const { isMobile } = useResponsive();
   const location = useLocation();
-  const [showSettings, setShowSettings] = useState(false);
+  const [syncing, setSyncing] = useState(false);
 
   const navItems = [
     { path: '/', label: '时间轴' },
@@ -19,6 +20,16 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleSync = async () => {
+    if (!onSyncAll || syncing) return;
+    setSyncing(true);
+    try {
+      await onSyncAll();
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-40 bg-[#0f0f23]/95 backdrop-blur-md border-b border-[#2d2d4a]">
@@ -57,12 +68,19 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
 
           {/* 右侧操作 */}
           <div className="flex items-center gap-2">
+            {/* 一键更新按钮 */}
             <button
-              onClick={() => setShowSettings(!showSettings)}
-              className="p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
-              title="设置"
+              onClick={handleSync}
+              disabled={syncing}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                syncing
+                  ? 'bg-[#6366f1]/20 text-[#6366f1] cursor-wait'
+                  : 'bg-[#6366f1] text-white hover:bg-[#4f46e5] hover:-translate-y-0.5 shadow-lg hover:shadow-xl'
+              }`}
+              title="一键更新所有游戏版本"
             >
-              <Settings size={20} />
+              <RefreshCw size={16} className={syncing ? 'animate-spin' : ''} />
+              <span className="hidden sm:inline">{syncing ? '同步中...' : '一键更新'}</span>
             </button>
             
             <a
@@ -82,30 +100,12 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                 onClick={onMenuToggle}
                 className="p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
               >
-                {onMenuToggle ? <Menu size={20} /> : null}
+                <Menu size={20} />
               </button>
             )}
           </div>
         </div>
       </div>
-
-      {/* 设置弹窗 */}
-      {showSettings && (
-        <div className="absolute top-full right-4 mt-2 w-64 bg-[#1a1a2e] border border-[#2d2d4a] rounded-xl shadow-2xl p-4">
-          <h3 className="text-sm font-semibold text-[#e2e8f0] mb-3">设置</h3>
-          <div className="space-y-2">
-            <button className="w-full text-left px-3 py-2 text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors">
-              GitHub 同步配置
-            </button>
-            <button className="w-full text-left px-3 py-2 text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors">
-              导出数据
-            </button>
-            <button className="w-full text-left px-3 py-2 text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors">
-              导入数据
-            </button>
-          </div>
-        </div>
-      )}
     </header>
   );
 };

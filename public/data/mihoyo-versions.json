@@ -1,26 +1,134 @@
 {
-  "genshin": {
-    "gameId": "genshin",
-    "gameName": "原神",
-    "version": "5.7",
-    "name": "空月之歌·行律",
-    "startDate": "2026-05-20",
-    "fetchedAt": "2026-06-02T00:00:00Z"
-  },
-  "starrail": {
-    "gameId": "starrail",
-    "gameName": "崩坏：星穹铁道",
-    "version": "4.3",
-    "name": "沉于生者的忘川",
-    "startDate": "2026-06-01",
-    "fetchedAt": "2026-06-02T00:00:00Z"
-  },
-  "zzz": {
-    "gameId": "zzz",
-    "gameName": "绝区零",
-    "version": "2.3",
-    "name": "直到长夜尽头",
-    "startDate": "2026-05-28",
-    "fetchedAt": "2026-06-02T00:00:00Z"
+  "fetchedAt": "2026-06-02T00:00:00Z",
+  "games": {
+    "genshin": {
+      "gameId": "genshin",
+      "gameName": "原神",
+      "current": {
+        "version": "5.7",
+        "name": "空月之歌·行律",
+        "startDate": "2026-05-20",
+        "endDate": "2026-07-01",
+        "title": "「『空月之歌·行律』虚空劫灰往世书」「月之七」版本更新说明"
+      },
+      "history": [
+        {
+          "version": "5.7",
+          "name": "空月之歌·行律",
+          "startDate": "2026-05-20",
+          "endDate": "2026-07-01"
+        },
+        {
+          "version": "5.6",
+          "name": "空月之歌·鸣弦",
+          "startDate": "2026-04-08",
+          "endDate": "2026-05-20"
+        },
+        {
+          "version": "5.5",
+          "name": "空月之歌·序曲",
+          "startDate": "2026-02-25",
+          "endDate": "2026-04-08"
+        },
+        {
+          "version": "5.4",
+          "name": "彩糖与蔷薇的幻宴",
+          "startDate": "2026-01-14",
+          "endDate": "2026-02-25"
+        },
+        {
+          "version": "5.3",
+          "name": "烈焰与焚毁的战歌",
+          "startDate": "2025-12-03",
+          "endDate": "2026-01-14"
+        }
+      ]
+    },
+    "starrail": {
+      "gameId": "starrail",
+      "gameName": "崩坏：星穹铁道",
+      "current": {
+        "version": "4.3",
+        "name": "沉于生者的忘川",
+        "startDate": "2026-06-01",
+        "endDate": "2026-07-15",
+        "title": "4.3版本「沉于生者的忘川」版本更新说明"
+      },
+      "history": [
+        {
+          "version": "4.3",
+          "name": "沉于生者的忘川",
+          "startDate": "2026-06-01",
+          "endDate": "2026-07-15"
+        },
+        {
+          "version": "4.2",
+          "name": "混沌兽的黄金时代",
+          "startDate": "2026-04-20",
+          "endDate": "2026-06-01"
+        },
+        {
+          "version": "4.1",
+          "name": "银河沦陷日",
+          "startDate": "2026-03-09",
+          "endDate": "2026-04-20"
+        },
+        {
+          "version": "4.0",
+          "name": "冬梦中的拥抱",
+          "startDate": "2026-01-26",
+          "endDate": "2026-03-09"
+        },
+        {
+          "version": "3.7",
+          "name": "尘世奇谭录",
+          "startDate": "2025-12-15",
+          "endDate": "2026-01-26"
+        }
+      ]
+    },
+    "zzz": {
+      "gameId": "zzz",
+      "gameName": "绝区零",
+      "current": {
+        "version": "2.8",
+        "name": "新·艾利都日落时",
+        "startDate": "2026-05-06",
+        "endDate": "2026-06-17",
+        "title": "2.8版本「新·艾利都日落时」更新公告"
+      },
+      "history": [
+        {
+          "version": "2.8",
+          "name": "新·艾利都日落时",
+          "startDate": "2026-05-06",
+          "endDate": "2026-06-17"
+        },
+        {
+          "version": "2.7",
+          "name": "幕影通告",
+          "startDate": "2026-03-25",
+          "endDate": "2026-05-06"
+        },
+        {
+          "version": "2.6",
+          "name": "云端遗梦",
+          "startDate": "2026-02-11",
+          "endDate": "2026-03-25"
+        },
+        {
+          "version": "2.5",
+          "name": "来自深渊",
+          "startDate": "2026-01-01",
+          "endDate": "2026-02-11"
+        },
+        {
+          "version": "2.4",
+          "name": "灼热金属",
+          "startDate": "2025-11-20",
+          "endDate": "2026-01-01"
+        }
+      ]
+    }
   }
 }

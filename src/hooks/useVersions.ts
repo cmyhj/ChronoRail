@@ -66,7 +66,52 @@ export function useVersions(gameId?: string) {
     return success;
   }, []);
 
-  // 从米哈游获取版本
+  // 从米哈游同步所有版本（一键更新）
+  const syncFromMihoyo = useCallback(async (targetGameId: MihoyoGameId): Promise<{ added: number; updated: number }> => {
+    try {
+      const history = await mihoyoService.fetchVersionHistory(targetGameId);
+      if (!history.length) return { added: 0, updated: 0 };
+
+      let added = 0;
+      let updated = 0;
+
+      for (const mihoyoVersion of history) {
+        // 检查是否已存在
+        const existing = versions.find(
+          v => v.gameId === targetGameId && v.version === mihoyoVersion.version
+        );
+
+        if (existing) {
+          // 更新结束日期（如果之前没有）
+          if (!existing.endDate && mihoyoVersion.endDate) {
+            versionService.update(existing.id, { endDate: mihoyoVersion.endDate });
+            updated++;
+          }
+        } else {
+          // 添加新版本
+          versionService.add({
+            gameId: targetGameId,
+            version: mihoyoVersion.version,
+            name: mihoyoVersion.name,
+            startDate: mihoyoVersion.startDate,
+            endDate: mihoyoVersion.endDate,
+            isAutoFetched: true,
+          });
+          added++;
+        }
+      }
+
+      // 重新加载数据
+      loadVersions();
+
+      return { added, updated };
+    } catch (error) {
+      console.error('Failed to sync from mihoyo:', error);
+      return { added: 0, updated: 0 };
+    }
+  }, [versions, loadVersions]);
+
+  // 从米哈游获取当前版本
   const fetchFromMihoyo = useCallback(async (targetGameId: MihoyoGameId): Promise<Version | null> => {
     try {
       const currentVersion = await mihoyoService.fetchCurrentVersion(targetGameId);
@@ -115,6 +160,7 @@ export function useVersions(gameId?: string) {
     updateVersion,
     deleteVersion,
     fetchFromMihoyo,
+    syncFromMihoyo,
     getVersionById,
     getVersionsByDateRange,
     refresh: loadVersions,

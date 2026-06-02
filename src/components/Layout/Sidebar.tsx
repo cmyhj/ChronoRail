@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Clock, Calendar, Gamepad2, Plus, RefreshCw, Check, AlertCircle } from 'lucide-react';
+import { Clock, Calendar, Gamepad2, Plus, RefreshCw, Check, AlertCircle, Download } from 'lucide-react';
 import { GameIcon, gameColors } from '../Common/GameIcon';
 import type { Game } from '../../types';
 
@@ -8,16 +8,19 @@ interface SidebarProps {
   games: Game[];
   onAddGame?: () => void;
   onRefreshGame?: (gameId: string) => Promise<boolean>;
+  onSyncAll?: () => Promise<void>;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   games,
   onAddGame,
   onRefreshGame,
+  onSyncAll,
 }) => {
   const location = useLocation();
   const [refreshingId, setRefreshingId] = useState<string | null>(null);
   const [refreshStatus, setRefreshStatus] = useState<Record<string, 'success' | 'error'>>({});
+  const [syncing, setSyncing] = useState(false);
 
   const navItems = [
     { path: '/', label: '时间轴', icon: Clock },
@@ -43,6 +46,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
       setTimeout(() => {
         setRefreshStatus(prev => ({ ...prev, [gameId]: undefined as any }));
       }, 3000);
+    }
+  };
+
+  const handleSyncAll = async () => {
+    if (!onSyncAll || syncing) return;
+    setSyncing(true);
+    try {
+      await onSyncAll();
+    } finally {
+      setSyncing(false);
     }
   };
 
@@ -143,6 +156,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
               暂无游戏，点击 + 添加
             </p>
           )}
+        </div>
+
+        {/* 一键更新 */}
+        <div className="border-t border-[#2d2d4a] pt-4">
+          <button
+            onClick={handleSyncAll}
+            disabled={syncing}
+            className={`flex items-center gap-2 w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+              syncing
+                ? 'bg-[#6366f1]/20 text-[#6366f1] cursor-wait'
+                : 'bg-gradient-to-r from-[#6366f1] to-[#818cf8] text-white hover:from-[#4f46e5] hover:to-[#6366f1] hover:-translate-y-0.5 shadow-lg hover:shadow-xl'
+            }`}
+          >
+            <Download size={16} className={syncing ? 'animate-spin' : ''} />
+            {syncing ? '同步中...' : '一键更新所有版本'}
+          </button>
         </div>
       </div>
     </aside>

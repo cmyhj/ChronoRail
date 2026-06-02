@@ -10,6 +10,7 @@ import { GameForm } from './components/Game/GameForm';
 import { VersionForm } from './components/Version/VersionForm';
 import { VersionDetail } from './components/Version/VersionDetail';
 import { GitHubSettings } from './components/Common/GitHubSettings';
+import { Toast } from './components/Common/Toast';
 import { useGames } from './hooks/useGames';
 import { useVersions } from './hooks/useVersions';
 import { useResponsive } from './hooks/useResponsive';
@@ -20,7 +21,7 @@ import type { MihoyoGameId } from './utils/parser';
 const App: React.FC = () => {
   const { isMobile } = useResponsive();
   const { games, addGame, updateGame, deleteGame, addMihoyoGame } = useGames();
-  const { versions, addVersion, updateVersion, deleteVersion, fetchFromMihoyo } = useVersions();
+  const { versions, addVersion, updateVersion, deleteVersion, fetchFromMihoyo, syncFromMihoyo } = useVersions();
   const { saveConfig, clearConfig, testConnection } = useGitHub();
 
   // 移动端抽屉状态
@@ -42,10 +43,19 @@ const App: React.FC = () => {
   // GitHub设置状态
   const [githubSettingsOpen, setGithubSettingsOpen] = useState(false);
 
+  // Toast状态
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+
   // 获取游戏信息
   const getGame = useCallback((gameId: string) => {
     return games.find(g => g.id === gameId);
   }, [games]);
+
+  // 显示Toast
+  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'info') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  }, []);
 
   // 处理游戏添加
   const handleAddGame = useCallback(() => {
@@ -109,16 +119,49 @@ const App: React.FC = () => {
     setVersionDetailOpen(true);
   }, []);
 
-  // 处理从米哈游获取版本
+  // 处理从米哈游获取单个版本
   const handleFetchFromMihoyo = useCallback(async (gameId: string): Promise<boolean> => {
     try {
       const result = await fetchFromMihoyo(gameId as MihoyoGameId);
-      return result !== null;
+      if (result) {
+        showToast('版本数据已更新', 'success');
+        return true;
+      } else {
+        showToast('未找到新版本', 'info');
+        return false;
+      }
     } catch (error) {
       console.error('Failed to fetch from mihoyo:', error);
+      showToast('获取失败，请稍后重试', 'error');
       return false;
     }
-  }, [fetchFromMihoyo]);
+  }, [fetchFromMihoyo, showToast]);
+
+  // 一键更新所有游戏版本
+  const handleSyncAll = useCallback(async () => {
+    showToast('正在同步版本数据...', 'info');
+    
+    let totalAdded = 0;
+    let totalUpdated = 0;
+    
+    for (const game of games) {
+      if (game.autoFetch) {
+        try {
+          const result = await syncFromMihoyo(game.id as MihoyoGameId);
+          totalAdded += result.added;
+          totalUpdated += result.updated;
+        } catch (error) {
+          console.error(`Failed to sync ${game.id}:`, error);
+        }
+      }
+    }
+    
+    if (totalAdded > 0 || totalUpdated > 0) {
+      showToast(`同步完成：新增 ${totalAdded} 个版本，更新 ${totalUpdated} 个版本`, 'success');
+    } else {
+      showToast('所有版本数据已是最新', 'info');
+    }
+  }, [games, syncFromMihoyo, showToast]);
 
   // 处理GitHub配置保存
   const handleGitHubSave = useCallback((config: GitHubConfig) => {
@@ -134,7 +177,10 @@ const App: React.FC = () => {
     <Router basename="/ChronoRail">
       <div className="h-screen flex flex-col bg-[#0f0f23]">
         {/* 头部 */}
-        <Header onMenuToggle={() => setDrawerOpen(true)} />
+        <Header 
+          onMenuToggle={() => setDrawerOpen(true)} 
+          onSyncAll={handleSyncAll}
+        />
 
         {/* 主体 */}
         <div className="flex-1 flex overflow-hidden">
@@ -144,6 +190,7 @@ const App: React.FC = () => {
               games={games}
               onAddGame={handleAddGame}
               onRefreshGame={handleFetchFromMihoyo}
+              onSyncAll={handleSyncAll}
             />
           )}
 
@@ -199,6 +246,7 @@ const App: React.FC = () => {
             games={games}
             onAddGame={handleAddGame}
             onRefreshGame={handleFetchFromMihoyo}
+            onSyncAll={handleSyncAll}
           />
         )}
 
@@ -240,6 +288,15 @@ const App: React.FC = () => {
           onClear={handleGitHubClear}
           onTest={testConnection}
         />
+
+        {/* Toast通知 */}
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
       </div>
     </Router>
   );
