@@ -72,12 +72,13 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           return currentVersion.startDate;
         }
         
-        // 否则用结束时间（下一个卡池的开始）
+        // 否则用结束时间（下一个卡池的开始，或当前卡池结束）
         if (currentVersion.endDate) {
           return currentVersion.endDate;
         }
         
-        return null;
+        // 都没有就用开始时间
+        return currentVersion.startDate;
       };
       
       const aDate = getNextBannerStart(aVersions);
