@@ -1,9 +1,17 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react';
 import dayjs from 'dayjs';
 import { TimelineRow } from './TimelineRow';
 import { useResponsive } from '../../hooks/useResponsive';
+import { mihoyoService } from '../../services/mihoyo';
 import type { Game, Version, TimelineScale } from '../../types';
+
+interface Banner {
+  name: string;
+  character: string;
+  startDate: string;
+  endDate: string;
+}
 
 interface TimelineViewProps {
   games: Game[];
@@ -19,6 +27,20 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   const { isMobile } = useResponsive();
   const [scale, setScale] = useState<TimelineScale>('month');
   const [currentDate, setCurrentDate] = useState(dayjs());
+  const [allBanners, setAllBanners] = useState<Record<string, Banner[]>>({});
+
+  // 加载所有游戏的卡池数据
+  useEffect(() => {
+    const loadBanners = async () => {
+      const bannerMap: Record<string, Banner[]> = {};
+      for (const game of games) {
+        const banners = await mihoyoService.fetchBanners(game.id);
+        bannerMap[game.id] = banners;
+      }
+      setAllBanners(bannerMap);
+    };
+    loadBanners();
+  }, [games]);
 
   // 计算时间范围 - 按月显示
   const dateRange = useMemo(() => {
@@ -54,35 +76,47 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
     return grouped;
   }, [games, versions]);
 
-  // 按下一个卡池开始时间排序（只算未来的卡池）
+  // 按下一个卡池开始时间排序（使用卡池数据）
   const sortedGames = useMemo(() => {
     const today = dayjs().format('YYYY-MM-DD');
     
     return [...games].sort((a, b) => {
+      const aBanners = allBanners[a.id] || [];
+      const bBanners = allBanners[b.id] || [];
       const aVersions = versionsByGame[a.id] || [];
       const bVersions = versionsByGame[b.id] || [];
       
       // 获取下一个卡池的开始时间
-      const getNextBannerStart = (gameVersions: Version[]): string | null => {
-        if (gameVersions.length === 0) return null;
-        const currentVersion = gameVersions[0];
-        
-        // 如果当前版本开始时间在未来，用它
-        if (currentVersion.startDate > today) {
-          return currentVersion.startDate;
+      const getNextBannerStart = (banners: Banner[], gameVersions: Version[]): string | null => {
+        // 优先从卡池数据中找未来的卡池
+        for (const banner of banners) {
+          if (banner.startDate > today) {
+            return banner.startDate;
+          }
         }
         
-        // 否则用结束时间（下一个卡池的开始，或当前卡池结束）
-        if (currentVersion.endDate) {
-          return currentVersion.endDate;
+        // 如果没有未来的卡池，找当前进行中卡池的结束时间
+        for (const banner of banners) {
+          if (banner.startDate <= today && banner.endDate > today) {
+            return banner.endDate;
+          }
         }
         
-        // 都没有就用开始时间
-        return currentVersion.startDate;
+        // 都没有，用版本的结束时间
+        if (gameVersions.length > 0 && gameVersions[0].endDate) {
+          return gameVersions[0].endDate;
+        }
+        
+        // 最后用版本开始时间
+        if (gameVersions.length > 0) {
+          return gameVersions[0].startDate;
+        }
+        
+        return null;
       };
       
-      const aDate = getNextBannerStart(aVersions);
-      const bDate = getNextBannerStart(bVersions);
+      const aDate = getNextBannerStart(aBanners, aVersions);
+      const bDate = getNextBannerStart(bBanners, bVersions);
       
       if (!aDate && !bDate) return 0;
       if (!aDate) return 1;
@@ -90,7 +124,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
       
       return dayjs(aDate).diff(dayjs(bDate));
     });
-  }, [games, versionsByGame]);
+  }, [games, allBanners, versionsByGame]);
 
   // 导航 - 按月导航
   const navigate = (direction: 'prev' | 'next') => {
