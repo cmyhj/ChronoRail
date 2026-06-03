@@ -54,23 +54,40 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
     return grouped;
   }, [games, versions]);
 
-  // 按卡池开始时间排序（升序）
+  // 按下一个卡池开始时间排序（只算未来的卡池）
   const sortedGames = useMemo(() => {
+    const today = dayjs().format('YYYY-MM-DD');
+    
     return [...games].sort((a, b) => {
       const aVersions = versionsByGame[a.id] || [];
       const bVersions = versionsByGame[b.id] || [];
       
-      // 获取当前版本开始时间
-      const aStartDate = aVersions.length > 0 ? aVersions[0].startDate : null;
-      const bStartDate = bVersions.length > 0 ? bVersions[0].startDate : null;
+      // 获取下一个卡池的开始时间
+      const getNextBannerStart = (gameVersions: Version[]): string | null => {
+        if (gameVersions.length === 0) return null;
+        const currentVersion = gameVersions[0];
+        
+        // 如果当前版本开始时间在未来，用它
+        if (currentVersion.startDate > today) {
+          return currentVersion.startDate;
+        }
+        
+        // 否则用结束时间（下一个卡池的开始）
+        if (currentVersion.endDate) {
+          return currentVersion.endDate;
+        }
+        
+        return null;
+      };
       
-      // 没有日期的排后面
-      if (!aStartDate && !bStartDate) return 0;
-      if (!aStartDate) return 1;
-      if (!bStartDate) return -1;
+      const aDate = getNextBannerStart(aVersions);
+      const bDate = getNextBannerStart(bVersions);
       
-      // 按开始日期升序
-      return dayjs(aStartDate).diff(dayjs(bStartDate));
+      if (!aDate && !bDate) return 0;
+      if (!aDate) return 1;
+      if (!bDate) return -1;
+      
+      return dayjs(aDate).diff(dayjs(bDate));
     });
   }, [games, versionsByGame]);
 
