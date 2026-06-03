@@ -54,23 +54,23 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
     return grouped;
   }, [games, versions]);
 
-  // 按当前版本结束日期排序（下一个版本更新时间从近到远）
+  // 按下一个卡池开始时间排序（升序）
   const sortedGames = useMemo(() => {
     return [...games].sort((a, b) => {
       const aVersions = versionsByGame[a.id] || [];
       const bVersions = versionsByGame[b.id] || [];
       
-      // 获取当前版本的结束日期
-      const aEndDate = aVersions.length > 0 ? aVersions[0].endDate : null;
-      const bEndDate = bVersions.length > 0 ? bVersions[0].endDate : null;
+      // 获取当前版本的开始日期作为下一个卡池的参考
+      const aStartDate = aVersions.length > 0 ? aVersions[0].startDate : null;
+      const bStartDate = bVersions.length > 0 ? bVersions[0].startDate : null;
       
-      // 没有结束日期的排后面
-      if (!aEndDate && !bEndDate) return 0;
-      if (!aEndDate) return 1;
-      if (!bEndDate) return -1;
+      // 没有日期的排后面
+      if (!aStartDate && !bStartDate) return 0;
+      if (!aStartDate) return 1;
+      if (!bStartDate) return -1;
       
-      // 按结束日期升序（即将更新的排前面）
-      return dayjs(aEndDate).diff(dayjs(bEndDate));
+      // 按开始日期升序（最近开始的排前面）
+      return dayjs(aStartDate).diff(dayjs(bStartDate));
     });
   }, [games, versionsByGame]);
 
