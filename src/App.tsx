@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Layout/Header';
 import { Sidebar } from './components/Layout/Sidebar';
 import { MobileDrawer } from './components/Layout/MobileDrawer';
@@ -15,8 +15,20 @@ import { useGames } from './hooks/useGames';
 import { useVersions } from './hooks/useVersions';
 import { useResponsive } from './hooks/useResponsive';
 import { useGitHub } from './hooks/useGitHub';
+import { mihoyoService } from './services/mihoyo';
 import type { Game, Version, GameFormData, VersionFormData, GitHubConfig } from './types';
 import type { MihoyoGameId } from './utils/parser';
+
+// 路由变化监听组件
+const RouteWatcher: React.FC<{ onRouteChange: () => void }> = ({ onRouteChange }) => {
+  const location = useLocation();
+  
+  useEffect(() => {
+    onRouteChange();
+  }, [location.pathname, onRouteChange]);
+  
+  return null;
+};
 
 const App: React.FC = () => {
   const { isMobile } = useResponsive();
@@ -173,6 +185,11 @@ const App: React.FC = () => {
     clearConfig();
   }, [clearConfig]);
 
+  // 路由变化时清除缓存
+  const handleRouteChange = useCallback(() => {
+    mihoyoService.clearCache();
+  }, []);
+
   // 页面加载时自动同步所有游戏版本
   useEffect(() => {
     const autoSync = async () => {
@@ -214,8 +231,9 @@ const App: React.FC = () => {
   }, [games, syncFromMihoyo, showToast]);
 
   return (
-    <Router>
+    <Router basename="/ChronoRail">
       <div className="h-screen flex flex-col bg-[#0f0f23]">
+        <RouteWatcher onRouteChange={handleRouteChange} />
         {/* 头部 */}
         <Header 
           onMenuToggle={() => setDrawerOpen(true)} 
