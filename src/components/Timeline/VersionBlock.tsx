@@ -35,38 +35,39 @@ export const VersionBlock: React.FC<VersionBlockProps> = ({
     >
       <div
         className={`
-          h-full rounded-lg px-1 md:px-2 flex flex-col items-center justify-center transition-all duration-200
+          h-full rounded-lg px-1.5 md:px-2.5 flex flex-col items-center justify-center transition-all duration-200
           ${isCurrent 
             ? 'ring-1 ring-current shadow-lg' 
             : isPast 
               ? 'opacity-50' 
               : 'opacity-90'
           }
-          hover:brightness-125 hover:shadow-xl hover:z-20
+          hover:brightness-125 hover:shadow-xl hover:z-20 hover:scale-[1.02]
         `}
         style={{
-          background: `linear-gradient(135deg, ${gameColor}20, ${gameColor}35)`,
-          border: `1px solid ${gameColor}50`,
+          background: `linear-gradient(135deg, ${gameColor}25, ${gameColor}45)`,
+          border: `1px solid ${gameColor}60`,
+          boxShadow: `inset 0 1px 0 ${gameColor}30`,
         }}
       >
         {/* 版本号 */}
         <div 
-          className={`font-bold truncate text-center leading-tight ${isMobile ? 'text-[9px]' : 'text-[11px]'}`}
-          style={{ color: gameColor }}
+          className={`font-bold truncate text-center leading-tight drop-shadow-sm ${isMobile ? 'text-[10px]' : 'text-xs'}`}
+          style={{ color: gameColor, textShadow: `0 0 10px ${gameColor}50` }}
         >
           v{version.version}
         </div>
         
         {/* 版本名称 */}
         <div 
-          className={`truncate text-center leading-tight ${isMobile ? 'text-[7px]' : 'text-[9px]'} mt-0.5`}
-          style={{ color: `${gameColor}bb` }}
+          className={`truncate text-center leading-tight font-medium ${isMobile ? 'text-[8px]' : 'text-[10px]'} mt-0.5`}
+          style={{ color: `${gameColor}dd` }}
         >
           {version.name}
         </div>
 
         {/* 日期范围 */}
-        <div className={`text-[#64748b] ${isMobile ? 'text-[6px]' : 'text-[8px]'} mt-0.5`}>
+        <div className={`text-[#8890a0] ${isMobile ? 'text-[7px]' : 'text-[9px]'} mt-0.5`}>
           {startDate.format('MM/DD')}
           {endDate && `~${endDate.format('MM/DD')}`}
         </div>

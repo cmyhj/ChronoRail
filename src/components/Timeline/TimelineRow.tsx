@@ -176,11 +176,11 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
         {todayPosition !== null && (
           <>
             <div
-              className="absolute top-0 bottom-0 w-0.5 bg-[#6366f1] z-10 pointer-events-none"
+              className="absolute top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#6366f1] via-[#818cf8] to-[#6366f1] z-10 pointer-events-none"
               style={{ left: `${todayPosition}%` }}
             />
             <div 
-              className="absolute top-0 w-2 h-2 bg-[#6366f1] rounded-full -translate-x-1/2 z-10 pointer-events-none"
+              className="absolute -top-1 w-3 h-3 bg-[#6366f1] rounded-full -translate-x-1/2 z-10 pointer-events-none shadow-lg shadow-[#6366f1]/50"
               style={{ left: `${todayPosition}%` }}
             />
           </>
@@ -226,18 +226,20 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
                       style={style}
                     >
                       <div
-                        className="h-full rounded transition-all duration-200 hover:brightness-125 relative overflow-hidden"
+                        className="h-full rounded-md transition-all duration-200 hover:brightness-125 relative overflow-hidden"
                         style={{
-                          background: `linear-gradient(90deg, ${color}15, ${color}30)`,
-                          border: `1px solid ${color}40`,
+                          background: `linear-gradient(180deg, ${color}25, ${color}45)`,
+                          border: `1px solid ${color}60`,
+                          boxShadow: `inset 0 1px 0 ${color}30`,
                         }}
                       >
                         <span 
-                          className="absolute top-0 bottom-0 flex items-center text-[8px] md:text-[9px] font-medium whitespace-nowrap"
+                          className="absolute top-0 bottom-0 flex items-center text-[9px] md:text-[10px] font-semibold whitespace-nowrap drop-shadow-sm"
                           style={{ 
                             left: `${nameLeftPercent}%`, 
                             transform: 'translateX(-50%)',
-                            color: `${color}cc`
+                            color: `${color}ee`,
+                            textShadow: `0 0 8px ${color}60`
                           }}
                         >
                           {banner.character}
