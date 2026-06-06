@@ -252,7 +252,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
                               0 -2px 2px rgba(0,0,0,0.9),
                               -2px 0 2px rgba(0,0,0,0.9)
                             `,
-                            WebkitTextStroke: `0.2px ${color}`,
+                            WebkitTextStroke: `0.1px ${color}`,
                             letterSpacing: '0.5px',
                           }}
                         >
