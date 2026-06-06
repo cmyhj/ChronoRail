@@ -118,17 +118,18 @@
       "gameId": "reverse1999",
       "gameName": "重返未来:1999",
       "current": {
-        "version": "3.7",
-        "name": "他者的悲哀",
-        "startDate": "2026-04-30",
-        "endDate": "2026-06-11"
+        "version": "3.8",
+        "name": "世纪末尺度",
+        "startDate": "2026-06-11",
+        "endDate": "2026-07-20"
       },
       "banners": [
-        { "name": "上半卡池", "character": "小瑞安侬", "startDate": "2026-04-30", "endDate": "2026-05-20" },
-        { "name": "下半卡池", "character": "无名者", "startDate": "2026-05-21", "endDate": "2026-06-10" },
-        { "name": "湖心追述", "character": "曲娘/露西/天使娜娜/梁月", "startDate": "2026-05-29", "endDate": "2026-06-10" }
+        { "name": "轮换征集", "character": "伊戈尔（六星兽灵感）", "startDate": "2026-06-09", "endDate": "2026-06-23" },
+        { "name": "活动征集「往昔应我声」", "character": "回声谣（岩）", "startDate": "2026-06-11", "endDate": "2026-07-02" },
+        { "name": "活动征集「明日之础」", "character": "奠基石（岩）", "startDate": "2026-07-02", "endDate": "2026-07-23" }
       ],
       "history": [
+        { "version": "3.8", "name": "世纪末尺度", "startDate": "2026-06-11", "endDate": "2026-07-20" },
         { "version": "3.7", "name": "他者的悲哀", "startDate": "2026-04-30", "endDate": "2026-06-11" },
         { "version": "3.6", "name": "孤独之歌", "startDate": "2026-03-19", "endDate": "2026-04-30" },
         { "version": "3.5", "name": "复兴！米卢特兰", "startDate": "2026-02-05", "endDate": "2026-03-19" },
