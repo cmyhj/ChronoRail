@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Layout/Header';
 import { Sidebar } from './components/Layout/Sidebar';
 import { MobileDrawer } from './components/Layout/MobileDrawer';
@@ -231,7 +231,7 @@ const App: React.FC = () => {
   }, [games, syncFromMihoyo, showToast]);
 
   return (
-    <Router basename="/ChronoRail">
+    <Router>
       <div className="h-screen flex flex-col bg-[#0f0f23]">
         <RouteWatcher onRouteChange={handleRouteChange} />
         {/* 头部 */}
