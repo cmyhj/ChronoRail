@@ -234,20 +234,26 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
                         }}
                       >
                         <span 
-                          className="absolute top-0 bottom-0 flex items-center text-[9px] md:text-[10px] font-bold whitespace-nowrap"
+                          className="absolute top-0 bottom-0 flex items-center text-[9px] md:text-[10px] font-extrabold whitespace-nowrap"
                           style={{ 
                             left: `${nameLeftPercent}%`, 
                             transform: 'translateX(-50%)',
                             color: 'white',
                             textShadow: `
-                              0 0 4px ${color},
-                              0 0 8px ${color},
-                              1px 1px 2px rgba(0,0,0,0.8),
-                              -1px -1px 2px rgba(0,0,0,0.8),
-                              1px -1px 2px rgba(0,0,0,0.8),
-                              -1px 1px 2px rgba(0,0,0,0.8)
+                              0 0 3px ${color},
+                              0 0 6px ${color},
+                              0 0 10px ${color}80,
+                              2px 2px 2px rgba(0,0,0,0.9),
+                              -2px -2px 2px rgba(0,0,0,0.9),
+                              2px -2px 2px rgba(0,0,0,0.9),
+                              -2px 2px 2px rgba(0,0,0,0.9),
+                              0 2px 2px rgba(0,0,0,0.9),
+                              2px 0 2px rgba(0,0,0,0.9),
+                              0 -2px 2px rgba(0,0,0,0.9),
+                              -2px 0 2px rgba(0,0,0,0.9)
                             `,
-                            WebkitTextStroke: `0.5px ${color}`,
+                            WebkitTextStroke: `1.5px ${color}`,
+                            letterSpacing: '0.5px',
                           }}
                         >
                           {banner.character}
