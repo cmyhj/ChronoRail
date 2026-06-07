@@ -75,14 +75,23 @@ export const mihoyoService = {
   },
 
   /**
-   * 获取游戏卡池信息（当前版本）
+   * 获取游戏卡池信息（当前版本 + 下一版本）
    */
   async fetchBanners(gameId: string): Promise<Banner[]> {
     try {
       const data = await this.fetchData();
       const gameData = data.games[gameId];
       
-      return gameData?.banners || [];
+      if (!gameData) return [];
+      
+      const banners: Banner[] = [...(gameData.banners || [])];
+      
+      // 添加下一版本的卡池
+      if (gameData.nextVersion?.banners) {
+        banners.push(...gameData.nextVersion.banners);
+      }
+      
+      return banners;
     } catch (error) {
       console.error(`Failed to fetch banners for ${gameId}:`, error);
       return [];
