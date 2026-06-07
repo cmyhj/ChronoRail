@@ -14,7 +14,7 @@ public/data/game-versions.json
 
 ```json
 {
-  "fetchedAt": "2026-06-02T20:00:00Z",
+  "fetchedAt": "2026-06-07T12:00:00Z",
   "games": {
     "游戏ID": {
       "gameId": "游戏ID",
@@ -27,18 +27,33 @@ public/data/game-versions.json
       },
       "banners": [
         {
-          "name": "卡池名称（上半卡池/下半卡池/限定跃迁等）",
+          "name": "卡池名称",
           "character": "UP角色名称",
           "startDate": "YYYY-MM-DD",
           "endDate": "YYYY-MM-DD"
         }
       ],
+      "nextVersion": {
+        "version": "下一版本号",
+        "name": "版本名称",
+        "startDate": "YYYY-MM-DD",
+        "endDate": "YYYY-MM-DD",
+        "banners": [...]
+      },
       "history": [
         {
           "version": "版本号",
           "name": "版本名称",
           "startDate": "YYYY-MM-DD",
-          "endDate": "YYYY-MM-DD"
+          "endDate": "YYYY-MM-DD",
+          "banners": [
+            {
+              "name": "卡池名称",
+              "character": "UP角色",
+              "startDate": "YYYY-MM-DD",
+              "endDate": "YYYY-MM-DD"
+            }
+          ]
         }
       ]
     }
@@ -87,47 +102,65 @@ public/data/game-versions.json
 ### 5. 排序规则
 - `banners` 数组按时间顺序排列（上半在前，下半在后）
 - `history` 数组按版本号降序排列（最新版本在前）
+- 历史版本的 `banners` 字段用于保留卡池信息
+
+### 6. 当前版本 vs 下一版本
+- `current` + `banners`：当前正在进行的版本和卡池
+- `nextVersion`：已官宣但未开始的下一版本（可选）
+- `history`：历史版本记录（包含卡池信息）
 
 ---
 
 ## 更新示例
 
-### 示例1：更新卡池信息
+### 示例1：更新当前版本卡池
 
 ```json
 {
   "genshin": {
     "banners": [
-      { "name": "上半卡池", "character": "尼可/布伦妮 + 杜林", "startDate": "2026-05-20", "endDate": "2026-06-10" },
-      { "name": "下半卡池", "character": "洛恩 + 玛薇卡", "startDate": "2026-06-10", "endDate": "2026-07-01" }
+      { "name": "上半卡池", "character": "角色A + 角色B", "startDate": "2026-05-20", "endDate": "2026-06-10" },
+      { "name": "下半卡池", "character": "角色C + 角色D", "startDate": "2026-06-10", "endDate": "2026-07-01" }
     ]
   }
 }
 ```
 
-### 示例2：更新版本信息
+### 示例2：添加下一版本预告
 
 ```json
 {
-  "genshin": {
-    "current": {
-      "version": "5.7",
-      "name": "虚空劫灰往世书",
-      "startDate": "2026-05-20",
-      "endDate": "2026-07-01"
+  "zzz": {
+    "nextVersion": {
+      "version": "3.0",
+      "name": "某个梦游者的自白",
+      "startDate": "2026-06-17",
+      "endDate": "2026-07-28",
+      "banners": [
+        { "name": "上半卡池", "character": "维琳娜", "startDate": "2026-06-17", "endDate": "2026-07-08" },
+        { "name": "下半卡池", "character": "诺姆", "startDate": "2026-07-08", "endDate": "2026-07-28" }
+      ]
     }
   }
 }
 ```
 
-### 示例3：新增版本到历史
+### 示例3：历史版本带卡池信息
 
 ```json
 {
   "genshin": {
     "history": [
-      { "version": "5.8", "name": "新版本名称", "startDate": "2026-07-01", "endDate": "2026-08-12" },
-      { "version": "5.7", "name": "虚空劫灰往世书", "startDate": "2026-05-20", "endDate": "2026-07-01" }
+      {
+        "version": "5.7",
+        "name": "虚空劫灰往世书",
+        "startDate": "2026-05-20",
+        "endDate": "2026-07-01",
+        "banners": [
+          { "name": "上半卡池", "character": "尼可/布伦妮 + 杜林", "startDate": "2026-05-20", "endDate": "2026-06-10" },
+          { "name": "下半卡池", "character": "洛恩 + 玛薇卡", "startDate": "2026-06-10", "endDate": "2026-07-01" }
+        ]
+      }
     ]
   }
 }
@@ -156,43 +189,15 @@ public/data/game-versions.json
 请更新 game-versions.json 文件。
 ```
 
-或者直接提供 JSON 格式：
-
-```
-更新数据：
-{
-  "genshin": {
-    "current": { ... },
-    "banners": [ ... ]
-  }
-}
-```
-
 ---
 
 ## 注意事项
 
-1. **不要删除 history 数据**：历史版本数据用于时间轴展示
-2. **保持 JSON 格式正确**：注意逗号、引号、括号匹配
-3. **日期要准确**：使用官方公告的日期，不要估算
-4. **版本结束日期**：通常是下一个版本的开始日期
-5. **卡池交接日期**：上下半卡池交接的日期通常是同一天
-
----
-
-## 数据来源参考
-
-| 游戏 | 数据来源 |
-|------|----------|
-| 原神 | 米哈游官方公告 |
-| 崩坏：星穹铁道 | 米哈游官方公告 |
-| 绝区零 | 米哈游官方公告 |
-| 鸣潮 | 官方公告、Wiki |
-| 明日方舟 | 官方公告 |
-| 重返未来:1999 | 官方公告 |
-| 明日方舟:终末地 | 官方公告 |
-| 异环 | 官方公告 |
-| 二重螺旋 | 官方公告、TapTap |
+1. **当前版本**：确保 `current` 字段指向正在进行的版本
+2. **下一版本**：如果已官宣但未开始，使用 `nextVersion` 字段
+3. **历史版本**：`history` 数组中保留卡池信息
+4. **日期要准确**：使用官方公告的日期，不要估算
+5. **版本结束日期**：通常是下一个版本的开始日期
 
 ---
 

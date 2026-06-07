@@ -8,13 +8,6 @@ let cachedData: GameData | null = null;
 let lastFetchTime = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5分钟缓存
 
-interface GameVersion {
-  version: string;
-  name: string;
-  startDate: string;
-  endDate: string;
-}
-
 interface Banner {
   name: string;
   character: string;
@@ -22,11 +15,24 @@ interface Banner {
   endDate: string;
 }
 
+interface GameVersion {
+  version: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+  banners?: Banner[];
+}
+
+interface NextVersion extends GameVersion {
+  banners: Banner[];
+}
+
 interface GameInfo {
   gameId: string;
   gameName: string;
   current: GameVersion;
   banners: Banner[];
+  nextVersion?: NextVersion;
   history: GameVersion[];
 }
 
@@ -69,7 +75,7 @@ export const mihoyoService = {
   },
 
   /**
-   * 获取游戏卡池信息
+   * 获取游戏卡池信息（当前版本）
    */
   async fetchBanners(gameId: string): Promise<Banner[]> {
     try {
@@ -84,7 +90,22 @@ export const mihoyoService = {
   },
 
   /**
-   * 获取游戏版本历史
+   * 获取游戏下一版本信息
+   */
+  async fetchNextVersion(gameId: string): Promise<NextVersion | null> {
+    try {
+      const data = await this.fetchData();
+      const gameData = data.games[gameId];
+      
+      return gameData?.nextVersion || null;
+    } catch (error) {
+      console.error(`Failed to fetch next version for ${gameId}:`, error);
+      return null;
+    }
+  },
+
+  /**
+   * 获取游戏版本历史（包含卡池信息）
    */
   async fetchVersionHistory(gameId: string): Promise<GameVersion[]> {
     try {
