@@ -1,10 +1,9 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from 'lucide-react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import dayjs from 'dayjs';
 import { TimelineRow } from './TimelineRow';
 import { useResponsive } from '../../hooks/useResponsive';
 import { mihoyoService } from '../../services/mihoyo';
-import type { Game, Version, TimelineScale, Banner } from '../../types';
+import type { Game, Version, Banner } from '../../types';
 
 interface TimelineViewProps {
   games: Game[];
@@ -18,7 +17,6 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   onVersionClick,
 }) => {
   const { isMobile } = useResponsive();
-  const [scale, setScale] = useState<TimelineScale>('month');
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [allBanners, setAllBanners] = useState<Record<string, Banner[]>>({});
 
@@ -120,23 +118,37 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   }, [games, allBanners, versionsByGame]);
 
   // 导航 - 按月导航
-  const navigate = (direction: 'prev' | 'next') => {
+  const navigate = useCallback((direction: 'prev' | 'next') => {
     const amount = direction === 'prev' ? -1 : 1;
     setCurrentDate(prev => prev.add(amount, 'month'));
-  };
+  }, []);
 
-  const goToToday = () => {
+  const goToToday = useCallback(() => {
     setCurrentDate(dayjs());
-  };
+  }, []);
 
-  // 缩放
-  const zoomIn = () => {
-    if (scale === 'month') setScale('day');
-  };
+  // 滚轮切换月份（带防抖）
+  const wheelTimeoutRef = useRef<number | null>(null);
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    if (Math.abs(e.deltaY) < 30) return;
+    if (wheelTimeoutRef.current) return;
+    
+    const direction = e.deltaY > 0 ? 'next' : 'prev';
+    navigate(direction);
+    
+    wheelTimeoutRef.current = window.setTimeout(() => {
+      wheelTimeoutRef.current = null;
+    }, 200);
+  }, [navigate]);
 
-  const zoomOut = () => {
-    if (scale === 'day') setScale('month');
-  };
+  // 清理定时器
+  useEffect(() => {
+    return () => {
+      if (wheelTimeoutRef.current) {
+        clearTimeout(wheelTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // 计算某天在时间轴上的位置百分比
   const getDayPosition = (date: dayjs.Dayjs): number => {
@@ -159,56 +171,24 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   }, [currentDate, dateRange, totalDays]);
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col" onWheel={handleWheel}>
       {/* 工具栏 */}
       <div className="flex items-center justify-between p-3 md:p-4 bg-[#1a1a2e] border-b border-[#2d2d4a]">
-        <div className="flex items-center gap-1 md:gap-2">
-          <button
-            onClick={() => navigate('prev')}
-            className="p-1.5 md:p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
-          >
-            <ChevronLeft size={18} className="md:w-5 md:h-5" />
-          </button>
-          
+        <div className="flex items-center gap-2 md:gap-3">
           <button
             onClick={goToToday}
-            className="px-2 md:px-3 py-1 md:py-1.5 text-xs md:text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+            className="px-3 py-1.5 text-xs md:text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors border border-[#2d2d4a]"
           >
             今天
           </button>
           
-          <button
-            onClick={() => navigate('next')}
-            className="p-1.5 md:p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
-          >
-            <ChevronRight size={18} className="md:w-5 md:h-5" />
-          </button>
-          
-          <span className="text-[#e2e8f0] font-medium ml-1 md:ml-2 text-sm md:text-base">
+          <span className="text-[#e2e8f0] font-medium text-sm md:text-base">
             {currentDate.format('YYYY年MM月')}
           </span>
-        </div>
 
-        <div className="flex items-center gap-1 md:gap-2">
-          <button
-            onClick={zoomOut}
-            className="p-1.5 md:p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
-            disabled={scale === 'month'}
-          >
-            <ZoomOut size={16} className="md:w-[18px] md:h-[18px]" />
-          </button>
-          
-          <span className="text-[10px] md:text-xs text-[#64748b] min-w-[30px] md:min-w-[40px] text-center">
-            {scale === 'day' ? '日' : '月'}
+          <span className="text-[10px] md:text-xs text-[#4a4a6a]">
+            滚轮切换月份
           </span>
-          
-          <button
-            onClick={zoomIn}
-            className="p-1.5 md:p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
-            disabled={scale === 'day'}
-          >
-            <ZoomIn size={16} className="md:w-[18px] md:h-[18px]" />
-          </button>
         </div>
       </div>
 
@@ -243,7 +223,6 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
               versions={(versionsByGame[game.id] || []).filter(isVersionVisible)}
               dateRange={dateRange}
               totalDays={totalDays}
-              scale={scale}
               onVersionClick={onVersionClick}
               todayPosition={todayPosition}
               isMobile={isMobile}
