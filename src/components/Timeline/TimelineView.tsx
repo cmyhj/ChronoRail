@@ -119,23 +119,32 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   }, []);
 
   // 计算某天在时间轴上的位置百分比
-  const getDayPosition = (date: dayjs.Dayjs): number => {
+  const getDayPosition = useCallback((date: dayjs.Dayjs): number => {
     const dayNum = date.diff(dateRange.start, 'day');
     return (dayNum / totalDays) * 100;
-  };
+  }, [dateRange, totalDays]);
 
   // 判断版本是否在当前月份范围内可见
-  const isVersionVisible = (version: Version): boolean => {
+  const isVersionVisible = useCallback((version: Version): boolean => {
     const versionStart = dayjs(version.startDate);
     const versionEnd = version.endDate ? dayjs(version.endDate) : versionStart.add(42, 'day');
     return versionStart.isBefore(dateRange.end) && versionEnd.isAfter(dateRange.start);
-  };
+  }, [dateRange]);
+
+  // 按游戏分组并过滤可见版本（memoize 避免子组件不必要的重渲染）
+  const visibleVersionsByGame = useMemo(() => {
+    const grouped: Record<string, Version[]> = {};
+    games.forEach(game => {
+      grouped[game.id] = (versionsByGame[game.id] || []).filter(isVersionVisible);
+    });
+    return grouped;
+  }, [games, versionsByGame, isVersionVisible]);
 
   // 今天位置
   const todayPosition = useMemo(() => {
     if (!dayjs().isSame(currentDate, 'month')) return null;
     return getDayPosition(dayjs());
-  }, [currentDate, dateRange, totalDays]);
+  }, [currentDate, dateRange, totalDays, getDayPosition]);
 
   return (
     <div className="h-full flex flex-col">
@@ -195,7 +204,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
             <TimelineRow
               key={game.id}
               game={game}
-              versions={(versionsByGame[game.id] || []).filter(isVersionVisible)}
+              versions={visibleVersionsByGame[game.id] || []}
               dateRange={dateRange}
               totalDays={totalDays}
               onVersionClick={onVersionClick}

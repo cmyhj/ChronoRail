@@ -20,7 +20,7 @@ interface TimelineRowProps {
   isMobile?: boolean;
 }
 
-export const TimelineRow: React.FC<TimelineRowProps> = ({
+export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
   game,
   versions,
   dateRange,
@@ -87,11 +87,11 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
   };
 
   // 过滤可见的卡池
-  const visibleBanners = banners.filter(banner => {
+  const visibleBanners = React.useMemo(() => banners.filter(banner => {
     const bannerStart = dayjs(banner.startDate);
     const bannerEnd = dayjs(banner.endDate);
     return bannerStart.isBefore(dateRange.end) && bannerEnd.isAfter(dateRange.start);
-  });
+  }), [banners, dateRange]);
 
   // 计算重叠卡池组（用于分布角色名）
   const bannerGroups = React.useMemo(() => {
@@ -125,6 +125,14 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
 
   const color = game.color || gameColors[game.id] || '#6366f1';
 
+  // 时间网格线位置
+  const gridLines = React.useMemo(() => {
+    return Array.from({ length: Math.ceil(totalDays / 7) }, (_, i) => {
+      const dayNum = i * 7;
+      return (dayNum / totalDays) * 100;
+    });
+  }, [totalDays]);
+
   return (
     <div className="flex border-b border-[#1e1e3a]/50 hover:bg-[#12122a]/50 transition-all duration-200 group">
       {/* 游戏名称 */}
@@ -154,17 +162,13 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
       {/* 版本块区域 */}
       <div className="flex-1 relative" style={{ minHeight: isMobile ? '80px' : '110px' }}>
         {/* 时间网格线 */}
-        {Array.from({ length: Math.ceil(totalDays / 7) }).map((_, i) => {
-          const dayNum = i * 7;
-          const left = (dayNum / totalDays) * 100;
-          return (
-            <div
-              key={i}
-              className="absolute top-0 bottom-0 w-px bg-[#1e1e3a]/30"
-              style={{ left: `${left}%` }}
-            />
-          );
-        })}
+        {gridLines.map((left, i) => (
+          <div
+            key={i}
+            className="absolute top-0 bottom-0 w-px bg-[#1e1e3a]/30"
+            style={{ left: `${left}%` }}
+          />
+        ))}
 
         {/* 今天的标记线 */}
         {todayPosition !== null && (
@@ -282,4 +286,4 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
       </div>
     </div>
   );
-};
+});
