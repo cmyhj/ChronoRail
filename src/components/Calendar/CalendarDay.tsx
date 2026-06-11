@@ -8,35 +8,27 @@ interface CalendarDayProps {
   isToday: boolean;
   isSelected: boolean;
   versions: Version[];
-  games: Game[];
-  onClick: () => void;
+  gamesMap: Map<string, Game>;
+  onClick: (dateKey: string) => void;
+  dateKey: string;
 }
 
-export const CalendarDay: React.FC<CalendarDayProps> = ({
+export const CalendarDay: React.FC<CalendarDayProps> = React.memo(({
   date,
   isCurrentMonth,
   isToday,
   isSelected,
   versions,
-  games,
+  gamesMap,
   onClick,
+  dateKey,
 }) => {
-  // 获取游戏信息
-  const getGame = (gameId: string) => games.find(g => g.id === gameId);
-
-  // 获取版本颜色
-  const getVersionColor = (version: Version) => {
-    const game = getGame(version.gameId);
-    return game?.color || '#6366f1';
-  };
-
-  // 最多显示3个版本点
   const displayVersions = versions.slice(0, 3);
   const remainingCount = versions.length - 3;
 
   return (
     <div
-      onClick={onClick}
+      onClick={() => onClick(dateKey)}
       className={`
         relative min-h-[60px] md:min-h-[80px] p-1 md:p-1.5 rounded-lg cursor-pointer transition-all duration-200
         ${isCurrentMonth ? 'bg-[#1a1a2e]' : 'bg-[#0f0f23]/50'}
@@ -72,22 +64,25 @@ export const CalendarDay: React.FC<CalendarDayProps> = ({
 
       {/* 版本点 */}
       <div className="space-y-0 md:space-y-0.5">
-        {displayVersions.map(version => (
-          <div
-            key={version.id}
-            className="flex items-center gap-0.5 md:gap-1 px-0.5 md:px-1 py-0 md:py-0.5 rounded text-[8px] md:text-[10px] truncate"
-            style={{
-              backgroundColor: `${getVersionColor(version)}20`,
-              color: getVersionColor(version),
-            }}
-          >
+        {displayVersions.map(version => {
+          const color = gamesMap.get(version.gameId)?.color || '#6366f1';
+          return (
             <div
-              className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full shrink-0"
-              style={{ backgroundColor: getVersionColor(version) }}
-            />
-            <span className="truncate">v{version.version}</span>
-          </div>
-        ))}
+              key={version.id}
+              className="flex items-center gap-0.5 md:gap-1 px-0.5 md:px-1 py-0 md:py-0.5 rounded text-[8px] md:text-[10px] truncate"
+              style={{
+                backgroundColor: `${color}20`,
+                color,
+              }}
+            >
+              <div
+                className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full shrink-0"
+                style={{ backgroundColor: color }}
+              />
+              <span className="truncate">v{version.version}</span>
+            </div>
+          );
+        })}
         
         {remainingCount > 0 && (
           <div className="text-[8px] md:text-[10px] text-[#64748b] text-center">
@@ -97,4 +92,4 @@ export const CalendarDay: React.FC<CalendarDayProps> = ({
       </div>
     </div>
   );
-};
+});

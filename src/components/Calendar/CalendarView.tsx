@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import dayjs from 'dayjs';
 import { CalendarDay } from './CalendarDay';
@@ -18,6 +18,13 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
+  // 预计算 games Map，避免在 CalendarDay 中重复 find
+  const gamesMap = useMemo(() => {
+    const map = new Map<string, Game>();
+    games.forEach(g => map.set(g.id, g));
+    return map;
+  }, [games]);
+
   // 获取当前月份的日期
   const calendarDays = useMemo(() => {
     const year = currentDate.year();
@@ -26,12 +33,10 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
     const firstDay = dayjs().year(year).month(month).startOf('month');
     const lastDay = dayjs().year(year).month(month).endOf('month');
     
-    // 获取第一天是星期几（0-6，0是周日）
     const startDayOfWeek = firstDay.day();
     
     const days: Array<{ date: dayjs.Dayjs; isCurrentMonth: boolean }> = [];
     
-    // 添加上个月的日期
     for (let i = startDayOfWeek - 1; i >= 0; i--) {
       days.push({
         date: firstDay.subtract(i + 1, 'day'),
@@ -39,7 +44,6 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       });
     }
     
-    // 添加本月的日期
     let current = firstDay;
     while (current.isBefore(lastDay) || current.isSame(lastDay, 'day')) {
       days.push({
@@ -49,7 +53,6 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       current = current.add(1, 'day');
     }
     
-    // 添加下个月的日期（补齐6行）
     const remaining = 42 - days.length;
     for (let i = 0; i < remaining; i++) {
       days.push({
@@ -82,19 +85,21 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
     return versionsByDate[selectedDate] || [];
   }, [selectedDate, versionsByDate]);
 
-  // 获取游戏信息
-  const getGame = (gameId: string) => games.find(g => g.id === gameId);
-
   // 导航
-  const navigate = (direction: 'prev' | 'next') => {
+  const navigate = useCallback((direction: 'prev' | 'next') => {
     setCurrentDate(prev => prev.add(direction === 'prev' ? -1 : 1, 'month'));
     setSelectedDate(null);
-  };
+  }, []);
 
-  const goToToday = () => {
+  const goToToday = useCallback(() => {
     setCurrentDate(dayjs());
     setSelectedDate(dayjs().format('YYYY-MM-DD'));
-  };
+  }, []);
+
+  // 稳定的日期点击回调
+  const handleDayClick = useCallback((dateKey: string) => {
+    setSelectedDate(dateKey);
+  }, []);
 
   // 星期标题
   const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
@@ -163,8 +168,9 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                   isToday={isToday}
                   isSelected={isSelected}
                   versions={dayVersions}
-                  games={games}
-                  onClick={() => setSelectedDate(dateKey)}
+                  gamesMap={gamesMap}
+                  onClick={handleDayClick}
+                  dateKey={dateKey}
                 />
               );
             })}
@@ -182,7 +188,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
               {selectedDateVersions.length > 0 ? (
                 <div className="space-y-3">
                   {selectedDateVersions.map(version => {
-                    const game = getGame(version.gameId);
+                    const game = gamesMap.get(version.gameId);
                     return (
                       <div
                         key={version.id}

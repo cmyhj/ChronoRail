@@ -127,27 +127,29 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
     setCurrentDate(dayjs());
   }, []);
 
-  // 滚轮切换月份（带防抖）
-  const wheelTimeoutRef = useRef<number | null>(null);
-  const handleWheel = useCallback((e: React.WheelEvent) => {
-    if (Math.abs(e.deltaY) < 30) return;
-    if (wheelTimeoutRef.current) return;
+  // 鼠标拖动切换月份
+  const dragRef = useRef<{ startX: number; startY: number; dragging: boolean }>({ startX: 0, startY: 0, dragging: false });
+  const DRAG_THRESHOLD = 80;
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    dragRef.current = { startX: e.clientX, startY: e.clientY, dragging: true };
+  }, []);
+
+  const handlePointerUp = useCallback((e: React.PointerEvent) => {
+    if (!dragRef.current.dragging) return;
+    dragRef.current.dragging = false;
     
-    const direction = e.deltaY > 0 ? 'next' : 'prev';
-    navigate(direction);
+    const dx = e.clientX - dragRef.current.startX;
+    const dy = e.clientY - dragRef.current.startY;
     
-    wheelTimeoutRef.current = window.setTimeout(() => {
-      wheelTimeoutRef.current = null;
-    }, 200);
+    // 只处理水平拖动（水平位移 > 垂直位移，且超过阈值）
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > DRAG_THRESHOLD) {
+      navigate(dx > 0 ? 'prev' : 'next');
+    }
   }, [navigate]);
 
-  // 清理定时器
-  useEffect(() => {
-    return () => {
-      if (wheelTimeoutRef.current) {
-        clearTimeout(wheelTimeoutRef.current);
-      }
-    };
+  const handlePointerLeave = useCallback(() => {
+    dragRef.current.dragging = false;
   }, []);
 
   // 计算某天在时间轴上的位置百分比
@@ -171,7 +173,12 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   }, [currentDate, dateRange, totalDays]);
 
   return (
-    <div className="h-full flex flex-col" onWheel={handleWheel}>
+    <div
+      className="h-full flex flex-col select-none"
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerLeave={handlePointerLeave}
+    >
       {/* 工具栏 */}
       <div className="flex items-center justify-between p-3 md:p-4 bg-[#1a1a2e] border-b border-[#2d2d4a]">
         <div className="flex items-center gap-2 md:gap-3">
@@ -187,7 +194,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           </span>
 
           <span className="text-[10px] md:text-xs text-[#4a4a6a]">
-            滚轮切换月份
+            左右拖动切换月份
           </span>
         </div>
       </div>
