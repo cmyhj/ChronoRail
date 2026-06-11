@@ -1,6 +1,7 @@
 import React from 'react';
 import { Edit, Trash2 } from 'lucide-react';
-import { GameIcon, gameColors } from '../Common/GameIcon';
+import { GameIcon } from '../Common/GameIcon';
+import { gameColors } from '../Common/gameData';
 import type { Game } from '../../types';
 
 interface GameCardProps {

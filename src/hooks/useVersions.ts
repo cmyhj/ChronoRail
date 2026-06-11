@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import type { Version, VersionFormData } from '../types';
 import { versionService } from '../services/storage';
 import { mihoyoService } from '../services/mihoyo';
@@ -7,30 +7,23 @@ import { mihoyoService } from '../services/mihoyo';
  * 版本数据管理Hook
  */
 export function useVersions(gameId?: string) {
-  const [versions, setVersions] = useState<Version[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [versions, setVersions] = useState<Version[]>(() => {
+    try {
+      return gameId ? versionService.getByGameId(gameId) : versionService.getAll();
+    } catch {
+      return [];
+    }
+  });
 
   // 加载版本列表
   const loadVersions = useCallback(() => {
-    setLoading(true);
     try {
-      let data: Version[];
-      if (gameId) {
-        data = versionService.getByGameId(gameId);
-      } else {
-        data = versionService.getAll();
-      }
+      const data = gameId ? versionService.getByGameId(gameId) : versionService.getAll();
       setVersions(data);
     } catch (error) {
       console.error('Failed to load versions:', error);
-    } finally {
-      setLoading(false);
     }
   }, [gameId]);
-
-  useEffect(() => {
-    loadVersions();
-  }, [loadVersions]);
 
   // 添加版本
   const addVersion = useCallback((formData: VersionFormData, targetGameId: string): Version => {
@@ -130,7 +123,6 @@ export function useVersions(gameId?: string) {
 
   return {
     versions,
-    loading,
     addVersion,
     updateVersion,
     deleteVersion,

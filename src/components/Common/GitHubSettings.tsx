@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Modal } from '../Common/Modal';
 import { Button } from '../Common/Button';
 import { TestTube, Check, X, Loader2 } from 'lucide-react';
@@ -13,6 +13,13 @@ interface GitHubSettingsProps {
   onTest: () => Promise<{ success: boolean; message: string }>;
 }
 
+const defaultConfig: GitHubConfig = {
+  token: '',
+  owner: 'cmyhj',
+  repo: 'ChronoRail',
+  path: 'data/chronorail.json',
+};
+
 export const GitHubSettings: React.FC<GitHubSettingsProps> = ({
   isOpen,
   onClose,
@@ -21,30 +28,9 @@ export const GitHubSettings: React.FC<GitHubSettingsProps> = ({
   onClear,
   onTest,
 }) => {
-  const [formData, setFormData] = useState<GitHubConfig>({
-    token: '',
-    owner: 'cmyhj',
-    repo: 'ChronoRail',
-    path: 'data/chronorail.json',
-  });
-
+  const [formData, setFormData] = useState<GitHubConfig>(config || defaultConfig);
   const [testing, setTesting] = useState(false);
   const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
-
-  // 初始化表单数据
-  useEffect(() => {
-    if (config) {
-      setFormData(config);
-    } else {
-      setFormData({
-        token: '',
-        owner: 'cmyhj',
-        repo: 'ChronoRail',
-        path: 'data/chronorail.json',
-      });
-    }
-    setTestResult(null);
-  }, [config, isOpen]);
 
   // 处理表单提交
   const handleSubmit = (e: React.FormEvent) => {

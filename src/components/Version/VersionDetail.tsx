@@ -3,7 +3,8 @@ import { Calendar, Clock, Edit, Trash2 } from 'lucide-react';
 import dayjs from 'dayjs';
 import { Modal } from '../Common/Modal';
 import { Button } from '../Common/Button';
-import { GameIcon, gameColors } from '../Common/GameIcon';
+import { GameIcon } from '../Common/GameIcon';
+import { gameColors } from '../Common/gameData';
 import type { Game, Version } from '../../types';
 
 interface VersionDetailProps {

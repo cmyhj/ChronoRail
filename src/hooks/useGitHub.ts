@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import type { GitHubConfig } from '../types';
 import { githubService } from '../services/github';
 
@@ -6,15 +6,10 @@ import { githubService } from '../services/github';
  * GitHub同步Hook
  */
 export function useGitHub() {
-  const [isConfigured, setIsConfigured] = useState(false);
+  const [isConfigured, setIsConfigured] = useState(() => githubService.isConfigured());
   const [isSyncing, setIsSyncing] = useState(false);
   const [lastSyncTime, setLastSyncTime] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  // 初始化检查配置
-  useEffect(() => {
-    setIsConfigured(githubService.isConfigured());
-  }, []);
 
   // 保存配置
   const saveConfig = useCallback((config: GitHubConfig) => {

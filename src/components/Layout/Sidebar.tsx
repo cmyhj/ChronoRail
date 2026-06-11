@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Plus } from 'lucide-react';
-import { GameIcon, gameColors } from '../Common/GameIcon';
+import { GameIcon } from '../Common/GameIcon';
+import { gameColors } from '../Common/gameData';
 import type { Game } from '../../types';
 
 interface SidebarProps {

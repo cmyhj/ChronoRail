@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 interface Breakpoints {
   sm: number;
@@ -20,32 +20,28 @@ const defaultBreakpoints: Breakpoints = {
  * 响应式布局Hook
  */
 export function useResponsive(customBreakpoints?: Partial<Breakpoints>) {
-  const breakpoints = { ...defaultBreakpoints, ...customBreakpoints };
+  const breakpoints = useMemo(() => ({ ...defaultBreakpoints, ...customBreakpoints }), [customBreakpoints]);
   
-  const [windowSize, setWindowSize] = useState({
+  const [windowSize, setWindowSize] = useState(() => ({
     width: typeof window !== 'undefined' ? window.innerWidth : 1024,
     height: typeof window !== 'undefined' ? window.innerHeight : 768,
-  });
+  }));
 
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(true);
-
-  const handleResize = useCallback(() => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    
-    setWindowSize({ width, height });
-    setIsMobile(width < breakpoints.md);
-    setIsTablet(width >= breakpoints.md && width < breakpoints.lg);
-    setIsDesktop(width >= breakpoints.lg);
-  }, [breakpoints]);
+  const isMobile = windowSize.width < breakpoints.md;
+  const isTablet = windowSize.width >= breakpoints.md && windowSize.width < breakpoints.lg;
+  const isDesktop = windowSize.width >= breakpoints.lg;
 
   useEffect(() => {
-    handleResize();
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [handleResize]);
+  }, []);
 
   // 断点判断
   const isSm = windowSize.width >= breakpoints.sm;

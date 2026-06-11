@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Modal } from '../Common/Modal';
 import { Button } from '../Common/Button';
 import type { Version, VersionFormData } from '../../types';
@@ -18,34 +18,24 @@ export const VersionForm: React.FC<VersionFormProps> = ({
   initialData,
   gameName,
 }) => {
-  const [formData, setFormData] = useState<VersionFormData>({
-    version: '',
-    name: '',
-    startDate: new Date().toISOString().split('T')[0],
-    endDate: '',
-    description: '',
-  });
-
-  // 初始化表单数据
-  useEffect(() => {
+  const [formData, setFormData] = useState<VersionFormData>(() => {
     if (initialData) {
-      setFormData({
+      return {
         version: initialData.version,
         name: initialData.name,
         startDate: initialData.startDate,
         endDate: initialData.endDate || '',
         description: initialData.description || '',
-      });
-    } else {
-      setFormData({
-        version: '',
-        name: '',
-        startDate: new Date().toISOString().split('T')[0],
-        endDate: '',
-        description: '',
-      });
+      };
     }
-  }, [initialData, isOpen]);
+    return {
+      version: '',
+      name: '',
+      startDate: new Date().toISOString().split('T')[0],
+      endDate: '',
+      description: '',
+    };
+  });
 
   // 处理表单提交
   const handleSubmit = (e: React.FormEvent) => {

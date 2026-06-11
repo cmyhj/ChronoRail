@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Modal } from '../Common/Modal';
 import { Button } from '../Common/Button';
 import { GameIcon } from '../Common/GameIcon';
@@ -23,6 +23,14 @@ const presetColors = [
   '#06b6d4', '#0ea5e9', '#3b82f6', '#6366f1',
 ];
 
+const defaultFormData: GameFormData = {
+  name: '',
+  icon: '',
+  color: '#6366f1',
+  autoFetch: false,
+  fetchSource: 'manual',
+};
+
 export const GameForm: React.FC<GameFormProps> = ({
   isOpen,
   onClose,
@@ -32,38 +40,20 @@ export const GameForm: React.FC<GameFormProps> = ({
   initialData,
   existingGames = [],
 }) => {
-  const [formData, setFormData] = useState<GameFormData>({
-    name: '',
-    icon: '',
-    color: '#6366f1',
-    autoFetch: false,
-    fetchSource: 'manual',
-  });
-
-  const [activeTab, setActiveTab] = useState<'preset' | 'custom'>('preset');
-
-  // 初始化表单数据
-  useEffect(() => {
+  const [formData, setFormData] = useState<GameFormData>(() => {
     if (initialData) {
-      setFormData({
+      return {
         name: initialData.name,
         icon: initialData.icon,
         color: initialData.color,
         autoFetch: initialData.autoFetch,
         fetchSource: initialData.fetchSource || 'manual',
-      });
-      setActiveTab('custom');
-    } else {
-      setFormData({
-        name: '',
-        icon: '',
-        color: '#6366f1',
-        autoFetch: false,
-        fetchSource: 'manual',
-      });
-      setActiveTab('preset');
+      };
     }
-  }, [initialData, isOpen]);
+    return defaultFormData;
+  });
+
+  const [activeTab, setActiveTab] = useState<'preset' | 'custom'>(initialData ? 'custom' : 'preset');
 
   // 检查游戏是否已添加
   const isGameAdded = (gameId: string) => {

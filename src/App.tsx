@@ -228,6 +228,7 @@ const App: React.FC = () => {
 
         {/* 游戏表单弹窗 */}
         <GameForm
+          key={gameFormOpen ? 'open' : 'closed'}
           isOpen={gameFormOpen}
           onClose={() => setGameFormOpen(false)}
           onSubmit={handleGameFormSubmit}
@@ -239,6 +240,7 @@ const App: React.FC = () => {
 
         {/* 版本表单弹窗 */}
         <VersionForm
+          key={versionFormOpen ? 'open' : 'closed'}
           isOpen={versionFormOpen}
           onClose={() => setVersionFormOpen(false)}
           onSubmit={handleVersionFormSubmit}
@@ -258,6 +260,7 @@ const App: React.FC = () => {
 
         {/* GitHub设置弹窗 */}
         <GitHubSettings
+          key={githubSettingsOpen ? 'open' : 'closed'}
           isOpen={githubSettingsOpen}
           onClose={() => setGithubSettingsOpen(false)}
           config={null}

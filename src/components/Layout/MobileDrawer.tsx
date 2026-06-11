@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { X, Clock, Calendar, Gamepad2, Plus } from 'lucide-react';
-import { GameIcon, gameColors } from '../Common/GameIcon';
+import { GameIcon } from '../Common/GameIcon';
+import { gameColors } from '../Common/gameData';
 import type { Game } from '../../types';
 
 interface MobileDrawerProps {

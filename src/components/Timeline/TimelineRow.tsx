@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import { VersionBlock } from './VersionBlock';
-import { GameIcon, gameColors } from '../Common/GameIcon';
+import { GameIcon } from '../Common/GameIcon';
+import { gameColors } from '../Common/gameData';
 import { mihoyoService } from '../../services/mihoyo';
 import type { Game, Version, TimelineScale, Banner } from '../../types';
 
