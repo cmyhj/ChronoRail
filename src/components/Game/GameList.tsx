@@ -8,7 +8,6 @@ interface GameListProps {
   onAdd: () => void;
   onEdit: (game: Game) => void;
   onDelete: (game: Game) => void;
-  onRefreshVersions?: (game: Game) => Promise<boolean>;
 }
 
 export const GameList: React.FC<GameListProps> = ({
@@ -16,7 +15,6 @@ export const GameList: React.FC<GameListProps> = ({
   onAdd,
   onEdit,
   onDelete,
-  onRefreshVersions,
 }) => {
   return (
     <div className="h-full flex flex-col">
@@ -48,7 +46,6 @@ export const GameList: React.FC<GameListProps> = ({
                 game={game}
                 onEdit={() => onEdit(game)}
                 onDelete={() => onDelete(game)}
-                onRefreshVersions={onRefreshVersions ? () => onRefreshVersions(game) : undefined}
               />
             ))}
           </div>

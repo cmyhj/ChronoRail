@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Edit, Trash2, RefreshCw, Check, AlertCircle } from 'lucide-react';
+import React from 'react';
+import { Edit, Trash2 } from 'lucide-react';
 import { GameIcon, gameColors } from '../Common/GameIcon';
 import type { Game } from '../../types';
 
@@ -7,35 +7,14 @@ interface GameCardProps {
   game: Game;
   onEdit: () => void;
   onDelete: () => void;
-  onRefreshVersions?: () => Promise<boolean>;
 }
 
 export const GameCard: React.FC<GameCardProps> = ({
   game,
   onEdit,
   onDelete,
-  onRefreshVersions,
 }) => {
   const color = game.color || gameColors[game.id] || '#6366f1';
-  const [refreshing, setRefreshing] = useState(false);
-  const [refreshStatus, setRefreshStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
-  const handleRefresh = async () => {
-    if (!onRefreshVersions || refreshing) return;
-    
-    setRefreshing(true);
-    setRefreshStatus('idle');
-    
-    try {
-      const result = await onRefreshVersions();
-      setRefreshStatus(result ? 'success' : 'error');
-    } catch {
-      setRefreshStatus('error');
-    } finally {
-      setRefreshing(false);
-      setTimeout(() => setRefreshStatus('idle'), 3000);
-    }
-  };
 
   return (
     <div className="relative bg-[#12122a] rounded-2xl border border-[#1e1e3a] overflow-hidden hover:border-[#2d2d50] transition-all duration-300 group hover:-translate-y-1 hover:shadow-xl hover:shadow-[#6366f1]/10">
@@ -79,27 +58,6 @@ export const GameCard: React.FC<GameCardProps> = ({
           </div>
         </div>
 
-        {/* 刷新状态提示 */}
-        {refreshStatus !== 'idle' && (
-          <div className={`flex items-center gap-2 p-2.5 rounded-xl text-xs mb-3 ${
-            refreshStatus === 'success' 
-              ? 'bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20' 
-              : 'bg-[#ef4444]/10 text-[#ef4444] border border-[#ef4444]/20'
-          }`}>
-            {refreshStatus === 'success' ? (
-              <>
-                <Check size={14} />
-                <span>版本数据已更新</span>
-              </>
-            ) : (
-              <>
-                <AlertCircle size={14} />
-                <span>获取失败，请稍后重试</span>
-              </>
-            )}
-          </div>
-        )}
-
         {/* 创建时间 */}
         <p className="text-[10px] md:text-xs text-[#4a4a6a]">
           创建于 {new Date(game.createdAt).toLocaleDateString('zh-CN')}
@@ -107,43 +65,22 @@ export const GameCard: React.FC<GameCardProps> = ({
       </div>
 
       {/* 操作按钮 */}
-      <div className="px-4 md:px-5 py-3 md:py-4 bg-[#0e0e20] border-t border-[#1e1e3a] flex items-center justify-between">
-        <div className="flex items-center gap-1">
-          <button
-            onClick={onEdit}
-            className="p-2 text-[#64748b] hover:text-[#818cf8] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
-            title="编辑"
-          >
-            <Edit size={16} />
-          </button>
-          
-          <button
-            onClick={onDelete}
-            className="p-2 text-[#64748b] hover:text-[#ef4444] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
-            title="删除"
-          >
-            <Trash2 size={16} />
-          </button>
-        </div>
-
-        {onRefreshVersions && (
-          <button
-            onClick={handleRefresh}
-            disabled={refreshing}
-            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg transition-all duration-200 ${
-              refreshing
-                ? 'text-[#818cf8] bg-[#818cf8]/10 cursor-wait'
-                : refreshStatus === 'success'
-                  ? 'text-[#10b981] bg-[#10b981]/10'
-                  : refreshStatus === 'error'
-                    ? 'text-[#ef4444] bg-[#ef4444]/10'
-                    : 'text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#1a1a35]'
-            }`}
-          >
-            <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
-            {refreshing ? '获取中...' : refreshStatus === 'success' ? '已更新' : refreshStatus === 'error' ? '失败' : '刷新版本'}
-          </button>
-        )}
+      <div className="px-4 md:px-5 py-3 md:py-4 bg-[#0e0e20] border-t border-[#1e1e3a] flex items-center gap-1">
+        <button
+          onClick={onEdit}
+          className="p-2 text-[#64748b] hover:text-[#818cf8] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
+          title="编辑"
+        >
+          <Edit size={16} />
+        </button>
+        
+        <button
+          onClick={onDelete}
+          className="p-2 text-[#64748b] hover:text-[#ef4444] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
+          title="删除"
+        >
+          <Trash2 size={16} />
+        </button>
       </div>
     </div>
   );

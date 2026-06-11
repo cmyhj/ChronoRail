@@ -128,58 +128,13 @@ export function useVersions(gameId?: string) {
     }
   }, [versions, loadVersions]);
 
-  // 获取当前版本
-  const fetchFromMihoyo = useCallback(async (targetGameId: string): Promise<Version | null> => {
-    try {
-      const currentVersion = await mihoyoService.fetchCurrentVersion(targetGameId);
-      if (!currentVersion) return null;
-
-      // 检查是否已存在
-      const existing = versions.find(
-        v => v.gameId === targetGameId && v.version === currentVersion.version
-      );
-      if (existing) return existing;
-
-      // 添加新版本
-      const newVersion = versionService.add({
-        gameId: targetGameId,
-        version: currentVersion.version,
-        name: currentVersion.name,
-        startDate: currentVersion.startDate,
-        isAutoFetched: true,
-      });
-
-      setVersions(prev => [...prev, newVersion]);
-      return newVersion;
-    } catch (error) {
-      console.error('Failed to fetch version:', error);
-      return null;
-    }
-  }, [versions]);
-
-  // 根据ID获取版本
-  const getVersionById = useCallback((id: string): Version | undefined => {
-    return versions.find(v => v.id === id);
-  }, [versions]);
-
-  // 获取指定日期范围的版本
-  const getVersionsByDateRange = useCallback((startDate: string, endDate: string): Version[] => {
-    return versions.filter(v => {
-      const vDate = new Date(v.startDate);
-      return vDate >= new Date(startDate) && vDate <= new Date(endDate);
-    });
-  }, [versions]);
-
   return {
     versions,
     loading,
     addVersion,
     updateVersion,
     deleteVersion,
-    fetchFromMihoyo,
     syncFromMihoyo,
-    getVersionById,
-    getVersionsByDateRange,
     refresh: loadVersions,
   };
 }

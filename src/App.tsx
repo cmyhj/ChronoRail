@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Header } from './components/Layout/Header';
 import { Sidebar } from './components/Layout/Sidebar';
 import { MobileDrawer } from './components/Layout/MobileDrawer';
@@ -15,25 +15,12 @@ import { useGames } from './hooks/useGames';
 import { useVersions } from './hooks/useVersions';
 import { useResponsive } from './hooks/useResponsive';
 import { useGitHub } from './hooks/useGitHub';
-import { mihoyoService } from './services/mihoyo';
 import type { Game, Version, GameFormData, VersionFormData, GitHubConfig } from './types';
-import type { MihoyoGameId } from './utils/parser';
-
-// 路由变化监听组件
-const RouteWatcher: React.FC<{ onRouteChange: () => void }> = ({ onRouteChange }) => {
-  const location = useLocation();
-  
-  useEffect(() => {
-    onRouteChange();
-  }, [location.pathname, onRouteChange]);
-  
-  return null;
-};
 
 const App: React.FC = () => {
   const { isMobile } = useResponsive();
   const { games, addGame, updateGame, deleteGame, addPresetGame, resetPresets } = useGames();
-  const { versions, addVersion, updateVersion, deleteVersion, fetchFromMihoyo, syncFromMihoyo } = useVersions();
+  const { versions, addVersion, updateVersion, deleteVersion, syncFromMihoyo } = useVersions();
   const { saveConfig, clearConfig, testConnection } = useGitHub();
 
   // 移动端抽屉状态
@@ -131,50 +118,6 @@ const App: React.FC = () => {
     setVersionDetailOpen(true);
   }, []);
 
-  // 处理从米哈游获取单个版本
-  const handleFetchFromMihoyo = useCallback(async (gameId: string): Promise<boolean> => {
-    try {
-      const result = await fetchFromMihoyo(gameId as MihoyoGameId);
-      if (result) {
-        showToast('版本数据已更新', 'success');
-        return true;
-      } else {
-        showToast('未找到新版本', 'info');
-        return false;
-      }
-    } catch (error) {
-      console.error('Failed to fetch from mihoyo:', error);
-      showToast('获取失败，请稍后重试', 'error');
-      return false;
-    }
-  }, [fetchFromMihoyo, showToast]);
-
-  // 一键更新所有游戏版本
-  const handleSyncAll = useCallback(async () => {
-    showToast('正在同步版本数据...', 'info');
-    
-    let totalAdded = 0;
-    let totalUpdated = 0;
-    
-    for (const game of games) {
-      if (game.autoFetch) {
-        try {
-          const result = await syncFromMihoyo(game.id as MihoyoGameId);
-          totalAdded += result.added;
-          totalUpdated += result.updated;
-        } catch (error) {
-          console.error(`Failed to sync ${game.id}:`, error);
-        }
-      }
-    }
-    
-    if (totalAdded > 0 || totalUpdated > 0) {
-      showToast(`同步完成：新增 ${totalAdded} 个版本，更新 ${totalUpdated} 个版本`, 'success');
-    } else {
-      showToast('所有版本数据已是最新', 'info');
-    }
-  }, [games, syncFromMihoyo, showToast]);
-
   // 处理GitHub配置保存
   const handleGitHubSave = useCallback((config: GitHubConfig) => {
     saveConfig(config);
@@ -185,25 +128,11 @@ const App: React.FC = () => {
     clearConfig();
   }, [clearConfig]);
 
-  // 路由变化时清除缓存
-  const handleRouteChange = useCallback(() => {
-    mihoyoService.clearCache();
-  }, []);
-
   // 页面加载时自动同步所有游戏版本
   useEffect(() => {
     const autoSync = async () => {
-      // 等待游戏数据加载完成
       if (games.length === 0) return;
       
-      // 检查是否今天已经同步过
-      const lastSyncKey = 'chronorail_last_sync';
-      const lastSync = localStorage.getItem(lastSyncKey);
-      const today = new Date().toISOString().split('T')[0];
-      
-      if (lastSync === today) return;
-      
-      // 静默同步，不显示Toast
       let hasUpdates = false;
       for (const game of games) {
         if (game.autoFetch) {
@@ -212,16 +141,12 @@ const App: React.FC = () => {
             if (result.added > 0 || result.updated > 0) {
               hasUpdates = true;
             }
-          } catch (error) {
-            console.error(`Auto sync failed for ${game.id}:`, error);
+          } catch {
+            // 静默失败
           }
         }
       }
       
-      // 记录同步日期
-      localStorage.setItem(lastSyncKey, today);
-      
-      // 如果有更新，显示提示
       if (hasUpdates) {
         showToast('版本数据已自动更新', 'success');
       }
@@ -233,11 +158,9 @@ const App: React.FC = () => {
   return (
     <Router basename="/ChronoRail">
       <div className="h-screen flex flex-col bg-[#0f0f23]">
-        <RouteWatcher onRouteChange={handleRouteChange} />
         {/* 头部 */}
         <Header 
           onMenuToggle={() => setDrawerOpen(true)} 
-          onSyncAll={handleSyncAll}
         />
 
         {/* 主体 */}
@@ -247,8 +170,6 @@ const App: React.FC = () => {
             <Sidebar
               games={games}
               onAddGame={handleAddGame}
-              onRefreshGame={handleFetchFromMihoyo}
-              onSyncAll={handleSyncAll}
             />
           )}
 
@@ -288,7 +209,6 @@ const App: React.FC = () => {
                     onAdd={handleAddGame}
                     onEdit={handleEditGame}
                     onDelete={handleDeleteGame}
-                    onRefreshVersions={(game) => handleFetchFromMihoyo(game.id)}
                   />
                 }
               />
@@ -303,8 +223,6 @@ const App: React.FC = () => {
             onClose={() => setDrawerOpen(false)}
             games={games}
             onAddGame={handleAddGame}
-            onRefreshGame={handleFetchFromMihoyo}
-            onSyncAll={handleSyncAll}
           />
         )}
 

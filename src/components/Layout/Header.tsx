@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, RefreshCw } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useResponsive } from '../../hooks/useResponsive';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
-  onSyncAll?: () => Promise<void>;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onSyncAll }) => {
+export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   const { isMobile } = useResponsive();
   const location = useLocation();
-  const [syncing, setSyncing] = useState(false);
 
   const navItems = [
     { path: '/', label: '时间轴', icon: '📅' },
@@ -20,16 +18,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onSyncAll }) => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
-
-  const handleSync = async () => {
-    if (!onSyncAll || syncing) return;
-    setSyncing(true);
-    try {
-      await onSyncAll();
-    } finally {
-      setSyncing(false);
-    }
-  };
 
   return (
     <header className="sticky top-0 z-40 glass border-b border-[#1e1e3a] shadow-lg shadow-black/20">
@@ -72,24 +60,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onSyncAll }) => {
 
           {/* 右侧操作 */}
           <div className="flex items-center gap-2">
-            {/* 一键更新按钮 */}
-            <button
-              onClick={handleSync}
-              disabled={syncing}
-              className={`relative flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 overflow-hidden ${
-                syncing
-                  ? 'bg-[#6366f1]/20 text-[#6366f1] cursor-wait'
-                  : 'bg-gradient-to-r from-[#6366f1] to-[#818cf8] text-white hover:from-[#4f46e5] hover:to-[#6366f1] shadow-lg shadow-[#6366f1]/25 hover:shadow-[#6366f1]/40 hover:-translate-y-0.5'
-              }`}
-              title="一键更新所有游戏版本"
-            >
-              <RefreshCw size={16} className={syncing ? 'animate-spin' : ''} />
-              <span className="hidden sm:inline">{syncing ? '同步中...' : '一键更新'}</span>
-              {!syncing && (
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full hover:translate-x-full transition-transform duration-1000" />
-              )}
-            </button>
-            
             <a
               href="https://github.com/cmyhj/ChronoRail"
               target="_blank"
