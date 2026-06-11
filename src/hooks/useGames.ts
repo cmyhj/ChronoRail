@@ -68,7 +68,7 @@ export function useGames() {
             color: config.color,
             autoFetch: config.autoFetch,
             fetchSource: config.autoFetch ? 'mihoyo' : 'manual',
-          } as any);
+          });
         }
       }
     }
@@ -158,7 +158,7 @@ export function useGames() {
       color: config.color,
       autoFetch: config.autoFetch,
       fetchSource: config.autoFetch ? 'mihoyo' : 'manual',
-    } as any);
+    });
 
     setGames(prev => [...prev, newGame]);
     return newGame;

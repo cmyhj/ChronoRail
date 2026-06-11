@@ -173,7 +173,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
         {/* 侧边详情 */}
         {selectedDate && (
-          <div className="lg:w-80 border-t lg:border-t-0 lg:border-l border-[#2d2d4a] bg-[#16162a] overflow-auto">
+          <div className="lg:w-80 border-t lg:border-t-0 lg:border-l border-[#2d2d4a] bg-[#16162a] overflow-auto animate-fade-in">
             <div className="p-4">
               <h3 className="text-lg font-semibold text-[#e2e8f0] mb-4">
                 {dayjs(selectedDate).format('YYYY年MM月DD日')}

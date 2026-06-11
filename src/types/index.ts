@@ -101,3 +101,11 @@ export interface ParsedVersion {
   name: string;
   startDate: string;
 }
+
+// 卡池信息
+export interface Banner {
+  name: string;
+  character: string;
+  startDate: string;
+  endDate: string;
+}

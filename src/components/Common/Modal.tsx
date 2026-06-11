@@ -67,10 +67,10 @@ export const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in">
       <div
         ref={modalRef}
-        className={`relative w-full ${sizeClasses[size]} bg-[#1a1a2e] border border-[#2d2d4a] md:rounded-xl shadow-2xl animate-fade-in
+        className={`relative w-full ${sizeClasses[size]} bg-[#1a1a2e] border border-[#2d2d4a] md:rounded-xl shadow-2xl animate-modal-up
           md:max-h-[85vh] max-h-[90vh] rounded-t-xl md:rounded-t-xl
         `}
       >

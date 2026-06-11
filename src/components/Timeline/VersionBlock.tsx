@@ -37,7 +37,7 @@ export const VersionBlock: React.FC<VersionBlockProps> = ({
         className={`
           h-full rounded-lg px-1.5 md:px-2.5 flex flex-col items-center justify-center transition-all duration-200
           ${isCurrent 
-            ? 'ring-1 ring-current shadow-lg' 
+            ? 'ring-1 ring-current shadow-lg animate-pulse-glow' 
             : isPast 
               ? 'opacity-50' 
               : 'opacity-90'
@@ -74,7 +74,7 @@ export const VersionBlock: React.FC<VersionBlockProps> = ({
       </div>
 
       {/* 悬浮提示 */}
-      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2.5 bg-[#12122a] border border-[#1e1e3a] rounded-xl shadow-2xl opacity-0 group-hover/version:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30 min-w-[200px]">
+      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2.5 bg-[#12122a] border border-[#1e1e3a] rounded-xl shadow-2xl opacity-0 group-hover/version:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap z-30 min-w-[200px] backdrop-blur-sm">
         <div className="flex items-center gap-2 mb-2">
           <div 
             className="w-3 h-3 rounded-full"

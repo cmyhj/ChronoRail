@@ -54,7 +54,7 @@ export const GameList: React.FC<GameListProps> = ({
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center h-full text-center px-4">
-            <div className="w-20 h-20 md:w-24 md:h-24 bg-[#252540] rounded-full flex items-center justify-center mb-4">
+            <div className="w-20 h-20 md:w-24 md:h-24 bg-[#252540] rounded-full flex items-center justify-center mb-4 animate-float">
               <Plus size={32} className="md:w-10 md:h-10 text-[#64748b]" />
             </div>
             <h3 className="text-base md:text-lg font-medium text-[#e2e8f0] mb-2">

@@ -20,8 +20,13 @@ export const Loading: React.FC<LoadingProps> = ({
 }) => {
   const content = (
     <div className="flex flex-col items-center justify-center gap-3">
-      <Loader2 className={`${sizeClasses[size]} text-[#6366f1] animate-spin`} />
-      {text && <p className="text-[#94a3b8] text-sm">{text}</p>}
+      <div className="relative">
+        <Loader2 className={`${sizeClasses[size]} text-[#6366f1] animate-spin`} />
+        <div className={`absolute inset-0 ${sizeClasses[size]} text-[#6366f1] animate-ping opacity-20`}>
+          <Loader2 className="w-full h-full" />
+        </div>
+      </div>
+      {text && <p className="text-[#94a3b8] text-sm animate-pulse">{text}</p>}
     </div>
   );
 

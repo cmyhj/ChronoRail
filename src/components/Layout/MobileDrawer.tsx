@@ -23,7 +23,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
 }) => {
   const location = useLocation();
   const [refreshingId, setRefreshingId] = useState<string | null>(null);
-  const [refreshStatus, setRefreshStatus] = useState<Record<string, 'success' | 'error'>>({});
+  const [refreshStatus, setRefreshStatus] = useState<Record<string, 'success' | 'error' | undefined>>({});
   const [syncing, setSyncing] = useState(false);
 
   const navItems = [
@@ -50,17 +50,17 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
     if (!onRefreshGame || refreshingId) return;
     
     setRefreshingId(gameId);
-    setRefreshStatus(prev => ({ ...prev, [gameId]: undefined as any }));
+    setRefreshStatus(prev => ({ ...prev, [gameId]: undefined }));
     
     try {
       const result = await onRefreshGame(gameId);
       setRefreshStatus(prev => ({ ...prev, [gameId]: result ? 'success' : 'error' }));
-    } catch (error) {
+    } catch {
       setRefreshStatus(prev => ({ ...prev, [gameId]: 'error' }));
     } finally {
       setRefreshingId(null);
       setTimeout(() => {
-        setRefreshStatus(prev => ({ ...prev, [gameId]: undefined as any }));
+        setRefreshStatus(prev => ({ ...prev, [gameId]: undefined }));
       }, 3000);
     }
   };
@@ -86,7 +86,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
       />
 
       {/* 抽屉内容 */}
-      <div className="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-[#16162a] border-l border-[#2d2d4a] shadow-2xl animate-slide-in">
+      <div className="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-[#16162a] border-l border-[#2d2d4a] shadow-2xl animate-slide-in-right">
         {/* 头部 */}
         <div className="flex items-center justify-between p-4 border-b border-[#2d2d4a]">
           <span className="text-lg font-bold text-[#e2e8f0]">菜单</span>

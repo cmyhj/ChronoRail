@@ -99,7 +99,7 @@ const App: React.FC = () => {
 
   // 处理预置游戏添加
   const handleAddPresetGame = useCallback((gameId: string) => {
-    addPresetGame(gameId as any);
+    addPresetGame(gameId);
   }, [addPresetGame]);
 
   // 处理版本编辑

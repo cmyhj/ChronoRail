@@ -46,8 +46,8 @@ export const VersionDetail: React.FC<VersionDetailProps> = ({
         {/* 头部信息 */}
         <div className="flex items-start gap-4">
           <div
-            className="w-16 h-16 rounded-xl flex items-center justify-center"
-            style={{ backgroundColor: `${color}20` }}
+            className="w-16 h-16 rounded-xl flex items-center justify-center shadow-lg"
+            style={{ backgroundColor: `${color}20`, boxShadow: `0 4px 12px ${color}30` }}
           >
             <GameIcon gameId={version.gameId} size={36} />
           </div>

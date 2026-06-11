@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onSyncAll }) => {
   };
 
   return (
-    <header className="sticky top-0 z-40 glass border-b border-[#1e1e3a]">
+    <header className="sticky top-0 z-40 glass border-b border-[#1e1e3a] shadow-lg shadow-black/20">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-14 md:h-16">
           {/* Logo */}
@@ -58,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onSyncAll }) => {
                   className={`
                     flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
                     ${isActive(item.path)
-                      ? 'bg-gradient-to-r from-[#6366f1] to-[#818cf8] text-white shadow-lg shadow-[#6366f1]/20'
+                      ? 'bg-gradient-to-r from-[#6366f1] to-[#818cf8] text-white shadow-lg shadow-[#6366f1]/20 glow-effect'
                       : 'text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#1a1a35]'
                     }
                   `}

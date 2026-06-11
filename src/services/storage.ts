@@ -79,7 +79,7 @@ export const storage = {
     try {
       const config = localStorage.getItem(GITHUB_CONFIG_KEY);
       return config ? JSON.parse(config) : null;
-    } catch (error) {
+    } catch {
       return null;
     }
   },
@@ -120,7 +120,7 @@ export const gameService = {
   /**
    * 添加游戏
    */
-  add(gameData: Partial<Game> & { name: string }): Game {
+  add(gameData: { id?: string; name: string; icon?: string; color?: string; autoFetch?: boolean; fetchSource?: 'mihoyo' | 'manual' }): Game {
     const data = storage.getData();
     const newGame: Game = {
       id: gameData.id || generateId(),

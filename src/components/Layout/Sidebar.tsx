@@ -19,7 +19,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const location = useLocation();
   const [refreshingId, setRefreshingId] = useState<string | null>(null);
-  const [refreshStatus, setRefreshStatus] = useState<Record<string, 'success' | 'error'>>({});
+  const [refreshStatus, setRefreshStatus] = useState<Record<string, 'success' | 'error' | undefined>>({});
   const [syncing, setSyncing] = useState(false);
 
   const navItems = [
@@ -34,17 +34,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
     if (!onRefreshGame || refreshingId) return;
     
     setRefreshingId(gameId);
-    setRefreshStatus(prev => ({ ...prev, [gameId]: undefined as any }));
+    setRefreshStatus(prev => ({ ...prev, [gameId]: undefined }));
     
     try {
       const result = await onRefreshGame(gameId);
       setRefreshStatus(prev => ({ ...prev, [gameId]: result ? 'success' : 'error' }));
-    } catch (error) {
+    } catch {
       setRefreshStatus(prev => ({ ...prev, [gameId]: 'error' }));
     } finally {
       setRefreshingId(null);
       setTimeout(() => {
-        setRefreshStatus(prev => ({ ...prev, [gameId]: undefined as any }));
+        setRefreshStatus(prev => ({ ...prev, [gameId]: undefined }));
       }, 3000);
     }
   };
@@ -68,16 +68,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {navItems.map((item) => {
               return (
                 <li key={item.path}>
-                  <Link
-                    to={item.path}
-                    className={`
-                      flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
-                      ${isActive(item.path)
-                        ? 'bg-gradient-to-r from-[#6366f1]/20 to-[#818cf8]/10 text-[#818cf8] border border-[#6366f1]/30 shadow-lg shadow-[#6366f1]/10'
-                        : 'text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#1a1a35]'
-                      }
-                    `}
-                  >
+                    <Link
+                      to={item.path}
+                      className={`
+                        flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                        ${isActive(item.path)
+                          ? 'bg-gradient-to-r from-[#6366f1]/20 to-[#818cf8]/10 text-[#818cf8] border border-[#6366f1]/30 shadow-lg shadow-[#6366f1]/10 glow-effect'
+                          : 'text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#1a1a35]'
+                        }
+                      `}
+                    >
                     <span className="text-lg">{item.icon}</span>
                     {item.label}
                   </Link>
@@ -110,7 +110,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               return (
                 <li key={game.id}>
                   <div
-                    className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all duration-200 hover:bg-[#1a1a35] group cursor-pointer"
+                    className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all duration-200 hover:bg-[#1a1a35] hover:shadow-md group cursor-pointer"
                     style={{ borderLeft: `3px solid ${game.color || gameColors[game.id] || '#6366f1'}` }}
                   >
                     <div className="relative">

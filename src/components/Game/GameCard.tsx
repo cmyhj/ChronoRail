@@ -29,7 +29,7 @@ export const GameCard: React.FC<GameCardProps> = ({
     try {
       const result = await onRefreshVersions();
       setRefreshStatus(result ? 'success' : 'error');
-    } catch (error) {
+    } catch {
       setRefreshStatus('error');
     } finally {
       setRefreshing(false);
@@ -38,7 +38,7 @@ export const GameCard: React.FC<GameCardProps> = ({
   };
 
   return (
-    <div className="relative bg-[#12122a] rounded-2xl border border-[#1e1e3a] overflow-hidden hover:border-[#2d2d50] transition-all duration-300 group">
+    <div className="relative bg-[#12122a] rounded-2xl border border-[#1e1e3a] overflow-hidden hover:border-[#2d2d50] transition-all duration-300 group hover:-translate-y-1 hover:shadow-xl hover:shadow-[#6366f1]/10">
       {/* 顶部渐变条 */}
       <div 
         className="h-1 w-full"

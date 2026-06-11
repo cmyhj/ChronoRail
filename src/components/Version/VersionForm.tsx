@@ -65,7 +65,7 @@ export const VersionForm: React.FC<VersionFormProps> = ({
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* 游戏名称（只读） */}
         <div>
-          <label className="block text-sm font-medium text-[#e2e8f0] mb-2">
+          <label className="block text-sm font-medium text-[#94a3b8] mb-2">
             游戏
           </label>
           <input

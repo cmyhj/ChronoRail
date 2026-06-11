@@ -80,7 +80,7 @@ export const githubService = {
     if (!config) return false;
 
     try {
-      const body: any = {
+      const body: { message: string; content: string; sha?: string } = {
         message: `Update ${path} [skip ci]`,
         content: btoa(unescape(encodeURIComponent(content))),
       };
@@ -182,7 +182,7 @@ export const githubService = {
       }
 
       return { success: true, message: '连接成功' };
-    } catch (error) {
+    } catch {
       return { success: false, message: '网络错误' };
     }
   },

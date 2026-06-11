@@ -107,8 +107,8 @@ export const VersionList: React.FC<VersionListProps> = ({
               return (
                 <div
                   key={version.id}
-                  className={`bg-[#1a1a2e] rounded-xl border overflow-hidden transition-all duration-300 hover:border-[#6366f1]/30 ${
-                    isCurrent ? 'border-[#67c23a]' : 'border-[#2d2d4a]'
+                  className={`bg-[#1a1a2e] rounded-xl border overflow-hidden transition-all duration-300 hover:border-[#6366f1]/30 hover:shadow-lg hover:shadow-[#6366f1]/5 ${
+                    isCurrent ? 'border-[#67c23a] shadow-lg shadow-[#67c23a]/10' : 'border-[#2d2d4a]'
                   }`}
                 >
                   <div className="p-4">

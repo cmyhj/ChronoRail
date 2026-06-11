@@ -41,8 +41,8 @@ export const CalendarDay: React.FC<CalendarDayProps> = ({
         relative min-h-[60px] md:min-h-[80px] p-1 md:p-1.5 rounded-lg cursor-pointer transition-all duration-200
         ${isCurrentMonth ? 'bg-[#1a1a2e]' : 'bg-[#0f0f23]/50'}
         ${isSelected 
-          ? 'ring-2 ring-[#6366f1] bg-[#6366f1]/10' 
-          : 'active:bg-[#252540] md:hover:bg-[#252540] border border-[#2d2d4a]/50'
+          ? 'ring-2 ring-[#6366f1] bg-[#6366f1]/10 shadow-lg shadow-[#6366f1]/20' 
+          : 'active:bg-[#252540] md:hover:bg-[#252540] md:hover:shadow-md border border-[#2d2d4a]/50'
         }
         ${isToday ? 'border-[#6366f1]' : ''}
       `}

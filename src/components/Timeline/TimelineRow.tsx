@@ -3,14 +3,7 @@ import dayjs from 'dayjs';
 import { VersionBlock } from './VersionBlock';
 import { GameIcon, gameColors } from '../Common/GameIcon';
 import { mihoyoService } from '../../services/mihoyo';
-import type { Game, Version, TimelineScale } from '../../types';
-
-interface Banner {
-  name: string;
-  character: string;
-  startDate: string;
-  endDate: string;
-}
+import type { Game, Version, TimelineScale, Banner } from '../../types';
 
 interface TimelineRowProps {
   game: Game;
@@ -132,7 +125,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
   const color = game.color || gameColors[game.id] || '#6366f1';
 
   return (
-    <div className="flex border-b border-[#1e1e3a]/50 hover:bg-[#12122a]/50 transition-colors group">
+    <div className="flex border-b border-[#1e1e3a]/50 hover:bg-[#12122a]/50 transition-all duration-200 group">
       {/* 游戏名称 */}
       <div 
         className={`shrink-0 border-r border-[#1e1e3a]/50 flex items-center gap-2 md:gap-3 transition-colors ${

@@ -4,14 +4,7 @@ import dayjs from 'dayjs';
 import { TimelineRow } from './TimelineRow';
 import { useResponsive } from '../../hooks/useResponsive';
 import { mihoyoService } from '../../services/mihoyo';
-import type { Game, Version, TimelineScale } from '../../types';
-
-interface Banner {
-  name: string;
-  character: string;
-  startDate: string;
-  endDate: string;
-}
+import type { Game, Version, TimelineScale, Banner } from '../../types';
 
 interface TimelineViewProps {
   games: Game[];
