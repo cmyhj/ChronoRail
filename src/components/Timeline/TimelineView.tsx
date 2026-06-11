@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import dayjs from 'dayjs';
 import { TimelineRow } from './TimelineRow';
 import { useResponsive } from '../../hooks/useResponsive';
@@ -77,32 +78,23 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
       const aVersions = versionsByGame[a.id] || [];
       const bVersions = versionsByGame[b.id] || [];
       
-      // 获取下一个卡池的开始时间
       const getNextBannerStart = (banners: Banner[], gameVersions: Version[]): string | null => {
-        // 优先从卡池数据中找未来的卡池
         for (const banner of banners) {
           if (banner.startDate > today) {
             return banner.startDate;
           }
         }
-        
-        // 如果没有未来的卡池，找当前进行中卡池的结束时间
         for (const banner of banners) {
           if (banner.startDate <= today && banner.endDate > today) {
             return banner.endDate;
           }
         }
-        
-        // 都没有，用版本的结束时间
         if (gameVersions.length > 0 && gameVersions[0].endDate) {
           return gameVersions[0].endDate;
         }
-        
-        // 最后用版本开始时间
         if (gameVersions.length > 0) {
           return gameVersions[0].startDate;
         }
-        
         return null;
       };
       
@@ -117,39 +109,13 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
     });
   }, [games, allBanners, versionsByGame]);
 
-  // 导航 - 按月导航
+  // 导航
   const navigate = useCallback((direction: 'prev' | 'next') => {
-    const amount = direction === 'prev' ? -1 : 1;
-    setCurrentDate(prev => prev.add(amount, 'month'));
+    setCurrentDate(prev => prev.add(direction === 'prev' ? -1 : 1, 'month'));
   }, []);
 
   const goToToday = useCallback(() => {
     setCurrentDate(dayjs());
-  }, []);
-
-  // 鼠标拖动切换月份
-  const dragRef = useRef<{ startX: number; startY: number; dragging: boolean }>({ startX: 0, startY: 0, dragging: false });
-  const DRAG_THRESHOLD = 80;
-
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    dragRef.current = { startX: e.clientX, startY: e.clientY, dragging: true };
-  }, []);
-
-  const handlePointerUp = useCallback((e: React.PointerEvent) => {
-    if (!dragRef.current.dragging) return;
-    dragRef.current.dragging = false;
-    
-    const dx = e.clientX - dragRef.current.startX;
-    const dy = e.clientY - dragRef.current.startY;
-    
-    // 只处理水平拖动（水平位移 > 垂直位移，且超过阈值）
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > DRAG_THRESHOLD) {
-      navigate(dx > 0 ? 'prev' : 'next');
-    }
-  }, [navigate]);
-
-  const handlePointerLeave = useCallback(() => {
-    dragRef.current.dragging = false;
   }, []);
 
   // 计算某天在时间轴上的位置百分比
@@ -162,7 +128,6 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   const isVersionVisible = (version: Version): boolean => {
     const versionStart = dayjs(version.startDate);
     const versionEnd = version.endDate ? dayjs(version.endDate) : versionStart.add(42, 'day');
-    
     return versionStart.isBefore(dateRange.end) && versionEnd.isAfter(dateRange.start);
   };
 
@@ -173,35 +138,39 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   }, [currentDate, dateRange, totalDays]);
 
   return (
-    <div
-      className="h-full flex flex-col select-none"
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
-      onPointerLeave={handlePointerLeave}
-    >
+    <div className="h-full flex flex-col">
       {/* 工具栏 */}
       <div className="flex items-center justify-between p-3 md:p-4 bg-[#1a1a2e] border-b border-[#2d2d4a]">
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-1 md:gap-2">
+          <button
+            onClick={() => navigate('prev')}
+            className="p-1.5 md:p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          
           <button
             onClick={goToToday}
-            className="px-3 py-1.5 text-xs md:text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors border border-[#2d2d4a]"
+            className="px-2 md:px-3 py-1 md:py-1.5 text-xs md:text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
           >
             今天
           </button>
           
-          <span className="text-[#e2e8f0] font-medium text-sm md:text-base">
+          <button
+            onClick={() => navigate('next')}
+            className="p-1.5 md:p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+          >
+            <ChevronRight size={18} />
+          </button>
+          
+          <span className="text-[#e2e8f0] font-medium ml-1 md:ml-2 text-sm md:text-base">
             {currentDate.format('YYYY年MM月')}
-          </span>
-
-          <span className="text-[10px] md:text-xs text-[#4a4a6a]">
-            左右拖动切换月份
           </span>
         </div>
       </div>
 
       {/* 时间轴内容 */}
       <div className="flex-1 overflow-auto">
-        {/* 横向时间轴 */}
         <div className="min-w-[600px] md:min-w-[800px] relative">
           {/* 时间刻度标题 */}
           <div className="flex border-b border-[#2d2d4a] bg-[#16162a] sticky top-0 z-10">
@@ -209,7 +178,6 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
               <span className="text-[10px] md:text-xs text-[#64748b]">游戏</span>
             </div>
             <div className="flex-1 relative h-7 md:h-8">
-              {/* 日期刻度标签 */}
               {timeMarkers.map((marker, index) => (
                 <div
                   key={index}
@@ -222,7 +190,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
             </div>
           </div>
 
-          {/* 游戏行（按版本结束日期排序） */}
+          {/* 游戏行 */}
           {sortedGames.map(game => (
             <TimelineRow
               key={game.id}
@@ -242,7 +210,6 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
             </div>
           )}
 
-          {/* 底部留白 */}
           <div className="h-8" />
         </div>
       </div>
