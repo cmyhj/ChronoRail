@@ -58,47 +58,40 @@ export function useVersions(gameId?: string) {
     return success;
   }, []);
 
-  // 同步所有版本（一键更新）
+  // 同步版本（从 mihoyo 数据源）
   const syncFromMihoyo = useCallback(async (targetGameId: string): Promise<{ added: number; updated: number }> => {
     try {
       const history = await mihoyoService.fetchVersionHistory(targetGameId);
       if (!history.length) return { added: 0, updated: 0 };
 
+      // 直接从 storage 读取最新数据，避免闭包捕获旧 state
+      const currentVersions = gameId ? versionService.getByGameId(gameId) : versionService.getAll();
       let added = 0;
       let updated = 0;
 
       for (const mihoyoVersion of history) {
-        // 检查是否已存在
-        const existing = versions.find(
+        const existing = currentVersions.find(
           v => v.gameId === targetGameId && v.version === mihoyoVersion.version
         );
 
         if (existing) {
-          // 需要更新的字段
           const updates: Partial<Version> = {};
           
-          // 更新名称（如果不同）
           if (mihoyoVersion.name && existing.name !== mihoyoVersion.name) {
             updates.name = mihoyoVersion.name;
           }
-          
-          // 更新开始日期（如果不同）
           if (mihoyoVersion.startDate && existing.startDate !== mihoyoVersion.startDate) {
             updates.startDate = mihoyoVersion.startDate;
           }
-          
-          // 更新结束日期（如果之前没有或不同）
           if (mihoyoVersion.endDate && (!existing.endDate || existing.endDate !== mihoyoVersion.endDate)) {
             updates.endDate = mihoyoVersion.endDate;
           }
           
-          // 如果有需要更新的字段
           if (Object.keys(updates).length > 0) {
             versionService.update(existing.id, updates);
             updated++;
           }
         } else {
-          // 添加新版本
           versionService.add({
             gameId: targetGameId,
             version: mihoyoVersion.version,
@@ -111,15 +104,15 @@ export function useVersions(gameId?: string) {
         }
       }
 
-      // 重新加载数据
-      loadVersions();
+      if (added > 0 || updated > 0) {
+        loadVersions();
+      }
 
       return { added, updated };
-    } catch (error) {
-      console.error('Failed to sync versions:', error);
+    } catch {
       return { added: 0, updated: 0 };
     }
-  }, [versions, loadVersions]);
+  }, [gameId, loadVersions]);
 
   return {
     versions,

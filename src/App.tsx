@@ -153,7 +153,8 @@ const App: React.FC = () => {
     };
     
     autoSync();
-  }, [games, syncFromMihoyo, showToast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Router basename="/ChronoRail">
