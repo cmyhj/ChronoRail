@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "antd": "^6.4.3",
     "dayjs": "^1.11.21",
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",

@@ -9,19 +9,17 @@ import { GameList } from './components/Game/GameList';
 import { GameForm } from './components/Game/GameForm';
 import { VersionForm } from './components/Version/VersionForm';
 import { VersionDetail } from './components/Version/VersionDetail';
-import { GitHubSettings } from './components/Common/GitHubSettings';
 import { Toast } from './components/Common/Toast';
+import { ErrorBoundary } from './components/Common/ErrorBoundary';
 import { useGames } from './hooks/useGames';
 import { useVersions } from './hooks/useVersions';
 import { useResponsive } from './hooks/useResponsive';
-import { useGitHub } from './hooks/useGitHub';
-import type { Game, Version, GameFormData, VersionFormData, GitHubConfig } from './types';
+import type { Game, Version, GameFormData, VersionFormData } from './types';
 
 const App: React.FC = () => {
   const { isMobile } = useResponsive();
   const { games, addGame, updateGame, deleteGame, addPresetGame, resetPresets } = useGames();
   const { versions, addVersion, updateVersion, deleteVersion, syncFromMihoyo } = useVersions();
-  const { saveConfig, clearConfig, testConnection } = useGitHub();
 
   // 移动端抽屉状态
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -39,9 +37,6 @@ const App: React.FC = () => {
   const [versionDetailOpen, setVersionDetailOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState<Version | null>(null);
 
-  // GitHub设置状态
-  const [githubSettingsOpen, setGithubSettingsOpen] = useState(false);
-
   // Toast状态
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
 
@@ -53,7 +48,6 @@ const App: React.FC = () => {
   // 显示Toast
   const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'info') => {
     setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
   }, []);
 
   // 处理游戏添加
@@ -118,16 +112,6 @@ const App: React.FC = () => {
     setVersionDetailOpen(true);
   }, []);
 
-  // 处理GitHub配置保存
-  const handleGitHubSave = useCallback((config: GitHubConfig) => {
-    saveConfig(config);
-  }, [saveConfig]);
-
-  // 处理GitHub配置清除
-  const handleGitHubClear = useCallback(() => {
-    clearConfig();
-  }, [clearConfig]);
-
   // 页面加载时自动同步所有游戏版本
   useEffect(() => {
     const autoSync = async () => {
@@ -176,7 +160,8 @@ const App: React.FC = () => {
 
           {/* 内容区域 */}
           <main className="flex-1 overflow-hidden">
-            <Routes>
+            <ErrorBoundary>
+              <Routes>
               {/* 时间轴视图 */}
               <Route
                 path="/"
@@ -214,6 +199,7 @@ const App: React.FC = () => {
                 }
               />
             </Routes>
+            </ErrorBoundary>
           </main>
         </div>
 
@@ -257,17 +243,6 @@ const App: React.FC = () => {
           game={selectedVersion ? getGame(selectedVersion.gameId) : undefined}
           onEdit={handleEditVersion}
           onDelete={handleDeleteVersion}
-        />
-
-        {/* GitHub设置弹窗 */}
-        <GitHubSettings
-          key={githubSettingsOpen ? 'open' : 'closed'}
-          isOpen={githubSettingsOpen}
-          onClose={() => setGithubSettingsOpen(false)}
-          config={null}
-          onSave={handleGitHubSave}
-          onClear={handleGitHubClear}
-          onTest={testConnection}
         />
 
         {/* Toast通知 */}

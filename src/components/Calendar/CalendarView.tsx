@@ -154,7 +154,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
           {/* 日期网格 */}
           <div className="grid grid-cols-7 gap-1">
-            {calendarDays.map(({ date, isCurrentMonth }, index) => {
+            {calendarDays.map(({ date, isCurrentMonth }) => {
               const dateKey = date.format('YYYY-MM-DD');
               const dayVersions = versionsByDate[dateKey] || [];
               const isSelected = selectedDate === dateKey;
@@ -162,7 +162,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
               return (
                 <CalendarDay
-                  key={index}
+                  key={dateKey}
                   date={date}
                   isCurrentMonth={isCurrentMonth}
                   isToday={isToday}

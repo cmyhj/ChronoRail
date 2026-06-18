@@ -1,4 +1,5 @@
 import React from 'react';
+import { GAME_CONFIGS } from '../../utils/parser';
 
 // 游戏官方图标URL（来自App Store）
 export const gameIconUrls: Record<string, string> = {
@@ -79,29 +80,10 @@ export const gameIcons: Record<string, React.ReactNode> = {
   ),
 };
 
-// 游戏颜色配置
+// 游戏颜色配置（从 GAME_CONFIGS 派生）
 export const gameColors: Record<string, string> = {
-  genshin: '#4a90d9',
-  starrail: '#e6a23c',
-  zzz: '#67c23a',
-  wutheringwaves: '#00b4d8',
-  arknights: '#f4845f',
-  reverse1999: '#7c3aed',
-  arknights_endfield: '#f97316',
-  yihuan: '#14b8a6',
-  doublehelix: '#ec4899',
+  ...Object.fromEntries(
+    Object.entries(GAME_CONFIGS).map(([id, config]) => [id, config.color])
+  ),
   default: '#6366f1',
-};
-
-// 游戏名称配置
-export const gameNames: Record<string, string> = {
-  genshin: '原神',
-  starrail: '崩坏：星穹铁道',
-  zzz: '绝区零',
-  wutheringwaves: '鸣潮',
-  arknights: '明日方舟',
-  reverse1999: '重返未来:1999',
-  arknights_endfield: '明日方舟:终末地',
-  yihuan: '异环',
-  doublehelix: '二重螺旋',
 };

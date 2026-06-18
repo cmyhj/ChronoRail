@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Plus } from 'lucide-react';
+import { Plus, Download, Upload } from 'lucide-react';
 import { GameIcon } from '../Common/GameIcon';
 import { gameColors } from '../Common/gameData';
+import { NAV_ITEMS } from '../../constants/navigation';
+import { dataService } from '../../services/storage';
 import type { Game } from '../../types';
 
 interface SidebarProps {
@@ -15,14 +17,26 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onAddGame,
 }) => {
   const location = useLocation();
-
-  const navItems = [
-    { path: '/', label: '时间轴', icon: '📅' },
-    { path: '/calendar', label: '日历', icon: '🗓️' },
-    { path: '/games', label: '游戏管理', icon: '🎮' },
-  ];
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleExport = () => {
+    dataService.downloadJson();
+  };
+
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const json = reader.result as string;
+      if (dataService.importFromJson(json)) {
+        window.location.reload();
+      }
+    };
+    reader.readAsText(file);
+  };
 
   return (
     <aside className="w-64 bg-[#0e0e20] border-r border-[#1e1e3a] h-full overflow-y-auto">
@@ -30,7 +44,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* 导航菜单 */}
         <nav className="mb-6">
           <ul className="space-y-1">
-            {navItems.map((item) => {
+            {NAV_ITEMS.map((item) => {
               return (
                 <li key={item.path}>
                   <Link
@@ -43,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       }
                     `}
                   >
-                    <span className="text-lg">{item.icon}</span>
+                    <span className="text-lg">{item.emoji}</span>
                     {item.label}
                   </Link>
                 </li>
@@ -62,6 +76,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={onAddGame}
               className="p-1.5 text-[#64748b] hover:text-[#6366f1] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
               title="添加游戏"
+              aria-label="添加游戏"
             >
               <Plus size={16} />
             </button>
@@ -110,12 +125,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* 底部信息 */}
         <div className="mt-6 pt-4 border-t border-[#1e1e3a]">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <button
+              onClick={handleExport}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] text-[#64748b] hover:text-[#e2e8f0] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
+              title="导出数据"
+            >
+              <Download size={12} />
+              导出
+            </button>
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] text-[#64748b] hover:text-[#e2e8f0] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
+              title="导入数据"
+            >
+              <Upload size={12} />
+              导入
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json"
+              className="hidden"
+              onChange={handleImport}
+            />
+          </div>
           <div className="text-center">
             <p className="text-[10px] text-[#64748b]">
               共 {games.length} 个游戏
-            </p>
-            <p className="text-[10px] text-[#4a4a6a] mt-1">
-              数据每日自动更新
             </p>
           </div>
         </div>

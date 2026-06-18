@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CheckCircle, AlertCircle, Info, X } from 'lucide-react';
 
 interface ToastProps {
@@ -32,6 +32,11 @@ const typeConfig = {
 export const Toast: React.FC<ToastProps> = ({ message, type, onClose, duration = 3000 }) => {
   const config = typeConfig[type];
   const Icon = config.icon;
+
+  useEffect(() => {
+    const timer = setTimeout(onClose, duration);
+    return () => clearTimeout(timer);
+  }, [onClose, duration]);
 
   return (
     <div className="fixed bottom-4 right-4 z-50 animate-slide-in-right">

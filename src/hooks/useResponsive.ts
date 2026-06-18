@@ -32,15 +32,22 @@ export function useResponsive(customBreakpoints?: Partial<Breakpoints>) {
   const isDesktop = windowSize.width >= breakpoints.lg;
 
   useEffect(() => {
+    let rafId: number;
     const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
       });
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   // 断点判断

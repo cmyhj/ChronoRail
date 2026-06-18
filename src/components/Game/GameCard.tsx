@@ -71,6 +71,7 @@ export const GameCard: React.FC<GameCardProps> = ({
           onClick={onEdit}
           className="p-2 text-[#64748b] hover:text-[#818cf8] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
           title="编辑"
+          aria-label="编辑游戏"
         >
           <Edit size={16} />
         </button>
@@ -79,6 +80,7 @@ export const GameCard: React.FC<GameCardProps> = ({
           onClick={onDelete}
           className="p-2 text-[#64748b] hover:text-[#ef4444] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
           title="删除"
+          aria-label="删除游戏"
         >
           <Trash2 size={16} />
         </button>

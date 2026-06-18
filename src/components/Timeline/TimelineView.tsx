@@ -144,7 +144,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   const todayPosition = useMemo(() => {
     if (!dayjs().isSame(currentDate, 'month')) return null;
     return getDayPosition(dayjs());
-  }, [currentDate, dateRange, totalDays, getDayPosition]);
+  }, [currentDate, getDayPosition]);
 
   return (
     <div className="h-full flex flex-col">
@@ -205,6 +205,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
               key={game.id}
               game={game}
               versions={visibleVersionsByGame[game.id] || []}
+              banners={allBanners[game.id] || []}
               dateRange={dateRange}
               totalDays={totalDays}
               onVersionClick={onVersionClick}

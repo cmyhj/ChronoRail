@@ -35,26 +35,11 @@ export interface DataStore {
 
 // GitHub配置
 export interface GitHubConfig {
-  token: string;                 // Personal Access Token
-  owner: string;                 // 仓库所有者
-  repo: string;                  // 仓库名称
-  path: string;                  // 数据文件路径
+  token: string;
+  owner: string;
+  repo: string;
+  path: string;
 }
-
-// 米哈游游戏配置
-export interface MihoyoGameConfig {
-  id: string;
-  name: string;
-  api: string;
-  versionPattern: RegExp;
-  channelId: number;
-}
-
-// 视图类型
-export type ViewType = 'timeline' | 'calendar' | 'list';
-
-// 时间轴缩放级别
-export type TimelineScale = 'day' | 'week' | 'month';
 
 // 游戏表单数据
 export interface GameFormData {
@@ -72,34 +57,6 @@ export interface VersionFormData {
   startDate: string;
   endDate?: string;
   description?: string;
-}
-
-// API响应类型
-export interface MihoyoApiResponse {
-  retcode: number;
-  message: string;
-  data: {
-    list: Array<{
-      list: Array<{
-        ann_id: number;
-        title: string;
-        subtitle: string;
-        start_time: string;
-        end_time: string;
-        type: number;
-      }>;
-      type_id: number;
-      type_label: string;
-    }>;
-    total: number;
-  };
-}
-
-// 解析后的版本信息
-export interface ParsedVersion {
-  version: string;
-  name: string;
-  startDate: string;
 }
 
 // 卡池信息

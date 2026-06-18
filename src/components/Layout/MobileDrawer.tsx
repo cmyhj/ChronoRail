@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { X, Clock, Calendar, Gamepad2, Plus } from 'lucide-react';
+import { X, Plus } from 'lucide-react';
 import { GameIcon } from '../Common/GameIcon';
 import { gameColors } from '../Common/gameData';
+import { NAV_ITEMS } from '../../constants/navigation';
 import type { Game } from '../../types';
 
 interface MobileDrawerProps {
@@ -19,12 +20,6 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
   onAddGame,
 }) => {
   const location = useLocation();
-
-  const navItems = [
-    { path: '/', label: '时间轴', icon: Clock },
-    { path: '/calendar', label: '日历', icon: Calendar },
-    { path: '/games', label: '游戏管理', icon: Gamepad2 },
-  ];
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -58,6 +53,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
           <button
             onClick={onClose}
             className="p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+            aria-label="关闭菜单"
           >
             <X size={20} />
           </button>
@@ -66,8 +62,8 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
         {/* 导航菜单 */}
         <nav className="p-4 border-b border-[#2d2d4a]">
           <ul className="space-y-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
+            {NAV_ITEMS.map((item) => {
+              const Icon = item.lucideIcon;
               return (
                 <li key={item.path}>
                   <Link

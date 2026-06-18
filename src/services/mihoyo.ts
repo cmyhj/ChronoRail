@@ -1,3 +1,5 @@
+import type { Banner } from '../types';
+
 // 数据文件路径
 const DATA_URL = '/ChronoRail/data/game-versions.json';
 
@@ -5,13 +7,6 @@ const DATA_URL = '/ChronoRail/data/game-versions.json';
 let cachedData: GameData | null = null;
 let lastFetchTime = 0;
 const CACHE_DURATION = 5 * 60 * 1000; // 5分钟缓存
-
-interface Banner {
-  name: string;
-  character: string;
-  startDate: string;
-  endDate: string;
-}
 
 interface GameVersion {
   version: string;

@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import dayjs from 'dayjs';
 import { VersionBlock } from './VersionBlock';
 import { GameIcon } from '../Common/GameIcon';
 import { gameColors } from '../Common/gameData';
-import { mihoyoService } from '../../services/mihoyo';
-import type { Game, Version, TimelineScale, Banner } from '../../types';
+import type { Game, Version, Banner } from '../../types';
 
 interface TimelineRowProps {
   game: Game;
   versions: Version[];
+  banners: Banner[];
   dateRange: {
     start: dayjs.Dayjs;
     end: dayjs.Dayjs;
   };
   totalDays: number;
-  scale?: TimelineScale;
   onVersionClick?: (version: Version) => void;
   todayPosition: number | null;
   isMobile?: boolean;
@@ -23,26 +22,13 @@ interface TimelineRowProps {
 export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
   game,
   versions,
+  banners,
   dateRange,
   totalDays,
   onVersionClick,
   todayPosition,
   isMobile = false,
 }) => {
-  const [banners, setBanners] = useState<Banner[]>([]);
-
-  // 加载卡池信息
-  useEffect(() => {
-    const loadBanners = async () => {
-      try {
-        const data = await mihoyoService.fetchBanners(game.id);
-        setBanners(data);
-      } catch (error) {
-        console.error('Failed to load banners:', error);
-      }
-    };
-    loadBanners();
-  }, [game.id]);
 
   // 计算版本块位置
   const getVersionStyle = (version: Version): React.CSSProperties => {

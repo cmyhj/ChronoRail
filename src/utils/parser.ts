@@ -1,11 +1,7 @@
-import type { ParsedVersion, MihoyoApiResponse } from '../types';
-
 // 游戏配置接口
 export interface GameConfig {
   id: string;
   name: string;
-  api?: string;
-  versionPattern?: RegExp;
   autoFetch: boolean;
   color: string;
   icon: string;
@@ -85,82 +81,12 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
   },
 };
 
-// 米哈游游戏ID类型
-export type MihoyoGameId = 'genshin' | 'starrail' | 'zzz';
-
 // 所有游戏ID类型
 export type GameId = keyof typeof GAME_CONFIGS;
-
-/**
- * 获取游戏配置
- */
-export function getGameConfig(gameId: string): GameConfig | undefined {
-  return GAME_CONFIGS[gameId];
-}
 
 /**
  * 获取所有预置游戏列表
  */
 export function getPresetGames(): GameConfig[] {
   return Object.values(GAME_CONFIGS);
-}
-
-/**
- * 从公告标题中解析版本信息
- */
-export function parseVersionFromTitle(title: string, pattern: RegExp): ParsedVersion | null {
-  const match = title.match(pattern);
-  if (!match) return null;
-  
-  return {
-    version: match[1],
-    name: match[2],
-    startDate: '',
-  };
-}
-
-/**
- * 从米哈游API响应中提取版本信息
- */
-export function extractVersionsFromResponse(
-  response: MihoyoApiResponse,
-  gameId: MihoyoGameId
-): ParsedVersion[] {
-  const gameConfig = GAME_CONFIGS[gameId];
-  if (!gameConfig?.api || !gameConfig?.versionPattern) return [];
-  
-  const versions: ParsedVersion[] = [];
-  const seenVersions = new Set<string>();
-  
-  for (const typeGroup of response.data.list) {
-    for (const announcement of typeGroup.list) {
-      const parsed = parseVersionFromTitle(announcement.title, gameConfig.versionPattern);
-      
-      if (parsed && !seenVersions.has(parsed.version)) {
-        seenVersions.add(parsed.version);
-        versions.push({
-          ...parsed,
-          startDate: announcement.start_time.split(' ')[0],
-        });
-      }
-    }
-  }
-  
-  return versions.sort((a, b) => parseFloat(b.version) - parseFloat(a.version));
-}
-
-/**
- * 获取游戏图标
- */
-export function getGameIcon(gameId: string): string {
-  const config = GAME_CONFIGS[gameId];
-  return config?.icon || 'default';
-}
-
-/**
- * 获取游戏主题色
- */
-export function getGameColor(gameId: string): string {
-  const config = GAME_CONFIGS[gameId];
-  return config?.color || '#6366f1';
 }
