@@ -20,19 +20,44 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   const { isMobile } = useResponsive();
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [allBanners, setAllBanners] = useState<Record<string, Banner[]>>({});
+  const [remoteVersions, setRemoteVersions] = useState<Version[]>([]);
 
-  // 加载所有游戏的卡池数据
+  // 加载所有游戏的卡池数据 + 版本历史
   useEffect(() => {
-    const loadBanners = async () => {
+    const loadData = async () => {
       const bannerMap: Record<string, Banner[]> = {};
+      const remote: Version[] = [];
       for (const game of games) {
         const banners = await mihoyoService.fetchBanners(game.id);
         bannerMap[game.id] = banners;
+
+        const history = await mihoyoService.fetchVersionHistory(game.id);
+        for (const v of history) {
+          remote.push({
+            id: `remote-${game.id}-${v.version}`,
+            gameId: game.id,
+            version: v.version,
+            name: v.name,
+            startDate: v.startDate,
+            endDate: v.endDate,
+            isAutoFetched: true,
+            createdAt: '',
+            updatedAt: '',
+          });
+        }
       }
       setAllBanners(bannerMap);
+      setRemoteVersions(remote);
     };
-    loadBanners();
+    loadData();
   }, [games]);
+
+  // 合并本地版本和远程版本（本地优先）
+  const mergedVersions = useMemo(() => {
+    const localKeys = new Set(versions.map(v => `${v.gameId}:${v.version}`));
+    const remoteOnly = remoteVersions.filter(v => !localKeys.has(`${v.gameId}:${v.version}`));
+    return [...versions, ...remoteOnly];
+  }, [versions, remoteVersions]);
 
   // 计算时间范围 - 按月显示
   const dateRange = useMemo(() => {
@@ -63,10 +88,10 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   const versionsByGame = useMemo(() => {
     const grouped: Record<string, Version[]> = {};
     games.forEach(game => {
-      grouped[game.id] = versions.filter(v => v.gameId === game.id);
+      grouped[game.id] = mergedVersions.filter(v => v.gameId === game.id);
     });
     return grouped;
-  }, [games, versions]);
+  }, [games, mergedVersions]);
 
   // 按下一个卡池开始时间排序（使用卡池数据）
   const sortedGames = useMemo(() => {
