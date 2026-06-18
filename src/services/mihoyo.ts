@@ -69,7 +69,18 @@ export const mihoyoService = {
       const data = await this.fetchData();
       const gameData = data.games[gameId];
       
-      return gameData?.history || [];
+      if (!gameData) return [];
+      
+      const history = [...(gameData.history || [])];
+      
+      if (gameData.nextVersion) {
+        const exists = history.some(v => v.version === gameData.nextVersion!.version);
+        if (!exists) {
+          history.unshift(gameData.nextVersion);
+        }
+      }
+      
+      return history;
     } catch {
       return [];
     }

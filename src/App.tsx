@@ -9,7 +9,6 @@ import { GameList } from './components/Game/GameList';
 import { GameForm } from './components/Game/GameForm';
 import { VersionForm } from './components/Version/VersionForm';
 import { VersionDetail } from './components/Version/VersionDetail';
-import { Toast } from './components/Common/Toast';
 import { ErrorBoundary } from './components/Common/ErrorBoundary';
 import { useGames } from './hooks/useGames';
 import { useVersions } from './hooks/useVersions';
@@ -37,18 +36,10 @@ const App: React.FC = () => {
   const [versionDetailOpen, setVersionDetailOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState<Version | null>(null);
 
-  // Toast状态
-  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
-
   // 获取游戏信息
   const getGame = useCallback((gameId: string) => {
     return games.find(g => g.id === gameId);
   }, [games]);
-
-  // 显示Toast
-  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'info') => {
-    setToast({ message, type });
-  }, []);
 
   // 处理游戏添加
   const handleAddGame = useCallback(() => {
@@ -117,22 +108,14 @@ const App: React.FC = () => {
     const autoSync = async () => {
       if (games.length === 0) return;
       
-      let hasUpdates = false;
       for (const game of games) {
         if (game.autoFetch) {
           try {
-            const result = await syncFromMihoyo(game.id);
-            if (result.added > 0 || result.updated > 0) {
-              hasUpdates = true;
-            }
+            await syncFromMihoyo(game.id);
           } catch {
             // 静默失败
           }
         }
-      }
-      
-      if (hasUpdates) {
-        showToast('版本数据已自动更新', 'success');
       }
     };
     
@@ -245,14 +228,6 @@ const App: React.FC = () => {
           onDelete={handleDeleteVersion}
         />
 
-        {/* Toast通知 */}
-        {toast && (
-          <Toast
-            message={toast.message}
-            type={toast.type}
-            onClose={() => setToast(null)}
-          />
-        )}
       </div>
     </Router>
   );

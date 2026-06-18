@@ -104,10 +104,7 @@ export function useVersions(gameId?: string) {
         }
       }
 
-      if (added > 0 || updated > 0) {
-        loadVersions();
-      }
-
+      loadVersions();
       return { added, updated };
     } catch {
       return { added: 0, updated: 0 };
