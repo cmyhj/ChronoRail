@@ -194,8 +194,8 @@
       "gameId": "arknights",
       "gameName": "明日方舟",
       "current": {
-        "version": "危机合约「涤墨作战」",
-        "name": "危机合约「涤墨作战」",
+        "version": "危机合约",
+        "name": "「涤墨作战」",
         "startDate": "2026-06-26",
         "endDate": "2026-07-10"
       },
@@ -204,7 +204,7 @@
       ],
       "history": [
         { 
-          "version": "危机合约「涤墨作战」", "name": "危机合约「涤墨作战」", "startDate": "2026-06-26", "endDate": "2026-07-10",
+          "version": "危机合约", "name": "「涤墨作战」", "startDate": "2026-06-26", "endDate": "2026-07-10",
           "banners": [
             { "name": "联合行动", "character": "联合行动", "startDate": "2026-06-26", "endDate": "2026-07-10" }
           ]
