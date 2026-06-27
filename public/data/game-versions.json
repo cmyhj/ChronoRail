@@ -303,16 +303,23 @@
       "gameId": "yihuan",
       "gameName": "异环",
       "current": {
-        "version": "1.1",
-        "name": "游梦洄廊",
-        "startDate": "2026-05-28",
-        "endDate": "2026-07-09"
+        "version": "1.2",
+        "name": "九百九十九夜",
+        "startDate": "2026-07-02",
+        "endDate": "2026-08-13"
       },
       "banners": [
-        { "name": "上半卡池", "character": "安魂曲", "startDate": "2026-05-28", "endDate": "2026-06-18" },
-        { "name": "下半卡池", "character": "卡厄斯", "startDate": "2026-06-18", "endDate": "2026-07-09" }
+        { "name": "上半卡池", "character": "真红", "startDate": "2026-07-02", "endDate": "2026-07-23" },
+        { "name": "下半卡池", "character": "伊洛伊", "startDate": "2026-07-23", "endDate": "2026-08-13" }
       ],
       "history": [
+        { 
+          "version": "1.2", "name": "九百九十九夜", "startDate": "2026-07-02", "endDate": "2026-08-13",
+          "banners": [
+            { "name": "上半卡池", "character": "真红", "startDate": "2026-07-02", "endDate": "2026-07-23" },
+            { "name": "下半卡池", "character": "伊洛伊", "startDate": "2026-07-23", "endDate": "2026-08-13" }
+          ]
+        },
         { 
           "version": "1.1", "name": "游梦洄廊", "startDate": "2026-05-28", "endDate": "2026-07-09",
           "banners": [
