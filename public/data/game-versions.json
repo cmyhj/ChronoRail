@@ -148,7 +148,7 @@
         "version": "3.4",
         "name": "未选择的梦",
         "startDate": "2026-06-08",
-        "endDate": "2026-07-22"
+        "endDate": "2026-07-09"
       },
       "banners": [
         { "name": "上半卡池", "character": "露西 + 蕾贝卡", "startDate": "2026-06-08", "endDate": "2026-07-09" },
@@ -166,7 +166,7 @@
       },
       "history": [
         { 
-          "version": "3.4", "name": "未选择的梦", "startDate": "2026-06-08", "endDate": "2026-07-22",
+          "version": "3.4", "name": "未选择的梦", "startDate": "2026-06-08", "endDate": "2026-07-09",
           "banners": [
             { "name": "上半卡池", "character": "露西 + 蕾贝卡", "startDate": "2026-06-08", "endDate": "2026-07-09" },
             { "name": "下半卡池", "character": "洛瑟菈", "startDate": "2026-06-13", "endDate": "2026-07-09" }
