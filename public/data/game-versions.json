@@ -145,16 +145,23 @@
       "gameId": "wutheringwaves",
       "gameName": "鸣潮",
       "current": {
-        "version": "3.4",
-        "name": "未选择的梦",
-        "startDate": "2026-06-08",
-        "endDate": "2026-07-22"
+        "version": "3.5",
+        "name": "遗音扶剑，荡梦而歌",
+        "startDate": "2026-07-10",
+        "endDate": "2026-08-21"
       },
       "banners": [
-        { "name": "上半卡池", "character": "露西 + 蕾贝卡", "startDate": "2026-06-08", "endDate": "2026-07-09" },
-        { "name": "下半卡池", "character": "洛瑟菈", "startDate": "2026-06-13", "endDate": "2026-07-09" }
+        { "name": "上半卡池", "character": "秧秧·玄翎 + 陆·赫斯", "startDate": "2026-07-10", "endDate": "2026-08-07" },
+        { "name": "下半卡池", "character": "穗穗", "startDate": "2026-08-07", "endDate": "2026-08-21" }
       ],
       "history": [
+        { 
+          "version": "3.5", "name": "遗音扶剑，荡梦而歌", "startDate": "2026-07-10", "endDate": "2026-08-21",
+          "banners": [
+            { "name": "上半卡池", "character": "秧秧·玄翎 + 陆·赫斯", "startDate": "2026-07-10", "endDate": "2026-08-07" },
+            { "name": "下半卡池", "character": "穗穗", "startDate": "2026-08-07", "endDate": "2026-08-21" }
+          ]
+        },
         { 
           "version": "3.4", "name": "未选择的梦", "startDate": "2026-06-08", "endDate": "2026-07-22",
           "banners": [
