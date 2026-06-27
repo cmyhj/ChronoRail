@@ -107,33 +107,32 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   return (
     <div className="h-full flex flex-col">
       {/* 工具栏 */}
-      <div className="flex items-center justify-between p-4 bg-[#1a1a2e] border-b border-[#2d2d4a]">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => navigate('prev')}
-            className="p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          
+      <div className="flex items-center justify-between p-3 md:p-4 bg-[#1a1a2e] border-b border-[#2d2d4a]">
+        <button
+          onClick={() => navigate('prev')}
+          className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] active:bg-[#2d2d4a] rounded-xl transition-colors"
+        >
+          <ChevronLeft size={24} />
+        </button>
+
+        <div className="flex items-center gap-2 md:gap-3">
+          <span className="text-[#e2e8f0] font-semibold text-base md:text-lg tracking-wide">
+            {currentDate.format('YYYY年MM月')}
+          </span>
           <button
             onClick={goToToday}
-            className="px-3 py-1.5 text-sm text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+            className="px-3 py-1.5 text-xs md:text-sm font-medium text-[#818cf8] bg-[#818cf8]/10 hover:bg-[#818cf8]/20 rounded-full transition-colors"
           >
             今天
           </button>
-          
-          <button
-            onClick={() => navigate('next')}
-            className="p-2 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
-          >
-            <ChevronRight size={20} />
-          </button>
-          
-          <span className="text-[#e2e8f0] font-medium ml-2">
-            {currentDate.format('YYYY年MM月')}
-          </span>
         </div>
+
+        <button
+          onClick={() => navigate('next')}
+          className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] active:bg-[#2d2d4a] rounded-xl transition-colors"
+        >
+          <ChevronRight size={24} />
+        </button>
       </div>
 
       {/* 日历内容 */}
