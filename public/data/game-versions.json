@@ -316,11 +316,11 @@
         "version": "1.1",
         "name": "游梦洄廊",
         "startDate": "2026-05-28",
-        "endDate": "2026-07-09"
+        "endDate": "2026-07-02"
       },
       "banners": [
         { "name": "上半卡池", "character": "安魂曲", "startDate": "2026-05-28", "endDate": "2026-06-18" },
-        { "name": "下半卡池", "character": "卡厄斯", "startDate": "2026-06-18", "endDate": "2026-07-09" }
+        { "name": "下半卡池", "character": "卡厄斯", "startDate": "2026-06-18", "endDate": "2026-07-02" }
       ],
       "nextVersion": {
         "version": "1.2",
@@ -334,10 +334,10 @@
       },
       "history": [
         { 
-          "version": "1.1", "name": "游梦洄廊", "startDate": "2026-05-28", "endDate": "2026-07-09",
+          "version": "1.1", "name": "游梦洄廊", "startDate": "2026-05-28", "endDate": "2026-07-02",
           "banners": [
             { "name": "上半卡池", "character": "安魂曲", "startDate": "2026-05-28", "endDate": "2026-06-18" },
-            { "name": "下半卡池", "character": "卡厄斯", "startDate": "2026-06-18", "endDate": "2026-07-09" }
+            { "name": "下半卡池", "character": "卡厄斯", "startDate": "2026-06-18", "endDate": "2026-07-02" }
           ]
         },
         { 
