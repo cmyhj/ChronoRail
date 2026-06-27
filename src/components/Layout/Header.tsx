@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { useResponsive } from '../../hooks/useResponsive';
-import { NAV_ITEMS } from '../../constants/navigation';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
@@ -10,9 +9,6 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   const { isMobile } = useResponsive();
-  const location = useLocation();
-
-  const isActive = (path: string) => location.pathname === path;
 
   return (
     <header className="sticky top-0 z-40 glass border-b border-[#1e1e3a] shadow-lg shadow-black/20">
@@ -30,28 +26,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
               ChronoRail
             </span>
           </Link>
-
-          {/* 桌面端导航 */}
-          {!isMobile && (
-            <nav className="flex items-center gap-1 bg-[#0e0e20] rounded-xl p-1 border border-[#1e1e3a]">
-              {NAV_ITEMS.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`
-                    flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                    ${isActive(item.path)
-                      ? 'bg-gradient-to-r from-[#6366f1] to-[#818cf8] text-white shadow-lg shadow-[#6366f1]/20 glow-effect'
-                      : 'text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#1a1a35]'
-                    }
-                  `}
-                >
-                  <span className="text-base">{item.emoji}</span>
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          )}
 
           {/* 右侧操作 */}
           <div className="flex items-center gap-2">
