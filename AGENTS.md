@@ -51,6 +51,30 @@ Always run `npm run lint` then `npm run build` before considering work done.
 
 Version data for manual games must be edited in `public/data/game-versions.json`. See `DATA_UPDATE_GUIDE.md` and `VERSION_MANAGEMENT.md` for format rules. Key constraint: `endDate` must come from official announcements, never estimated.
 
+### `current` vs `nextVersion` — Critical Rules
+
+`fetchBanners()` (`mihoyo.ts`) **only** reads banners from `gameData.banners` (current) and `gameData.nextVersion.banners`. It **never** reads banners from `history[]`.
+
+When adding a future version (one that hasn't started yet):
+
+1. **Keep `current` pointing to the version running today** — do NOT change it to the future version.
+2. **Put the future version in the `nextVersion` field** (with its banners array).
+3. **Do NOT put future versions in `history`** — history is for past/current versions only.
+4. When the future version's `startDate` arrives, move it from `nextVersion` → `current` + `history`, and remove `nextVersion`.
+
+Wrong pattern (banners disappear):
+```json
+"current": { "version": "3.5", "startDate": "2026-07-10", ... },
+"banners": [ /* future banners — invisible because date filter hides them */ ]
+```
+
+Correct pattern (both current and upcoming banners visible):
+```json
+"current": { "version": "3.4", "startDate": "2026-06-08", ... },
+"banners": [ /* current running banners */ ],
+"nextVersion": { "version": "3.5", "startDate": "2026-07-10", ..., "banners": [ /* upcoming */ ] }
+```
+
 ## UI Language
 
 All user-facing text is Chinese (zh-CN). Component text, toasts, and confirm dialogs use Chinese. Keep new UI strings in Chinese.
