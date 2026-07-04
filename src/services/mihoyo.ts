@@ -3,11 +3,6 @@ import type { Banner } from '../types';
 // 数据文件路径
 const DATA_URL = '/ChronoRail/data/game-versions.json';
 
-// 缓存数据
-let cachedData: GameData | null = null;
-let lastFetchTime = 0;
-const CACHE_DURATION = 5 * 60 * 1000; // 5分钟缓存
-
 interface GameVersion {
   version: string;
   name: string;
@@ -90,22 +85,9 @@ export const mihoyoService = {
    * 获取数据（带缓存）
    */
   async fetchData(): Promise<GameData> {
-    const now = Date.now();
-    
-    // 使用缓存
-    if (cachedData && (now - lastFetchTime) < CACHE_DURATION) {
-      return cachedData;
-    }
-    
-    try {
-      const response = await fetch(DATA_URL);
-      if (!response.ok) throw new Error('Failed to fetch data');
-      
-      cachedData = await response.json();
-      lastFetchTime = now;
-      return cachedData || { fetchedAt: '', games: {} };
-    } catch {
-      return cachedData || { fetchedAt: '', games: {} };
-    }
+    const response = await fetch(DATA_URL);
+    if (!response.ok) throw new Error('Failed to fetch data');
+    const data = await response.json();
+    return data || { fetchedAt: '', games: {} };
   },
 };
