@@ -66,6 +66,15 @@
         { "name": "下半卡池", "character": "昔涟 + 白厄", "startDate": "2026-06-24", "endDate": "2026-07-15" },
         { "name": "联动跃迁", "character": "远坂凛（Fate联动）", "startDate": "2026-07-24", "endDate": "2026-08-15" }
       ],
+      "nextVersion": {
+        "version": "4.4",
+        "name": "鸣笛于归寂之时",
+        "startDate": "2026-07-15",
+        "endDate": "2026-08-26",
+        "banners": [
+          { "name": "姬子·启行", "character": "姬子·启行", "startDate": "2026-07-15", "endDate": "2026-08-26" }
+        ]
+      },
       "history": [
         { 
           "version": "4.3", "name": "沉于生者的忘川", "startDate": "2026-06-01", "endDate": "2026-07-15",
