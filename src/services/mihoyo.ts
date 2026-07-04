@@ -85,7 +85,7 @@ export const mihoyoService = {
    * 获取数据（带缓存）
    */
   async fetchData(): Promise<GameData> {
-    const response = await fetch(DATA_URL);
+    const response = await fetch(`${DATA_URL}?t=${Date.now()}`);
     if (!response.ok) throw new Error('Failed to fetch data');
     const data = await response.json();
     return data || { fetchedAt: '', games: {} };
