@@ -49,31 +49,34 @@ Always run `npm run lint` then `npm run build` before considering work done.
 
 ## Data Update
 
-Version data for manual games must be edited in `public/data/game-versions.json`. See `DATA_UPDATE_GUIDE.md` and `VERSION_MANAGEMENT.md` for format rules. Key constraint: `endDate` must come from official announcements, never estimated.
+Version data is stored in `public/data/game-versions.json` in a flat `versions[]` array per game. The system determines version status (current/future/history) at runtime by comparing dates with today.
 
-### `current` vs `nextVersion` — Critical Rules
+### Format
 
-`fetchBanners()` (`mihoyo.ts`) **only** reads banners from `gameData.banners` (current) and `gameData.nextVersion.banners`. It **never** reads banners from `history[]`.
-
-When adding a future version (one that hasn't started yet):
-
-1. **Keep `current` pointing to the version running today** — do NOT change it to the future version.
-2. **Put the future version in the `nextVersion` field** (with its banners array).
-3. **Do NOT put future versions in `history`** — history is for past/current versions only.
-4. When the future version's `startDate` arrives, move it from `nextVersion` → `current` + `history`, and remove `nextVersion`.
-
-Wrong pattern (banners disappear):
 ```json
-"current": { "version": "3.5", "startDate": "2026-07-10", ... },
-"banners": [ /* future banners — invisible because date filter hides them */ ]
+{
+  "gameId": "starrail",
+  "gameName": "崩坏：星穹铁道",
+  "versions": [
+    { "version": "4.4", "name": "...", "startDate": "2026-07-15", "endDate": "2026-08-26", "banners": [...] },
+    { "version": "4.3", "name": "...", "startDate": "2026-06-01", "endDate": "2026-07-15", "banners": [...] }
+  ]
+}
 ```
 
-Correct pattern (both current and upcoming banners visible):
-```json
-"current": { "version": "3.4", "startDate": "2026-06-08", ... },
-"banners": [ /* current running banners */ ],
-"nextVersion": { "version": "3.5", "startDate": "2026-07-10", ..., "banners": [ /* upcoming */ ] }
-```
+### Rules
+
+1. **`versions[]` sorted by `startDate` descending** — newest version first
+2. **Banners are inline** in each version object (no top-level banners field)
+3. **No manual classification** — the code uses `startDate ≤ today ≤ endDate` to identify current version
+4. **Add a new version**: prepend it to the top of `versions[]` with its `banners` array
+5. Key constraint: `endDate` must come from official announcements, never estimated
+
+### Runtime logic (`mihoyo.ts` `fetchBanners`)
+
+- **Current version**: first version where `startDate ≤ today ≤ endDate`, includes all its banners
+- **Upcoming banners**: first version where `startDate > today`, includes its banners
+- All other versions are treated as history
 
 ## UI Language
 

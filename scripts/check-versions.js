@@ -92,8 +92,7 @@ async function fetchMihoyoGame(game) {
     return {
       gameId: game.id,
       gameName: game.name,
-      current: versions[0] || null,
-      history: versions.slice(0, 10) // 保留最近10个版本
+      versions
     };
   } catch (e) {
     console.error(`Error fetching ${game.id}:`, e.message);
@@ -142,10 +141,11 @@ async function main() {
     console.log(`正在获取 ${game.name}...`);
     const data = await fetchMihoyoGame(game);
     
-    if (data && data.current) {
+    if (data && data.versions.length > 0) {
       results.games[game.id] = data;
-      console.log(`  ✓ 当前版本: v${data.current.version} ${data.current.name}`);
-      console.log(`    周期: ${data.current.startDate} ~ ${data.current.endDate}`);
+      const latest = data.versions[0];
+      console.log(`  ✓ 最新版本: v${latest.version} ${latest.name}`);
+      console.log(`    周期: ${latest.startDate} ~ ${latest.endDate}`);
     } else {
       console.log(`  ✗ 获取失败`);
     }
@@ -155,7 +155,7 @@ async function main() {
   console.log('\n--- 其他游戏（手动维护） ---');
   for (const [id, data] of Object.entries(otherGames)) {
     results.games[id] = data;
-    console.log(`  ✓ ${data.gameName}: v${data.current.version} ${data.current.name}`);
+    console.log(`  ✓ ${data.gameName}: ${data.versions.length} 个版本`);
   }
 
   // 保存数据
