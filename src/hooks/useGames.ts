@@ -4,8 +4,8 @@ import { gameService } from '../services/storage';
 import { GAME_CONFIGS } from '../utils/parser';
 import type { GameId } from '../utils/parser';
 
-// 默认预置游戏列表（显示在侧边栏）
-const DEFAULT_PRESET_GAMES: GameId[] = [
+// 默认预置游戏列表（显示在侧边栏，同时决定排序）
+export const DEFAULT_PRESET_GAMES: GameId[] = [
   'genshin',
   'starrail',
   'zzz',

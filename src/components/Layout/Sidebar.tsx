@@ -4,6 +4,7 @@ import { Plus, Download, Upload } from 'lucide-react';
 import { GameIcon } from '../Common/GameIcon';
 import { gameColors } from '../Common/gameData';
 import { NAV_ITEMS } from '../../constants/navigation';
+import { DEFAULT_PRESET_GAMES } from '../../hooks/useGames';
 import { dataService } from '../../services/storage';
 import type { Game } from '../../types';
 
@@ -38,7 +39,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
     reader.readAsText(file);
   };
 
-  return (
+    const sortedGames = [...games].sort((a, b) => {
+      const aIndex = DEFAULT_PRESET_GAMES.indexOf(a.id as typeof DEFAULT_PRESET_GAMES[number]);
+      const bIndex = DEFAULT_PRESET_GAMES.indexOf(b.id as typeof DEFAULT_PRESET_GAMES[number]);
+      if (aIndex === -1 && bIndex === -1) return 0;
+      if (aIndex === -1) return 1;
+      if (bIndex === -1) return -1;
+      return aIndex - bIndex;
+    });
+
+    return (
     <aside className="w-64 bg-[#0e0e20] border-r border-[#1e1e3a] h-full overflow-y-auto">
       <div className="p-4">
         {/* 导航菜单 */}
@@ -83,7 +93,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
           
           <ul className="space-y-2">
-            {games.map((game) => {
+            {sortedGames.map((game) => {
               return (
                 <li key={game.id}>
                   <div
@@ -111,7 +121,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             })}
           </ul>
 
-          {games.length === 0 && (
+          {sortedGames.length === 0 && (
             <div className="text-center py-6">
               <div className="w-12 h-12 mx-auto mb-3 bg-[#1a1a35] rounded-full flex items-center justify-center">
                 <span className="text-2xl">🎮</span>
@@ -152,7 +162,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
           <div className="text-center">
             <p className="text-[10px] text-[#64748b]">
-              共 {games.length} 个游戏
+              共 {sortedGames.length} 个游戏
             </p>
           </div>
         </div>
