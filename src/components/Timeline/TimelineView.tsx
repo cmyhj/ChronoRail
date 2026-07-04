@@ -104,16 +104,18 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
       const bVersions = versionsByGame[b.id] || [];
       
       const getNextBannerStart = (banners: Banner[], gameVersions: Version[]): string | null => {
-        for (const banner of banners) {
-          if (banner.startDate > today) {
-            return banner.startDate;
-          }
-        }
-        for (const banner of banners) {
-          if (banner.startDate <= today && banner.endDate > today) {
-            return banner.endDate;
-          }
-        }
+        // 找所有未来卡池中最早开始的
+        const upcoming = banners
+          .filter(b => b.startDate > today)
+          .map(b => b.startDate);
+        if (upcoming.length > 0) return upcoming.reduce((a, b) => a < b ? a : b);
+        
+        // 找所有进行中卡池中最早结束的
+        const ongoing = banners
+          .filter(b => b.startDate <= today && b.endDate > today)
+          .map(b => b.endDate);
+        if (ongoing.length > 0) return ongoing.reduce((a, b) => a < b ? a : b);
+        
         if (gameVersions.length > 0 && gameVersions[0].endDate) {
           return gameVersions[0].endDate;
         }
