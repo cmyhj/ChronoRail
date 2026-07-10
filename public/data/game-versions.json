@@ -133,7 +133,13 @@
       "gameName": "重返未来:1999",
       "versions": [
         {
-          "version": "3.8", "name": "世纪末尺度", "startDate": "2026-06-11", "endDate": "2026-07-20",
+          "version": "3.9", "name": "×原子之心联动", "startDate": "2026-07-23", "endDate": "2026-08-13",
+          "banners": [
+            { "name": "同步开发卡池", "character": "双生舞伶", "startDate": "2026-07-23", "endDate": "2026-08-13" }
+          ]
+        },
+        {
+          "version": "3.8", "name": "世纪末尺度", "startDate": "2026-06-11", "endDate": "2026-07-23",
           "banners": [
             { "name": "轮换征集", "character": "伊戈尔（六星兽灵感）", "startDate": "2026-06-09", "endDate": "2026-06-23" },
             { "name": "活动征集「往昔应我声」", "character": "回声谣（岩）", "startDate": "2026-06-11", "endDate": "2026-07-02" },
@@ -151,6 +157,13 @@
       "gameId": "arknights_endfield",
       "gameName": "明日方舟:终末地",
       "versions": [
+        {
+          "version": "1.4", "name": "向渊行", "startDate": "2026-07-16", "endDate": "2026-09-02",
+          "banners": [
+            { "name": "卡池「诀」", "character": "诀", "startDate": "2026-07-16", "endDate": "2026-08-09" },
+            { "name": "卡池「梨诺」", "character": "梨诺", "startDate": "2026-08-09", "endDate": "2026-09-02" }
+          ]
+        },
         {
           "version": "1.3", "name": "寻遗散记", "startDate": "2026-06-05", "endDate": "2026-07-17",
           "banners": [
