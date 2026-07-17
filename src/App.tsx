@@ -9,6 +9,7 @@ import { GameList } from './components/Game/GameList';
 import { GameForm } from './components/Game/GameForm';
 import { VersionForm } from './components/Version/VersionForm';
 import { VersionDetail } from './components/Version/VersionDetail';
+import { RandomNumberView } from './components/RandomNumber/RandomNumberView';
 import { ErrorBoundary } from './components/Common/ErrorBoundary';
 import { useGames } from './hooks/useGames';
 import { useVersions } from './hooks/useVersions';
@@ -180,6 +181,12 @@ const App: React.FC = () => {
                     onDelete={handleDeleteGame}
                   />
                 }
+              />
+
+              {/* 随机数 */}
+              <Route
+                path="/random"
+                element={<RandomNumberView />}
               />
             </Routes>
             </ErrorBoundary>
