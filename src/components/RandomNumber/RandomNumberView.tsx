@@ -5,11 +5,13 @@ export const RandomNumberView: React.FC = () => {
   const [result, setResult] = useState<number | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [lastRange, setLastRange] = useState<number>(0);
+  const [flashKey, setFlashKey] = useState(0);
 
   const generateRandom = useCallback((max: number) => {
     const random = Math.floor(Math.random() * max) + 1;
     setResult(random);
     setLastRange(max);
+    setFlashKey(k => k + 1);
   }, []);
 
   const handleNumberClick = useCallback((num: number) => {
@@ -70,7 +72,7 @@ export const RandomNumberView: React.FC = () => {
               </div>
             ) : (
               <div>
-                <div className="text-7xl font-bold text-gradient mb-2 animate-bounce-in">
+                <div key={flashKey} className="text-7xl font-bold text-gradient mb-2 animate-number-flash">
                   {result}
                 </div>
                 <p className="text-sm text-[#94a3b8]">

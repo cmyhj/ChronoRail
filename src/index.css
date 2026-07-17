@@ -502,3 +502,19 @@ input:focus, textarea:focus, select:focus {
 .tooltip:hover::after {
   opacity: 1;
 }
+
+/* 随机数生成闪烁效果 */
+@keyframes number-flash {
+  0% {
+    transform: scale(1.15);
+    filter: brightness(2) drop-shadow(0 0 20px var(--glow-color));
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1) drop-shadow(0 0 0 transparent);
+  }
+}
+
+.animate-number-flash {
+  animation: number-flash 0.1s ease-out;
+}
