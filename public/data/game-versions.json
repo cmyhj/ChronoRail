@@ -56,6 +56,13 @@
       "gameName": "绝区零",
       "versions": [
         {
+          "version": "3.1", "name": "漫长的告别", "startDate": "2026-07-29", "endDate": "2026-09-08",
+          "banners": [
+            { "name": "卡池", "character": "蕾米埃尔", "startDate": "2026-07-29", "endDate": "2026-09-08" },
+            { "name": "卡池", "character": "希格莉德", "startDate": "2026-08-19", "endDate": "2026-09-08" }
+          ]
+        },
+        {
           "version": "3.0", "name": "某个梦游者的自白", "startDate": "2026-06-17", "endDate": "2026-07-28",
           "banners": [
             { "name": "上半卡池", "character": "维琳娜", "startDate": "2026-06-17", "endDate": "2026-07-08" },
@@ -103,6 +110,12 @@
       "gameId": "arknights",
       "gameName": "明日方舟",
       "versions": [
+        {
+          "version": "SideStory", "name": "直到大地变成一颗酸橙", "startDate": "2026-08-01", "endDate": "2026-08-22",
+          "banners": [
+            { "name": "限定寻访", "character": "予愿安洁莉娜[限定] \\ 珊比", "startDate": "2026-08-01", "endDate": "2026-08-14" }
+          ]
+        },
         {
           "version": "故事集", "name": "丛林症结", "startDate": "2026-07-10", "endDate": "2026-07-17",
           "banners": [
