@@ -95,6 +95,13 @@
       "gameName": "鸣潮",
       "versions": [
         {
+          "version": "3.6", "name": "蜃云灯影，凡尘剑心", "startDate": "2026-08-20", "endDate": "2026-10-01",
+          "banners": [
+            { "name": "上半卡池", "character": "清宵", "startDate": "2026-08-20", "endDate": "2026-09-10" },
+            { "name": "下半卡池", "character": "景燃", "startDate": "2026-09-10", "endDate": "2026-10-01" }
+          ]
+        },
+        {
           "version": "3.5", "name": "遗音扶剑，荡梦而歌", "startDate": "2026-07-10", "endDate": "2026-08-21",
           "banners": [
             { "name": "上半卡池", "character": "秧秧·玄翎 + 陆·赫斯", "startDate": "2026-07-10", "endDate": "2026-07-31" },
@@ -208,6 +215,13 @@
       "gameId": "yihuan",
       "gameName": "异环",
       "versions": [
+        {
+          "version": "1.3", "name": "雾中朔望星回", "startDate": "2026-08-13", "endDate": "2026-09-24",
+          "banners": [
+            { "name": "上半卡池", "character": "残虹/娜娜莉", "startDate": "2026-08-13", "endDate": "2026-09-03" },
+            { "name": "下半卡池", "character": "灵可/浔", "startDate": "2026-09-03", "endDate": "2026-09-24" }
+          ]
+        },
         {
           "version": "1.2", "name": "九百九十九夜", "startDate": "2026-07-02", "endDate": "2026-08-13",
           "banners": [
