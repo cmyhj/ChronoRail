@@ -11,21 +11,21 @@ interface ToastProps {
 const typeConfig = {
   success: {
     icon: CheckCircle,
-    bg: 'bg-[#67c23a]/10',
-    border: 'border-[#67c23a]/30',
-    text: 'text-[#67c23a]',
+    bg: 'bg-success/10',
+    border: 'border-success/30',
+    text: 'text-success',
   },
   error: {
     icon: AlertCircle,
-    bg: 'bg-[#ef4444]/10',
-    border: 'border-[#ef4444]/30',
-    text: 'text-[#ef4444]',
+    bg: 'bg-danger/10',
+    border: 'border-danger/30',
+    text: 'text-danger',
   },
   info: {
     icon: Info,
-    bg: 'bg-[#6366f1]/10',
-    border: 'border-[#6366f1]/30',
-    text: 'text-[#6366f1]',
+    bg: 'bg-info/10',
+    border: 'border-info/30',
+    text: 'text-info',
   },
 };
 
@@ -39,23 +39,16 @@ export const Toast: React.FC<ToastProps> = ({ message, type, onClose, duration =
   }, [onClose, duration]);
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 animate-slide-in-right">
+    <div className="fixed bottom-4 right-4 z-50 animate-toast-in">
       <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border ${config.bg} ${config.border} shadow-2xl backdrop-blur-sm`}>
         <Icon size={18} className={config.text} />
-        <span className="text-sm text-[#e2e8f0] font-medium">{message}</span>
+        <span className="text-sm text-fg font-medium">{message}</span>
         <button
           onClick={onClose}
-          className="p-1 text-[#64748b] hover:text-[#e2e8f0] transition-colors rounded-md hover:bg-white/10"
+          className="p-1 text-fg-3 hover:text-fg transition-colors rounded-md hover:bg-white/10"
         >
           <X size={14} />
         </button>
-      </div>
-      {/* Auto-dismiss progress bar */}
-      <div className="h-0.5 bg-gradient-to-r from-transparent via-current to-transparent opacity-30 rounded-full overflow-hidden">
-        <div 
-          className="h-full bg-current animate-shrink"
-          style={{ animationDuration: `${duration}ms` }}
-        />
       </div>
     </div>
   );

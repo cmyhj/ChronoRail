@@ -11,16 +11,14 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   const { isMobile } = useResponsive();
 
   return (
-    <header className="sticky top-0 z-40 glass border-b border-[#1e1e3a] shadow-lg shadow-black/20">
-      <div className="flex items-center gap-2 px-3 h-10 md:h-11">
+    <header className="sticky top-0 z-40 bg-panel border-b border-line">
+      <div className="flex items-center gap-2 px-3 h-12">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-1.5 group shrink-0">
-          <div className="relative">
-            <div className="w-7 h-7 bg-gradient-to-br from-[#6366f1] to-[#818cf8] rounded-lg flex items-center justify-center shadow-lg shadow-[#6366f1]/20 group-hover:shadow-[#6366f1]/40 transition-shadow">
-              <span className="text-white font-bold text-[10px]">CR</span>
-            </div>
+          <div className="w-7 h-7 bg-accent rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-[10px]">CR</span>
           </div>
-          <span className="text-sm font-bold text-gradient hidden sm:block">
+          <span className="text-sm font-bold text-fg hidden sm:block">
             ChronoRail
           </span>
         </Link>
@@ -30,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
           href="https://github.com/cmyhj/ChronoRail"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-1.5 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
+          className="p-1.5 text-fg-2 hover:text-fg hover:bg-hover rounded-lg transition-all duration-150"
           title="GitHub"
           aria-label="GitHub"
         >
@@ -43,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
         {isMobile && (
           <button
             onClick={onMenuToggle}
-            className="ml-auto p-1.5 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
+            className="ml-auto p-1.5 text-fg-2 hover:text-fg hover:bg-hover rounded-lg transition-all duration-150"
             aria-label="打开菜单"
           >
             <Menu size={18} />

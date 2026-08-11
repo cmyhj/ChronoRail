@@ -107,21 +107,21 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   return (
     <div className="h-full flex flex-col">
       {/* 工具栏 */}
-      <div className="flex items-center justify-between p-3 md:p-4 bg-[#1a1a2e] border-b border-[#2d2d4a]">
+      <div className="flex items-center justify-between p-3 md:p-4 bg-panel border-b border-line">
         <button
           onClick={() => navigate('prev')}
-          className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] active:bg-[#2d2d4a] rounded-xl transition-colors"
+          className="flex items-center justify-center w-10 h-10 text-fg-2 hover:text-fg hover:bg-hover active:bg-white/10 rounded-lg transition-colors duration-150"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={20} />
         </button>
 
         <div className="flex items-center gap-2 md:gap-3">
-          <span className="text-[#e2e8f0] font-semibold text-base md:text-lg tracking-wide">
+          <span className="text-fg font-semibold text-base md:text-lg tracking-wide">
             {currentDate.format('YYYY年MM月')}
           </span>
           <button
             onClick={goToToday}
-            className="px-3 py-1.5 text-xs md:text-sm font-medium text-[#818cf8] bg-[#818cf8]/10 hover:bg-[#818cf8]/20 rounded-full transition-colors"
+            className="px-3 py-1.5 text-xs md:text-sm font-medium text-accent bg-accent/10 hover:bg-accent/20 rounded-full transition-colors duration-150"
           >
             今天
           </button>
@@ -129,9 +129,9 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
         <button
           onClick={() => navigate('next')}
-          className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] active:bg-[#2d2d4a] rounded-xl transition-colors"
+          className="flex items-center justify-center w-10 h-10 text-fg-2 hover:text-fg hover:bg-hover active:bg-white/10 rounded-lg transition-colors duration-150"
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={20} />
         </button>
       </div>
 
@@ -144,7 +144,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             {weekDays.map(day => (
               <div
                 key={day}
-                className="text-center text-xs font-medium text-[#64748b] py-2"
+                className="text-center text-xs font-medium text-fg-3 py-2"
               >
                 {day}
               </div>
@@ -178,9 +178,9 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
         {/* 侧边详情 */}
         {selectedDate && (
-          <div className="lg:w-80 border-t lg:border-t-0 lg:border-l border-[#2d2d4a] bg-[#16162a] overflow-auto animate-fade-in">
+          <div className="lg:w-80 border-t lg:border-t-0 lg:border-l border-line bg-panel overflow-auto animate-overlay-in">
             <div className="p-4">
-              <h3 className="text-lg font-semibold text-[#e2e8f0] mb-4">
+              <h3 className="text-lg font-semibold text-fg mb-4">
                 {dayjs(selectedDate).format('YYYY年MM月DD日')}
               </h3>
 
@@ -192,20 +192,20 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                       <div
                         key={version.id}
                         onClick={() => onVersionClick?.(version)}
-                        className="p-3 bg-[#1a1a2e] rounded-lg border border-[#2d2d4a] cursor-pointer hover:border-[#6366f1]/50 transition-colors"
+                        className="p-3 bg-card rounded-lg border border-line cursor-pointer hover:border-accent/30 transition-colors duration-150"
                       >
                         <div className="flex items-center gap-2 mb-2">
                           <div
                             className="w-2 h-2 rounded-full"
                             style={{ backgroundColor: game?.color || '#6366f1' }}
                           />
-                          <span className="text-xs text-[#94a3b8]">{game?.name}</span>
+                          <span className="text-xs text-fg-2">{game?.name}</span>
                         </div>
-                        <div className="text-sm font-medium text-[#e2e8f0] mb-1">
+                        <div className="text-sm font-medium text-fg mb-1">
                           v{version.version} - {version.name}
                         </div>
                         {version.description && (
-                          <p className="text-xs text-[#64748b] line-clamp-2">
+                          <p className="text-xs text-fg-3 line-clamp-2">
                             {version.description}
                           </p>
                         )}
@@ -214,7 +214,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                   })}
                 </div>
               ) : (
-                <p className="text-sm text-[#64748b] text-center py-8">
+                <p className="text-sm text-fg-3 text-center py-8">
                   当天没有版本更新
                 </p>
               )}

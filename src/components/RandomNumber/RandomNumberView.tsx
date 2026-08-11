@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { RefreshCw } from 'lucide-react';
+import { Button } from '../Common/Button';
 
 export const RandomNumberView: React.FC = () => {
   const [result, setResult] = useState<number | null>(null);
@@ -43,18 +44,19 @@ export const RandomNumberView: React.FC = () => {
   return (
     <div className="h-full flex flex-col">
       {/* 工具栏 */}
-      <div className="flex items-center justify-between p-3 md:p-4 bg-[#1a1a2e] border-b border-[#2d2d4a]">
-        <h1 className="text-[#e2e8f0] font-semibold text-base md:text-lg">
+      <div className="flex items-center justify-between p-3 md:p-4 bg-panel border-b border-line">
+        <h1 className="text-fg font-semibold text-base md:text-lg">
           随机数生成器
         </h1>
         {result !== null && (
-          <button
+          <Button
+            variant="secondary"
+            size="sm"
             onClick={handleRegenerate}
-            className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-[#818cf8] bg-[#818cf8]/10 hover:bg-[#818cf8]/20 rounded-lg transition-colors"
+            icon={<RefreshCw size={14} />}
           >
-            <RefreshCw size={14} />
             重新生成
-          </button>
+          </Button>
         )}
       </div>
 
@@ -62,20 +64,20 @@ export const RandomNumberView: React.FC = () => {
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-sm">
           {/* 结果显示框 */}
-          <div className="mb-8 p-8 bg-[#1a1a2e] rounded-2xl border border-[#2d2d4a] text-center">
+          <div className="mb-8 p-8 bg-card rounded-2xl border border-line text-center">
             {result === null ? (
               <div>
-                <div className="text-6xl font-bold text-[#64748b] mb-2">?</div>
-                <p className="text-sm text-[#64748b]">
+                <div className="text-6xl font-bold text-fg-3 mb-2">?</div>
+                <p className="text-sm text-fg-3">
                   点击下方按钮或输入数字开始
                 </p>
               </div>
             ) : (
               <div>
-                <div key={flashKey} className="text-7xl font-bold text-gradient mb-2 animate-number-flash">
+                <div key={flashKey} className="text-7xl font-bold text-accent mb-2 animate-number-flash">
                   {result}
                 </div>
-                <p className="text-sm text-[#94a3b8]">
+                <p className="text-sm text-fg-2">
                   1 ~ {lastRange} 的随机数
                 </p>
               </div>
@@ -88,7 +90,7 @@ export const RandomNumberView: React.FC = () => {
               <button
                 key={num}
                 onClick={() => handleNumberClick(num)}
-                className="aspect-square flex items-center justify-center text-2xl font-bold text-[#e2e8f0] bg-[#1a1a2e] border border-[#2d2d4a] rounded-xl hover:bg-[#252540] hover:border-[#6366f1]/50 active:scale-95 transition-all duration-150"
+                className="aspect-square flex items-center justify-center text-2xl font-bold text-fg bg-card border border-line rounded-xl hover:bg-hover hover:border-accent/30 active:scale-95 transition-all duration-150"
               >
                 {num}
               </button>
@@ -101,7 +103,7 @@ export const RandomNumberView: React.FC = () => {
               onKeyDown={handleInputKeyDown}
               placeholder="n"
               min="2"
-              className="aspect-square flex items-center justify-center text-center text-xl font-bold text-[#e2e8f0] bg-[#1a1a2e] border border-[#2d2d4a] rounded-xl focus:outline-none focus:border-[#6366f1] placeholder-[#64748b] w-full"
+              className="aspect-square flex items-center justify-center text-center text-xl font-bold text-fg bg-card border border-line rounded-xl focus:outline-none focus:border-accent placeholder-fg-3 w-full"
             />
           </div>
         </div>

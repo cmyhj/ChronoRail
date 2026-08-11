@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import type { ErrorInfo, ReactNode } from 'react';
+import { Button } from './Button';
 
 interface Props {
   children: ReactNode;
@@ -34,16 +35,13 @@ export class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <div className="flex flex-col items-center justify-center h-full p-8 text-center">
-          <div className="text-red-400 text-xl mb-4">页面出现错误</div>
-          <div className="text-gray-400 text-sm mb-6 max-w-md">
+          <div className="text-danger text-xl mb-4">页面出现错误</div>
+          <div className="text-fg-3 text-sm mb-6 max-w-md">
             {this.state.error?.message || '未知错误'}
           </div>
-          <button
-            onClick={this.handleReset}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors"
-          >
+          <Button onClick={this.handleReset}>
             重试
-          </button>
+          </Button>
         </div>
       );
     }

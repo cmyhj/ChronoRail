@@ -47,55 +47,55 @@ export const VersionDetail: React.FC<VersionDetailProps> = ({
         {/* 头部信息 */}
         <div className="flex items-start gap-4">
           <div
-            className="w-16 h-16 rounded-xl flex items-center justify-center shadow-lg"
-            style={{ backgroundColor: `${color}20`, boxShadow: `0 4px 12px ${color}30` }}
+            className="w-16 h-16 rounded-xl flex items-center justify-center"
+            style={{ backgroundColor: `${color}15` }}
           >
             <GameIcon gameId={version.gameId} size={36} />
           </div>
           
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="text-2xl font-bold text-[#e2e8f0]">
+              <h3 className="text-2xl font-bold text-fg">
                 v{version.version}
               </h3>
               {isCurrent && (
-                <span className="px-2 py-0.5 text-xs bg-[#67c23a]/20 text-[#67c23a] rounded-full">
+                <span className="px-2 py-0.5 text-xs bg-success/15 text-success rounded-full">
                   当前版本
                 </span>
               )}
             </div>
-            <p className="text-lg text-[#94a3b8]">{version.name}</p>
+            <p className="text-lg text-fg-2">{version.name}</p>
             {game && (
-              <p className="text-sm text-[#64748b] mt-1">{game.name}</p>
+              <p className="text-sm text-fg-3 mt-1">{game.name}</p>
             )}
           </div>
         </div>
 
         {/* 时间信息 */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-[#16162a] rounded-lg p-4">
-            <div className="flex items-center gap-2 text-[#64748b] mb-2">
+          <div className="bg-panel rounded-lg p-4 border border-line">
+            <div className="flex items-center gap-2 text-fg-3 mb-2">
               <Calendar size={16} />
               <span className="text-sm">更新日期</span>
             </div>
-            <p className="text-[#e2e8f0] font-medium">
+            <p className="text-fg font-medium">
               {startDate.format('YYYY-MM-DD')}
             </p>
-            <p className="text-xs text-[#64748b] mt-1">
+            <p className="text-xs text-fg-3 mt-1">
               {daysFromNow >= 0 ? `${daysFromNow}天前` : `${Math.abs(daysFromNow)}天后`}
             </p>
           </div>
           
           {endDate && (
-            <div className="bg-[#16162a] rounded-lg p-4">
-              <div className="flex items-center gap-2 text-[#64748b] mb-2">
+            <div className="bg-panel rounded-lg p-4 border border-line">
+              <div className="flex items-center gap-2 text-fg-3 mb-2">
                 <Clock size={16} />
                 <span className="text-sm">持续时间</span>
               </div>
-              <p className="text-[#e2e8f0] font-medium">
+              <p className="text-fg font-medium">
                 {duration}天
               </p>
-              <p className="text-xs text-[#64748b] mt-1">
+              <p className="text-xs text-fg-3 mt-1">
                 {endDate.format('YYYY-MM-DD')} 结束
               </p>
             </div>
@@ -104,31 +104,31 @@ export const VersionDetail: React.FC<VersionDetailProps> = ({
 
         {/* 版本描述 */}
         {version.description && (
-          <div className="bg-[#16162a] rounded-lg p-4">
-            <h4 className="text-sm font-medium text-[#64748b] mb-2">版本描述</h4>
-            <p className="text-[#e2e8f0]">{version.description}</p>
+          <div className="bg-panel rounded-lg p-4 border border-line">
+            <h4 className="text-sm font-medium text-fg-3 mb-2">版本描述</h4>
+            <p className="text-fg">{version.description}</p>
           </div>
         )}
 
         {/* 元信息 */}
-        <div className="bg-[#16162a] rounded-lg p-4">
-          <h4 className="text-sm font-medium text-[#64748b] mb-3">其他信息</h4>
+        <div className="bg-panel rounded-lg p-4 border border-line">
+          <h4 className="text-sm font-medium text-fg-3 mb-3">其他信息</h4>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-[#64748b]">数据来源</span>
-              <span className="text-[#e2e8f0]">
+              <span className="text-fg-3">数据来源</span>
+              <span className="text-fg">
                 {version.isAutoFetched ? '自动获取' : '手动输入'}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#64748b]">创建时间</span>
-              <span className="text-[#e2e8f0]">
+              <span className="text-fg-3">创建时间</span>
+              <span className="text-fg">
                 {dayjs(version.createdAt).format('YYYY-MM-DD HH:mm')}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-[#64748b]">更新时间</span>
-              <span className="text-[#e2e8f0]">
+              <span className="text-fg-3">更新时间</span>
+              <span className="text-fg">
                 {dayjs(version.updatedAt).format('YYYY-MM-DD HH:mm')}
               </span>
             </div>

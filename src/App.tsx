@@ -126,7 +126,7 @@ const App: React.FC = () => {
 
   return (
     <Router basename="/ChronoRail">
-      <div className="h-screen flex flex-col bg-[#0f0f23]">
+      <div className="h-screen flex flex-col bg-ink">
         {/* 头部 */}
         <Header 
           onMenuToggle={() => setDrawerOpen(true)} 

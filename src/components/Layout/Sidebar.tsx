@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Plus, Download, Upload } from 'lucide-react';
 import { GameIcon } from '../Common/GameIcon';
-import { gameColors } from '../Common/gameData';
 import { NAV_ITEMS } from '../../constants/navigation';
 import { DEFAULT_PRESET_GAMES } from '../../hooks/useGames';
 import { dataService } from '../../services/storage';
@@ -49,21 +48,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
     });
 
     return (
-    <aside className="w-64 bg-[#0e0e20] border-r border-[#1e1e3a] h-full overflow-y-auto">
+    <aside className="w-60 bg-panel border-r border-line h-full overflow-y-auto shrink-0">
       <div className="p-4">
         {/* 导航菜单 */}
         <nav className="mb-6">
-          <ul className="space-y-1">
+          <ul className="space-y-0.5">
             {NAV_ITEMS.map((item) => {
               return (
                 <li key={item.path}>
                   <Link
                     to={item.path}
                     className={`
-                      flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                      flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150
                       ${isActive(item.path)
-                        ? 'bg-gradient-to-r from-[#6366f1]/20 to-[#818cf8]/10 text-[#818cf8] border border-[#6366f1]/30 shadow-lg shadow-[#6366f1]/10 glow-effect'
-                        : 'text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#1a1a35]'
+                        ? 'bg-white/8 text-fg'
+                        : 'text-fg-2 hover:text-fg hover:bg-white/5'
                       }
                     `}
                   >
@@ -78,40 +77,37 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* 游戏列表 */}
         <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xs font-semibold text-[#64748b] uppercase tracking-wider">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-[11px] font-medium text-fg-4 uppercase tracking-wider">
               游戏列表
             </h3>
             <button
               onClick={onAddGame}
-              className="p-1.5 text-[#64748b] hover:text-[#6366f1] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
+              className="p-1 text-fg-3 hover:text-accent hover:bg-hover rounded-md transition-colors duration-150"
               title="添加游戏"
               aria-label="添加游戏"
             >
-              <Plus size={16} />
+              <Plus size={14} />
             </button>
           </div>
           
-          <ul className="space-y-2">
+          <ul className="space-y-1">
             {sortedGames.map((game) => {
               return (
                 <li key={game.id}>
-                  <div
-                    className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm transition-all duration-200 hover:bg-[#1a1a35] hover:shadow-md group cursor-pointer"
-                    style={{ borderLeft: `3px solid ${game.color || gameColors[game.id] || '#6366f1'}` }}
-                  >
-                    <div className="relative">
-                      <GameIcon gameId={game.id} size={32} />
+                  <div className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm transition-colors duration-150 hover:bg-hover cursor-pointer group">
+                    <div className="relative shrink-0">
+                      <GameIcon gameId={game.id} size={28} />
                       <div 
-                        className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-[#0e0e20]"
-                        style={{ backgroundColor: game.autoFetch ? '#10b981' : '#f59e0b' }}
+                        className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border-2 border-panel"
+                        style={{ backgroundColor: game.autoFetch ? '#34d399' : '#fbbf24' }}
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <span className="truncate font-medium text-[#e2e8f0] block text-sm">
+                      <span className="truncate font-medium text-fg block text-sm">
                         {game.name}
                       </span>
-                      <span className="text-[10px] text-[#64748b]">
+                      <span className="text-[10px] text-fg-3">
                         {game.autoFetch ? '自动同步' : '手动管理'}
                       </span>
                     </div>
@@ -123,10 +119,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           {sortedGames.length === 0 && (
             <div className="text-center py-6">
-              <div className="w-12 h-12 mx-auto mb-3 bg-[#1a1a35] rounded-full flex items-center justify-center">
-                <span className="text-2xl">🎮</span>
-              </div>
-              <p className="text-xs text-[#64748b]">
+              <p className="text-xs text-fg-3">
                 暂无游戏，点击 + 添加
               </p>
             </div>
@@ -134,11 +127,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* 底部信息 */}
-        <div className="mt-6 pt-4 border-t border-[#1e1e3a]">
+        <div className="mt-6 pt-4 border-t border-line">
           <div className="flex items-center justify-center gap-2 mb-3">
             <button
               onClick={handleExport}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] text-[#64748b] hover:text-[#e2e8f0] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] text-fg-3 hover:text-fg hover:bg-hover rounded-lg transition-colors duration-150"
               title="导出数据"
             >
               <Download size={12} />
@@ -146,7 +139,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] text-[#64748b] hover:text-[#e2e8f0] hover:bg-[#1a1a35] rounded-lg transition-all duration-200"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] text-fg-3 hover:text-fg hover:bg-hover rounded-lg transition-colors duration-150"
               title="导入数据"
             >
               <Upload size={12} />
@@ -161,7 +154,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             />
           </div>
           <div className="text-center">
-            <p className="text-[10px] text-[#64748b]">
+            <p className="text-[10px] text-fg-4">
               共 {sortedGames.length} 个游戏
             </p>
           </div>

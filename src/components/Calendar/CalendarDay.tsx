@@ -30,13 +30,13 @@ export const CalendarDay: React.FC<CalendarDayProps> = React.memo(({
     <div
       onClick={() => onClick(dateKey)}
       className={`
-        relative min-h-[60px] md:min-h-[80px] p-1 md:p-1.5 rounded-lg cursor-pointer transition-all duration-200
-        ${isCurrentMonth ? 'bg-[#1a1a2e]' : 'bg-[#0f0f23]/50'}
+        relative min-h-[60px] md:min-h-[80px] p-1 md:p-1.5 rounded-lg cursor-pointer transition-colors duration-150
+        ${isCurrentMonth ? 'bg-card' : 'bg-ink/50'}
         ${isSelected 
-          ? 'ring-2 ring-[#6366f1] bg-[#6366f1]/10 shadow-lg shadow-[#6366f1]/20' 
-          : 'active:bg-[#252540] md:hover:bg-[#252540] md:hover:shadow-md border border-[#2d2d4a]/50'
+          ? 'ring-2 ring-accent bg-accent/10' 
+          : 'border border-line/50 hover:bg-hover'
         }
-        ${isToday ? 'border-[#6366f1]' : ''}
+        ${isToday && !isSelected ? 'border-accent/40' : ''}
       `}
     >
       {/* 日期数字 */}
@@ -45,10 +45,10 @@ export const CalendarDay: React.FC<CalendarDayProps> = React.memo(({
           className={`
             text-[10px] md:text-xs font-medium
             ${isToday 
-              ? 'w-5 h-5 md:w-6 md:h-6 flex items-center justify-center bg-[#6366f1] text-white rounded-full' 
+              ? 'w-5 h-5 md:w-6 md:h-6 flex items-center justify-center bg-accent text-white rounded-full' 
               : isCurrentMonth 
-                ? 'text-[#e2e8f0]' 
-                : 'text-[#64748b]'
+                ? 'text-fg' 
+                : 'text-fg-3'
             }
           `}
         >
@@ -56,7 +56,7 @@ export const CalendarDay: React.FC<CalendarDayProps> = React.memo(({
         </span>
         
         {versions.length > 0 && (
-          <span className="text-[8px] md:text-[10px] text-[#64748b]">
+          <span className="text-[8px] md:text-[10px] text-fg-3">
             {versions.length}
           </span>
         )}
@@ -71,7 +71,7 @@ export const CalendarDay: React.FC<CalendarDayProps> = React.memo(({
               key={version.id}
               className="flex items-center gap-0.5 md:gap-1 px-0.5 md:px-1 py-0 md:py-0.5 rounded text-[8px] md:text-[10px] truncate"
               style={{
-                backgroundColor: `${color}20`,
+                backgroundColor: `${color}15`,
                 color,
               }}
             >
@@ -85,7 +85,7 @@ export const CalendarDay: React.FC<CalendarDayProps> = React.memo(({
         })}
         
         {remainingCount > 0 && (
-          <div className="text-[8px] md:text-[10px] text-[#64748b] text-center">
+          <div className="text-[8px] md:text-[10px] text-fg-3 text-center">
             +{remainingCount}
           </div>
         )}

@@ -10,16 +10,18 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantClasses = {
-  primary: 'bg-gradient-to-r from-[#6366f1] to-[#818cf8] hover:from-[#4f46e5] hover:to-[#6366f1] text-white shadow-lg hover:shadow-xl hover:shadow-[#6366f1]/25',
-  secondary: 'bg-[#252540] hover:bg-[#2d2d4a] text-[#e2e8f0] border border-[#2d2d4a] hover:border-[#3d3d5a]',
-  ghost: 'bg-transparent hover:bg-[#252540] text-[#94a3b8] hover:text-[#e2e8f0]',
-  danger: 'bg-red-600/90 hover:bg-red-600 text-white shadow-lg hover:shadow-xl hover:shadow-red-600/25',
+  primary: 'bg-accent text-white hover:bg-accent-hover active:bg-accent-hover',
+  secondary:
+    'bg-transparent border border-line text-fg-2 hover:border-line-strong hover:bg-white/5 hover:text-fg',
+  ghost: 'bg-transparent text-fg-2 hover:bg-white/5 hover:text-fg',
+  danger:
+    'bg-danger/10 border border-danger/20 text-danger hover:bg-danger/15 hover:border-danger/30',
 };
 
 const sizeClasses = {
-  sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2 text-base',
-  lg: 'px-6 py-3 text-lg',
+  sm: 'h-8 px-3 text-xs',
+  md: 'h-9 px-4 text-sm',
+  lg: 'h-10 px-5 text-sm',
 };
 
 export const Button: React.FC<ButtonProps> = ({
@@ -36,17 +38,18 @@ export const Button: React.FC<ButtonProps> = ({
     <button
       className={`
         inline-flex items-center justify-center gap-2 rounded-lg font-medium
-        transition-all duration-300 ease-in-out
+        transition-colors duration-150
         ${variantClasses[variant]}
         ${sizeClasses[size]}
-        ${disabled || loading ? 'opacity-50 cursor-not-allowed' : 'hover:-translate-y-0.5'}
+        ${disabled || loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ink
         ${className}
       `}
       disabled={disabled || loading}
       {...props}
     >
       {loading ? (
-        <Loader2 className="animate-spin" size={size === 'sm' ? 14 : size === 'lg' ? 20 : 16} />
+        <Loader2 className="animate-spin" size={size === 'sm' ? 14 : size === 'lg' ? 18 : 16} />
       ) : icon ? (
         icon
       ) : null}

@@ -120,10 +120,10 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
   }, [totalDays]);
 
   return (
-    <div className="flex border-b border-[#1e1e3a]/50 hover:bg-[#12122a]/50 transition-all duration-200 group">
+    <div className="flex border-b border-line/50 hover:bg-white/[0.02] transition-colors duration-150 group">
       {/* 游戏名称 */}
       <div 
-        className={`shrink-0 border-r border-[#1e1e3a]/50 flex items-center gap-2 md:gap-3 transition-colors ${
+        className={`shrink-0 border-r border-line/50 flex items-center gap-2 md:gap-3 transition-colors ${
           isMobile ? 'w-28 px-2 py-4' : 'w-48 px-4 py-5'
         }`}
         style={{ borderLeft: `3px solid ${color}` }}
@@ -131,15 +131,15 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
         <div className="relative">
           <GameIcon gameId={game.id} size={isMobile ? 22 : 28} />
           <div 
-            className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-[#0a0a1a]"
+            className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-ink"
             style={{ backgroundColor: color }}
           />
         </div>
         <div>
-          <span className={`font-medium text-[#e2e8f0] block ${isMobile ? 'text-xs' : 'text-sm'}`}>
+          <span className={`font-medium text-fg block ${isMobile ? 'text-xs' : 'text-sm'}`}>
             {game.name}
           </span>
-          <span className={`text-[#64748b] ${isMobile ? 'text-[9px]' : 'text-[10px]'}`}>
+          <span className={`text-fg-3 ${isMobile ? 'text-[9px]' : 'text-[10px]'}`}>
             {versions.length}个版本 · {visibleBanners.length}个卡池
           </span>
         </div>
@@ -151,7 +151,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
         {gridLines.map((left, i) => (
           <div
             key={i}
-            className="absolute top-0 bottom-0 w-px bg-[#1e1e3a]/30"
+            className="absolute top-0 bottom-0 w-px bg-line/30"
             style={{ left: `${left}%` }}
           />
         ))}
@@ -160,11 +160,11 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
         {todayPosition !== null && (
           <>
             <div
-              className="absolute top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#6366f1] via-[#818cf8] to-[#6366f1] z-10 pointer-events-none"
+              className="absolute top-0 bottom-0 w-[2px] today-line z-10 pointer-events-none"
               style={{ left: `${todayPosition}%` }}
             />
             <div 
-              className="absolute -top-1 w-3 h-3 bg-[#6366f1] rounded-full -translate-x-1/2 z-10 pointer-events-none shadow-lg shadow-[#6366f1]/50"
+              className="absolute -top-1 w-3 h-3 bg-accent rounded-full -translate-x-1/2 z-10 pointer-events-none"
               style={{ left: `${todayPosition}%` }}
             />
           </>
@@ -210,33 +210,19 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
                       style={style}
                     >
                       <div
-                        className="h-full rounded-md transition-all duration-200 hover:brightness-125 relative overflow-hidden"
+                        className="h-full rounded transition-all duration-150 hover:brightness-125 relative overflow-hidden"
                         style={{
-                          background: `linear-gradient(180deg, ${color}25, ${color}45)`,
-                          border: `1px solid ${color}60`,
-                          boxShadow: `inset 0 1px 0 ${color}30`,
+                          background: `linear-gradient(180deg, ${color}20, ${color}35)`,
+                          border: `1px solid ${color}40`,
                         }}
                       >
                         <span 
-                          className="absolute top-0 bottom-0 flex items-center text-[9px] md:text-[10px] font-extrabold whitespace-nowrap"
+                          className="absolute top-0 bottom-0 flex items-center text-[9px] md:text-[10px] font-bold whitespace-nowrap"
                           style={{ 
                             left: `${nameLeftPercent}%`, 
                             transform: 'translateX(-50%)',
                             color: 'white',
-                            textShadow: `
-                              0 0 3px ${color},
-                              0 0 6px ${color},
-                              0 0 10px ${color}80,
-                              2px 2px 2px rgba(0,0,0,0.9),
-                              -2px -2px 2px rgba(0,0,0,0.9),
-                              2px -2px 2px rgba(0,0,0,0.9),
-                              -2px 2px 2px rgba(0,0,0,0.9),
-                              0 2px 2px rgba(0,0,0,0.9),
-                              2px 0 2px rgba(0,0,0,0.9),
-                              0 -2px 2px rgba(0,0,0,0.9),
-                              -2px 0 2px rgba(0,0,0,0.9)
-                            `,
-                            WebkitTextStroke: `0.1px ${color}`,
+                            textShadow: '0 1px 3px rgba(0,0,0,0.8)',
                             letterSpacing: '0.5px',
                           }}
                         >
@@ -245,15 +231,15 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
                       </div>
                       
                       {/* 悬浮提示 */}
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-[#12122a] border border-[#1e1e3a] rounded-lg shadow-xl opacity-0 group-hover/banner:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
-                        <div className="text-xs font-medium text-[#e2e8f0] mb-1">{banner.name}</div>
-                        <div className="text-[10px] text-[#94a3b8] mb-1">{banner.character}</div>
-                        <div className="flex items-center gap-2 text-[10px] text-[#64748b]">
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-card border border-line rounded-lg shadow-xl opacity-0 group-hover/banner:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
+                        <div className="text-xs font-medium text-fg mb-1">{banner.name}</div>
+                        <div className="text-[10px] text-fg-2 mb-1">{banner.character}</div>
+                        <div className="flex items-center gap-2 text-[10px] text-fg-3">
                           <span>{dayjs(banner.startDate).format('MM/DD')}</span>
                           <span>→</span>
                           <span>{dayjs(banner.endDate).format('MM/DD')}</span>
                         </div>
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-[#1e1e3a]" />
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-line" />
                       </div>
                     </div>
                   );
@@ -266,7 +252,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
         {/* 无版本提示 */}
         {versions.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-xs text-[#4a4a6a]">本月暂无版本</span>
+            <span className="text-xs text-fg-4">本月暂无版本</span>
           </div>
         )}
       </div>

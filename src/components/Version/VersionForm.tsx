@@ -55,20 +55,20 @@ export const VersionForm: React.FC<VersionFormProps> = ({
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* 游戏名称（只读） */}
         <div>
-          <label className="block text-sm font-medium text-[#94a3b8] mb-2">
+          <label className="field-label">
             游戏
           </label>
           <input
             type="text"
             value={gameName}
             disabled
-            className="w-full px-4 py-2.5 bg-[#16162a] border border-[#2d2d4a] rounded-lg text-[#64748b] cursor-not-allowed"
+            className="input-base disabled:opacity-50"
           />
         </div>
 
         {/* 版本号 */}
         <div>
-          <label className="block text-sm font-medium text-[#e2e8f0] mb-2">
+          <label className="field-label">
             版本号 *
           </label>
           <input
@@ -76,14 +76,14 @@ export const VersionForm: React.FC<VersionFormProps> = ({
             value={formData.version}
             onChange={(e) => setFormData(prev => ({ ...prev, version: e.target.value }))}
             placeholder="例如: 4.3, 1.5, 2.0"
-            className="w-full px-4 py-2.5 bg-[#16162a] border border-[#2d2d4a] rounded-lg text-[#e2e8f0] placeholder-[#64748b] focus:outline-none focus:border-[#6366f1] transition-colors"
+            className="input-base"
             required
           />
         </div>
 
         {/* 版本名称 */}
         <div>
-          <label className="block text-sm font-medium text-[#e2e8f0] mb-2">
+          <label className="field-label">
             版本名称 *
           </label>
           <input
@@ -91,7 +91,7 @@ export const VersionForm: React.FC<VersionFormProps> = ({
             value={formData.name}
             onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
             placeholder="例如: 沉于生者的忘川"
-            className="w-full px-4 py-2.5 bg-[#16162a] border border-[#2d2d4a] rounded-lg text-[#e2e8f0] placeholder-[#64748b] focus:outline-none focus:border-[#6366f1] transition-colors"
+            className="input-base"
             required
           />
         </div>
@@ -99,34 +99,34 @@ export const VersionForm: React.FC<VersionFormProps> = ({
         {/* 日期 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-[#e2e8f0] mb-2">
+            <label className="field-label">
               更新日期 *
             </label>
             <input
               type="date"
               value={formData.startDate}
               onChange={(e) => setFormData(prev => ({ ...prev, startDate: e.target.value }))}
-              className="w-full px-4 py-2.5 bg-[#16162a] border border-[#2d2d4a] rounded-lg text-[#e2e8f0] focus:outline-none focus:border-[#6366f1] transition-colors"
+              className="input-base"
               required
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-[#e2e8f0] mb-2">
+            <label className="field-label">
               结束日期（可选）
             </label>
             <input
               type="date"
               value={formData.endDate}
               onChange={(e) => setFormData(prev => ({ ...prev, endDate: e.target.value }))}
-              className="w-full px-4 py-2.5 bg-[#16162a] border border-[#2d2d4a] rounded-lg text-[#e2e8f0] focus:outline-none focus:border-[#6366f1] transition-colors"
+              className="input-base"
             />
           </div>
         </div>
 
         {/* 版本描述 */}
         <div>
-          <label className="block text-sm font-medium text-[#e2e8f0] mb-2">
+          <label className="field-label">
             版本描述（可选）
           </label>
           <textarea
@@ -134,7 +134,7 @@ export const VersionForm: React.FC<VersionFormProps> = ({
             onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
             placeholder="输入版本更新内容摘要..."
             rows={3}
-            className="w-full px-4 py-2.5 bg-[#16162a] border border-[#2d2d4a] rounded-lg text-[#e2e8f0] placeholder-[#64748b] focus:outline-none focus:border-[#6366f1] transition-colors resize-none"
+            className="input-base resize-none"
           />
         </div>
 

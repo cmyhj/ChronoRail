@@ -67,20 +67,18 @@ export const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/60 backdrop-blur-sm animate-overlay-in">
       <div
         ref={modalRef}
-        className={`relative w-full ${sizeClasses[size]} bg-[#1a1a2e] border border-[#2d2d4a] md:rounded-xl shadow-2xl animate-modal-up
-          md:max-h-[85vh] max-h-[90vh] rounded-t-xl md:rounded-t-xl
-        `}
+        className={`relative w-full ${sizeClasses[size]} bg-panel border border-line md:rounded-xl shadow-2xl animate-modal-in md:max-h-[85vh] max-h-[90vh] rounded-t-xl md:rounded-t-xl`}
       >
         {/* 头部 */}
-        <div className="flex items-center justify-between p-3 md:p-4 border-b border-[#2d2d4a] sticky top-0 bg-[#1a1a2e] z-10">
-          <h2 className="text-base md:text-lg font-semibold text-[#e2e8f0]">{title}</h2>
+        <div className="flex items-center justify-between p-3 md:p-4 border-b border-line sticky top-0 bg-panel z-10">
+          <h2 className="text-base md:text-lg font-semibold text-fg">{title}</h2>
           {showCloseButton && (
             <button
               onClick={onClose}
-              className="p-1.5 md:p-1 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] rounded-lg transition-colors"
+              className="p-1.5 md:p-1 text-fg-2 hover:text-fg hover:bg-hover rounded-lg transition-colors"
               aria-label="关闭"
             >
               <X size={20} />

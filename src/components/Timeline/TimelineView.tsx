@@ -176,21 +176,21 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   return (
     <div className="h-full flex flex-col">
       {/* 工具栏 */}
-      <div className="flex items-center justify-between p-3 md:p-4 bg-[#1a1a2e] border-b border-[#2d2d4a]">
+      <div className="flex items-center justify-between p-3 md:p-4 bg-panel border-b border-line">
         <button
           onClick={() => navigate('prev')}
-          className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] active:bg-[#2d2d4a] rounded-xl transition-colors"
+          className="flex items-center justify-center w-10 h-10 text-fg-2 hover:text-fg hover:bg-hover active:bg-white/10 rounded-lg transition-colors duration-150"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={20} />
         </button>
 
         <div className="flex items-center gap-2 md:gap-3">
-          <span className="text-[#e2e8f0] font-semibold text-base md:text-lg tracking-wide">
+          <span className="text-fg font-semibold text-base md:text-lg tracking-wide">
             {currentDate.format('YYYY年MM月')}
           </span>
           <button
             onClick={goToToday}
-            className="px-3 py-1.5 text-xs md:text-sm font-medium text-[#818cf8] bg-[#818cf8]/10 hover:bg-[#818cf8]/20 rounded-full transition-colors"
+            className="px-3 py-1.5 text-xs md:text-sm font-medium text-accent bg-accent/10 hover:bg-accent/20 rounded-full transition-colors duration-150"
           >
             今天
           </button>
@@ -198,9 +198,9 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
 
         <button
           onClick={() => navigate('next')}
-          className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-[#252540] active:bg-[#2d2d4a] rounded-xl transition-colors"
+          className="flex items-center justify-center w-10 h-10 text-fg-2 hover:text-fg hover:bg-hover active:bg-white/10 rounded-lg transition-colors duration-150"
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={20} />
         </button>
       </div>
 
@@ -208,15 +208,15 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
       <div className="flex-1 overflow-auto">
         <div className="min-w-[600px] md:min-w-[800px] relative">
           {/* 时间刻度标题 */}
-          <div className="flex border-b border-[#2d2d4a] bg-[#16162a] sticky top-0 z-10">
-            <div className={`shrink-0 px-2 md:px-4 py-2 border-r border-[#2d2d4a] ${isMobile ? 'w-28' : 'w-48'}`}>
-              <span className="text-[10px] md:text-xs text-[#64748b]">游戏</span>
+          <div className="flex border-b border-line bg-panel sticky top-0 z-10">
+            <div className={`shrink-0 px-2 md:px-4 py-2 border-r border-line ${isMobile ? 'w-28' : 'w-48'}`}>
+              <span className="text-[10px] md:text-xs text-fg-3">游戏</span>
             </div>
             <div className="flex-1 relative h-7 md:h-8">
               {timeMarkers.map((marker, index) => (
                 <div
                   key={index}
-                  className="absolute text-[10px] md:text-xs text-[#64748b]"
+                  className="absolute text-[10px] md:text-xs text-fg-3"
                   style={{ left: `${getDayPosition(marker)}%` }}
                 >
                   <span className="ml-0.5 md:ml-1">{marker.format('MM/DD')}</span>
@@ -241,7 +241,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           ))}
 
           {games.length === 0 && (
-            <div className="text-center py-12 text-[#64748b]">
+            <div className="text-center py-12 text-fg-3">
               暂无游戏，请先添加游戏
             </div>
           )}
