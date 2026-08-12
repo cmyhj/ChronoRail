@@ -129,8 +129,8 @@ const App: React.FC = () => {
         <BackgroundPlus
           plusColor="#6366f1"
           plusSize={64}
-          fade
-          className="z-0 opacity-[0.12]"
+          fade={false}
+          className="z-0 opacity-[0.25]"
         />
         <Header
           onMenuToggle={() => setDrawerOpen(true)}
