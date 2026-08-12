@@ -251,7 +251,7 @@
   box-shadow:
     0 0 8px rgba(129, 140, 248, 0.9),
     0 0 20px rgba(99, 102, 241, 0.5);
-  animation: today-scan 1.6s linear infinite;
+  animation: today-scan 2s linear infinite;
   pointer-events: none;
 }
 

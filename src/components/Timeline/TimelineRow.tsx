@@ -173,8 +173,8 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
             >
               {/* 流动光点 ×3 接力：相位均匀错开，消除循环空窗 */}
               <div className="today-scan" />
-              <div className="today-scan" style={{ animationDelay: '-0.53s' }} />
-              <div className="today-scan" style={{ animationDelay: '-1.07s' }} />
+              <div className="today-scan" style={{ animationDelay: '-0.67s' }} />
+              <div className="today-scan" style={{ animationDelay: '-1.33s' }} />
             </div>
           </>
         )}
