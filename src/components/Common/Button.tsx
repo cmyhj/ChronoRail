@@ -32,7 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
     return (
       <button
         className={`
-          relative p-[2px] rounded-lg font-medium group
+          relative p-px rounded-lg font-medium group
           ${sizeClasses[size]}
           ${disabledState ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-1 focus-visible:ring-offset-ink
@@ -41,8 +41,10 @@ export const Button: React.FC<ButtonProps> = ({
         disabled={disabledState}
         {...props}
       >
-        {/* 渐变发光层 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
+        {/* 渐变发光层：未悬浮时暗，hover 时亮起 */}
+        <div
+          className="absolute inset-0 rounded-lg transition-opacity duration-200 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-40 group-hover:opacity-100"
+        />
         {/* 内层：hover 时变透明露出渐变 */}
         <div
           className={`
