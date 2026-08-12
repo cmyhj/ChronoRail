@@ -124,13 +124,20 @@ export const CardItem = ({
     handleAnimations();
   }, [isMouseEntered, handleAnimations]);
 
+  const TagComponent = Tag as React.ComponentType<{
+    ref?: React.Ref<HTMLDivElement>;
+    className?: string;
+    children?: React.ReactNode;
+    [key: string]: unknown;
+  }>;
+
   return (
-    <Tag
+    <TagComponent
       ref={ref}
       className={cn('w-fit transition duration-200 ease-linear', className)}
       {...rest}
     >
       {children}
-    </Tag>
+    </TagComponent>
   );
 };

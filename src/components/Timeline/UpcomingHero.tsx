@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { ArrowRight, Zap } from 'lucide-react';
 import dayjs from 'dayjs';
 import { GameIcon } from '../Common/GameIcon';
+import { CardSpotlight } from '../ui/card-spotlight';
 import type { Game, Version, Banner } from '../../types';
 
 interface UpcomingHeroProps {
@@ -122,25 +123,27 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
           const isImminent = item.daysUntil <= 3;
 
           return (
-            <div
+            <CardSpotlight
               key={item.game.id}
+              color={color}
               className={`
-                relative flex items-center gap-3 p-3 rounded-xl border transition-all duration-200
-                bg-card hover:bg-hover cursor-default group
+                group/spotlight p-3 rounded-xl border transition-all duration-200 cursor-default
+                flex items-center gap-3
+                bg-card/60 backdrop-blur-xl
                 ${isImminent ? 'border-accent/20' : 'border-line hover:border-line-strong'}
               `}
             >
               {/* Color accent */}
               <div
-                className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl"
+                className="absolute left-0 top-0 bottom-0 w-[2px] rounded-l-xl z-10"
                 style={{ backgroundColor: color }}
               />
 
-              <div className="relative shrink-0 ml-1">
+              <div className="relative shrink-0 ml-1 z-10">
                 <GameIcon gameId={item.game.id} size={32} />
               </div>
 
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 relative z-10">
                 <div className="flex items-center gap-1.5 mb-0.5">
                   <span className="text-[11px] font-medium text-fg-3 truncate">
                     {item.game.name}
@@ -164,7 +167,7 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
                 </div>
               </div>
 
-              <div className="shrink-0 text-right flex flex-col items-end gap-1">
+              <div className="shrink-0 text-right flex flex-col items-end gap-1 relative z-10">
                 {item.daysUntil <= 0 ? (
                   <span className="inline-flex px-2 py-0.5 text-[10px] font-semibold text-white bg-accent rounded-full">
                     今天
@@ -182,7 +185,7 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
                   {dayjs(item.nextEvent?.startDate).format('MM/DD')}
                 </span>
               </div>
-            </div>
+            </CardSpotlight>
           );
         })}
       </div>
