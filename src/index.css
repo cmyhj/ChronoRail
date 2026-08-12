@@ -258,18 +258,9 @@
 @keyframes today-scan {
   0% {
     top: 105%;
-    opacity: 0;
-  }
-  6% {
-    opacity: 1;
-  }
-  94% {
-    top: -10%;
-    opacity: 1;
   }
   100% {
     top: -10%;
-    opacity: 0;
   }
 }
 
