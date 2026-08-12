@@ -58,18 +58,18 @@ export const VersionBlock: React.FC<VersionBlockProps> = ({
             >
               <div
                 className={`font-bold truncate text-center leading-tight ${isMobile ? 'text-[9px]' : 'text-[11px]'}`}
-                style={{ color: gameColor }}
+                style={{ color: '#ffffff', textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
               >
                 v{version.version}
               </div>
 
               {!isMobile && (
-                <div className="truncate text-center leading-tight text-[9px] mt-0.5 text-fg-3 font-medium max-w-full">
+                <div className="truncate text-center leading-tight text-[9px] mt-0.5 text-fg font-medium max-w-full">
                   {version.name}
                 </div>
               )}
 
-              <div className={`text-fg-4 ${isMobile ? 'text-[7px]' : 'text-[8px]'} mt-0.5 tabular-nums`}>
+              <div className={`text-[8px] mt-0.5 tabular-nums text-fg-2 ${isMobile ? 'text-[7px]' : ''}`}>
                 {startDate.format('MM/DD')}
                 {endDate && `~${endDate.format('MM/DD')}`}
               </div>
