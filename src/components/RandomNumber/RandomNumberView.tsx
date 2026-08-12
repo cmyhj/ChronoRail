@@ -97,9 +97,14 @@ export const RandomNumberView: React.FC = () => {
             <button
               key={num}
               onClick={() => handleNumberClick(num)}
-              className="aspect-square flex items-center justify-center text-xl font-bold text-fg-2 bg-card border border-line rounded-xl hover:bg-hover hover:border-line-strong hover:text-fg active:scale-95 transition-all duration-150"
+              className="group relative p-px rounded-xl aspect-square cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
-              {num}
+              {/* 渐变发光层（同"添加游戏"按钮） */}
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 opacity-40 group-hover:opacity-100 transition-opacity duration-200" />
+              {/* 内层：hover 时变透明露出渐变 */}
+              <div className="relative h-full w-full rounded-[11px] bg-card flex items-center justify-center text-xl font-bold text-fg-2 group-hover:bg-transparent group-hover:text-black transition-all duration-150 active:scale-95">
+                {num}
+              </div>
             </button>
           ))}
           <input
@@ -109,7 +114,7 @@ export const RandomNumberView: React.FC = () => {
             onKeyDown={handleInputKeyDown}
             placeholder="n"
             min="2"
-            className="aspect-square flex items-center justify-center text-center text-xl font-bold text-fg bg-card border border-line rounded-xl focus:outline-none focus:border-accent placeholder-fg-4 w-full tabular-nums"
+            className="relative p-px rounded-xl aspect-square text-center text-xl font-bold text-fg bg-card border border-line rounded-xl focus:outline-none focus:border-accent placeholder-fg-4 w-full tabular-nums"
           />
         </div>
       </div>
