@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { VersionBlock } from './VersionBlock';
 import { GameIcon } from '../Common/GameIcon';
 import { gameColors } from '../Common/gameData';
+import { CardContainer, CardBody, CardItem } from '../ui/3d-card';
 import type { Game, Version, Banner } from '../../types';
 
 interface TimelineRowProps {
@@ -209,26 +210,35 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
                       className="absolute top-0 h-full cursor-pointer group/banner"
                       style={style}
                     >
-                      <div
-                        className="h-full rounded-sm transition-all duration-150 hover:brightness-125 relative overflow-hidden"
-                        style={{
-                          background: `linear-gradient(180deg, ${color}18, ${color}30)`,
-                          border: `1px solid ${color}30`,
-                        }}
-                      >
-                        <span
-                          className="absolute top-0 bottom-0 flex items-center text-[8px] md:text-[9px] font-bold whitespace-nowrap"
-                          style={{
-                            left: `${nameLeftPercent}%`,
-                            transform: 'translateX(-50%)',
-                            color: 'white',
-                            textShadow: '0 1px 2px rgba(0,0,0,0.7)',
-                            letterSpacing: '0.3px',
-                          }}
-                        >
-                          {banner.character}
-                        </span>
-                      </div>
+                      <CardContainer containerClassName="h-full w-full py-0" className="h-full w-full">
+                        <CardBody className="h-full w-full [transform-style:preserve-3d]">
+                          <CardItem
+                            translateZ={20}
+                            className="w-full h-full"
+                          >
+                            <div
+                              className="h-full rounded-sm relative overflow-hidden"
+                              style={{
+                                background: `linear-gradient(180deg, ${color}18, ${color}30)`,
+                                border: `1px solid ${color}30`,
+                              }}
+                            >
+                              <span
+                                className="absolute top-0 bottom-0 flex items-center text-[8px] md:text-[9px] font-bold whitespace-nowrap"
+                                style={{
+                                  left: `${nameLeftPercent}%`,
+                                  transform: 'translateX(-50%)',
+                                  color: 'white',
+                                  textShadow: '0 1px 2px rgba(0,0,0,0.7)',
+                                  letterSpacing: '0.3px',
+                                }}
+                              >
+                                {banner.character}
+                              </span>
+                            </div>
+                          </CardItem>
+                        </CardBody>
+                      </CardContainer>
 
                       <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-2 bg-card border border-line rounded-lg shadow-xl opacity-0 group-hover/banner:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-30">
                         <div className="text-[11px] font-medium text-fg mb-0.5">{banner.name}</div>
