@@ -16,6 +16,7 @@ interface UpcomingItem {
   game: Game;
   nextEvent: {
     type: 'banner' | 'version';
+    phase?: 'start' | 'end';
     name: string;
     character?: string;
     startDate: string;
@@ -49,6 +50,7 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
             game,
             nextEvent: {
               type: 'banner',
+              phase: 'start',
               name: next.name,
               character: next.character,
               startDate: next.startDate,
@@ -71,6 +73,7 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
             game,
             nextEvent: {
               type: 'banner',
+              phase: 'end',
               name: soonestEnding.name,
               character: soonestEnding.character,
               startDate: soonestEnding.startDate,
@@ -171,7 +174,22 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
               </div>
 
               <div className="shrink-0 text-right flex flex-col items-end gap-1 relative z-10">
-                {item.daysUntil <= 0 ? (
+                {item.nextEvent?.phase === 'end' ? (
+                  // 即将结束
+                  item.daysUntil <= 0 ? (
+                    <span className="inline-flex px-2 py-0.5 text-[10px] font-semibold text-white bg-warning rounded-full">
+                      今天结束
+                    </span>
+                  ) : item.daysUntil <= 3 ? (
+                    <span className="inline-flex px-2 py-0.5 text-[10px] font-semibold text-warning bg-warning/10 rounded-full">
+                      {item.daysUntil}天后结束
+                    </span>
+                  ) : (
+                    <span className="inline-flex px-2 py-0.5 text-[10px] font-medium text-fg-2 bg-white/[0.05] rounded-full">
+                      {item.daysUntil}天后结束
+                    </span>
+                  )
+                ) : item.daysUntil <= 0 ? (
                   <span className="inline-flex px-2 py-0.5 text-[10px] font-semibold text-white bg-accent rounded-full">
                     今天
                   </span>
@@ -185,7 +203,9 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
                   </span>
                 )}
                 <span className="text-[10px] text-fg-4 tabular-nums">
-                  {dayjs(item.nextEvent?.startDate).format('MM/DD')}
+                  {item.nextEvent?.phase === 'end'
+                    ? dayjs(item.nextEvent.endDate).format('MM/DD')
+                    : dayjs(item.nextEvent?.startDate).format('MM/DD')}
                 </span>
               </div>
             </CardSpotlight>
