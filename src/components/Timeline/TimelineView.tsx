@@ -193,7 +193,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
               <TextGenerateEffect
                 words="时间轴"
                 className="text-xs font-semibold uppercase tracking-wider"
-                duration={0.8}
+                duration={0.6}
               />
             </div>
 
