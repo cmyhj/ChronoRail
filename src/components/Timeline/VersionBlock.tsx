@@ -1,5 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import { CardContainer, CardBody, CardItem } from '../ui/3d-card';
 import type { Version } from '../../types';
 
 interface VersionBlockProps {
@@ -32,40 +33,50 @@ export const VersionBlock: React.FC<VersionBlockProps> = ({
       style={style}
       onClick={onClick}
     >
-      <div
-        className={`
-          h-full rounded-md px-1.5 md:px-2 flex flex-col items-center justify-center transition-all duration-150
-          ${isCurrent
-            ? 'ring-1 ring-accent/60'
-            : isPast
-              ? 'opacity-30'
-              : 'opacity-80'
-          }
-          hover:opacity-100 hover:z-20 hover:scale-[1.02]
-        `}
-        style={{
-          background: `linear-gradient(135deg, ${gameColor}15, ${gameColor}28)`,
-          border: `1px solid ${gameColor}30`,
-        }}
-      >
-        <div
-          className={`font-bold truncate text-center leading-tight ${isMobile ? 'text-[9px]' : 'text-[11px]'}`}
-          style={{ color: gameColor }}
-        >
-          v{version.version}
-        </div>
+      <CardContainer containerClassName="h-full w-full py-0" className="h-full w-full">
+        <CardBody className="h-full w-full [transform-style:preserve-3d]">
+          <CardItem
+            translateZ={30}
+            className="w-full h-full"
+          >
+            <div
+              className={`
+                h-full w-full rounded-md px-1.5 md:px-2 flex flex-col items-center justify-center
+                transition-all duration-150
+                ${isCurrent
+                  ? 'ring-1 ring-accent/60'
+                  : isPast
+                    ? 'opacity-30'
+                    : 'opacity-80'
+                }
+                hover:opacity-100
+              `}
+              style={{
+                background: `linear-gradient(135deg, ${gameColor}15, ${gameColor}28)`,
+                border: `1px solid ${gameColor}30`,
+              }}
+            >
+              <div
+                className={`font-bold truncate text-center leading-tight ${isMobile ? 'text-[9px]' : 'text-[11px]'}`}
+                style={{ color: gameColor }}
+              >
+                v{version.version}
+              </div>
 
-        {!isMobile && (
-          <div className="truncate text-center leading-tight text-[9px] mt-0.5 text-fg-3 font-medium max-w-full">
-            {version.name}
-          </div>
-        )}
+              {!isMobile && (
+                <div className="truncate text-center leading-tight text-[9px] mt-0.5 text-fg-3 font-medium max-w-full">
+                  {version.name}
+                </div>
+              )}
 
-        <div className={`text-fg-4 ${isMobile ? 'text-[7px]' : 'text-[8px]'} mt-0.5 tabular-nums`}>
-          {startDate.format('MM/DD')}
-          {endDate && `~${endDate.format('MM/DD')}`}
-        </div>
-      </div>
+              <div className={`text-fg-4 ${isMobile ? 'text-[7px]' : 'text-[8px]'} mt-0.5 tabular-nums`}>
+                {startDate.format('MM/DD')}
+                {endDate && `~${endDate.format('MM/DD')}`}
+              </div>
+            </div>
+          </CardItem>
+        </CardBody>
+      </CardContainer>
 
       {/* Tooltip */}
       <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2.5 bg-card border border-line rounded-xl shadow-2xl opacity-0 group-hover/version:opacity-100 transition-all duration-150 pointer-events-none whitespace-nowrap z-30 min-w-[200px]">
