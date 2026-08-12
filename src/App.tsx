@@ -130,7 +130,7 @@ const App: React.FC = () => {
           onMenuToggle={() => setDrawerOpen(true)}
         />
 
-        <main className="flex-1 overflow-hidden">
+        <main className="flex-1 overflow-hidden relative z-10">
           <ErrorBoundary>
             <Routes>
               <Route
