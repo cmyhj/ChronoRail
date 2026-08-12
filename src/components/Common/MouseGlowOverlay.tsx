@@ -42,8 +42,8 @@ export const MouseGlowOverlay: React.FC<MouseGlowOverlayProps> = ({
         style={{
           backgroundImage: svg,
           backgroundSize: `${plusSize}px ${plusSize}px`,
-          maskImage: `radial-gradient(circle 320px at ${pos.x} ${pos.y}, rgba(0,0,0,0.7) 0%, transparent 100%)`,
-          WebkitMaskImage: `radial-gradient(circle 320px at ${pos.x} ${pos.y}, rgba(0,0,0,0.7) 0%, transparent 100%)`,
+          maskImage: `radial-gradient(circle 400px at ${pos.x} ${pos.y}, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.15) 100%)`,
+          WebkitMaskImage: `radial-gradient(circle 400px at ${pos.x} ${pos.y}, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.15) 100%)`,
           transition: 'mask-image 0.15s ease-out',
         }}
       />
