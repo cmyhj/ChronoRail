@@ -6,6 +6,15 @@ import { gameColors } from '../Common/gameData';
 import { CardContainer, CardBody, CardItem } from '../ui/3d-card';
 import type { Game, Version, Banner } from '../../types';
 
+/** 简单字符串 hash，用于生成稳定伪随机数（光点相位） */
+function hashStr(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  }
+  return h;
+}
+
 interface TimelineRowProps {
   game: Game;
   versions: Version[];
@@ -170,7 +179,13 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
             <div
               className="absolute top-0 bottom-0 w-[2px] today-line z-10 pointer-events-none"
               style={{ left: `${todayPosition}%`, transform: 'translateX(-50%)' }}
-            />
+            >
+              {/* 流动光点（每行相位错开，形成接力效果） */}
+              <div
+                className="today-scan"
+                style={{ animationDelay: `${(hashStr(game.id) % 30) / 10}s` }}
+              />
+            </div>
           </>
         )}
 
