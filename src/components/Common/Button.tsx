@@ -9,15 +9,6 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-const variantClasses = {
-  primary: 'bg-accent text-white hover:bg-accent-hover active:bg-accent-hover',
-  secondary:
-    'bg-transparent border border-line text-fg-2 hover:border-line-strong hover:bg-white/[0.03] hover:text-fg',
-  ghost: 'bg-transparent text-fg-2 hover:bg-white/[0.04] hover:text-fg',
-  danger:
-    'bg-danger/10 border border-danger/20 text-danger hover:bg-danger/15 hover:border-danger/30',
-};
-
 const sizeClasses = {
   sm: 'h-7 px-2.5 text-[12px]',
   md: 'h-8 px-3.5 text-[13px]',
@@ -34,6 +25,51 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
+  const disabledState = disabled || loading;
+
+  // primary: Aceternity 风格渐变发光边框（Lit up borders）
+  if (variant === 'primary') {
+    return (
+      <button
+        className={`
+          relative p-[2px] rounded-lg font-medium group
+          ${sizeClasses[size]}
+          ${disabledState ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-1 focus-visible:ring-offset-ink
+          ${className}
+        `}
+        disabled={disabledState}
+        {...props}
+      >
+        {/* 渐变发光层 */}
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
+        {/* 内层：hover 时变透明露出渐变 */}
+        <div
+          className={`
+            relative bg-ink rounded-[7px] transition-all duration-200 text-white
+            flex items-center justify-center gap-1.5 h-full
+            ${disabledState ? '' : 'group-hover:bg-transparent group-hover:text-black'}
+          `}
+        >
+          {loading ? (
+            <Loader2 className="animate-spin" size={size === 'sm' ? 13 : size === 'lg' ? 16 : 14} />
+          ) : icon ? (
+            icon
+          ) : null}
+          {children}
+        </div>
+      </button>
+    );
+  }
+
+  const variantClasses = {
+    secondary:
+      'bg-transparent border border-line text-fg-2 hover:border-line-strong hover:bg-white/[0.03] hover:text-fg',
+    ghost: 'bg-transparent text-fg-2 hover:bg-white/[0.04] hover:text-fg',
+    danger:
+      'bg-danger/10 border border-danger/20 text-danger hover:bg-danger/15 hover:border-danger/30',
+  };
+
   return (
     <button
       className={`
@@ -41,11 +77,11 @@ export const Button: React.FC<ButtonProps> = ({
         transition-colors duration-150
         ${variantClasses[variant]}
         ${sizeClasses[size]}
-        ${disabled || loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+        ${disabledState ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-1 focus-visible:ring-offset-ink
         ${className}
       `}
-      disabled={disabled || loading}
+      disabled={disabledState}
       {...props}
     >
       {loading ? (

@@ -8,10 +8,10 @@
 
 @theme {
   /* Surface layers (brightness hierarchy, no shadows) */
-  --color-ink: #07070a;
-  --color-panel: #0d0d12;
-  --color-card: #121218;
-  --color-hover: #1a1a22;
+  --color-ink: #101018;
+  --color-panel: #14141c;
+  --color-card: #1a1a24;
+  --color-hover: #22222e;
   --color-input: #0e0e14;
   --color-elevated: #16161e;
 
