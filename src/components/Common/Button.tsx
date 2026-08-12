@@ -41,9 +41,9 @@ export const Button: React.FC<ButtonProps> = ({
         disabled={disabledState}
         {...props}
       >
-        {/* 渐变发光层：未悬浮时暗，hover 时亮起 */}
+        {/* 渐变发光层：始终可见的 1px 渐变边 */}
         <div
-          className="absolute inset-0 rounded-lg transition-opacity duration-200 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-40 group-hover:opacity-100"
+          className="absolute inset-0 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500"
         />
         {/* 内层：hover 时变透明露出渐变 */}
         <div
