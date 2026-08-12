@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Header } from './components/Layout/Header';
 import { MobileDrawer } from './components/Layout/MobileDrawer';
 import { TimelineView } from './components/Timeline/TimelineView';
-import { CalendarView } from './components/Calendar/CalendarView';
 import { GameList } from './components/Game/GameList';
 import { GameForm } from './components/Game/GameForm';
 import { VersionForm } from './components/Version/VersionForm';
@@ -137,16 +136,6 @@ const App: React.FC = () => {
                 path="/"
                 element={
                   <TimelineView
-                    games={games}
-                    versions={versions}
-                    onVersionClick={handleVersionClick}
-                  />
-                }
-              />
-              <Route
-                path="/calendar"
-                element={
-                  <CalendarView
                     games={games}
                     versions={versions}
                     onVersionClick={handleVersionClick}
