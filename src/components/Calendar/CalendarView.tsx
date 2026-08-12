@@ -133,7 +133,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
         {/* Calendar body */}
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Calendar grid */}
-          <div className="flex-1 bg-panel/80 backdrop-blur-xl rounded-xl border border-line p-3">
+          <div className="flex-1 bg-panel/50 backdrop-blur-xl rounded-xl border border-line p-3">
             <div className="grid grid-cols-7 gap-1 mb-2">
               {weekDays.map((day) => (
                 <div
@@ -171,7 +171,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
           {/* Side detail */}
           {selectedDate && (
-            <div className="lg:w-72 bg-panel/80 backdrop-blur-xl rounded-xl border border-line p-4 animate-fade-in">
+            <div className="lg:w-72 bg-panel/50 backdrop-blur-xl rounded-xl border border-line p-4 animate-fade-in">
               <h3 className="text-sm font-semibold text-fg mb-3">
                 {dayjs(selectedDate).format('YYYY年MM月DD日')}
               </h3>
