@@ -10,7 +10,7 @@ import { VersionForm } from './components/Version/VersionForm';
 import { VersionDetail } from './components/Version/VersionDetail';
 import { RandomNumberView } from './components/RandomNumber/RandomNumberView';
 import { ErrorBoundary } from './components/Common/ErrorBoundary';
-import { ShaderBackground } from './components/Common/HeroShader';
+import { ShaderLab } from './components/Common/ShaderLab';
 import { useGames } from './hooks/useGames';
 import { useVersions } from './hooks/useVersions';
 import { useResponsive } from './hooks/useResponsive';
@@ -125,7 +125,7 @@ const App: React.FC = () => {
   return (
     <Router basename="/ChronoRail">
       <div className="h-screen flex flex-col bg-ink relative">
-        <ShaderBackground />
+        <ShaderLab />
         <Header
           onMenuToggle={() => setDrawerOpen(true)}
         />
@@ -182,7 +182,7 @@ const App: React.FC = () => {
         )}
 
         <GameForm
-          key={gameFormOpen ? 'open' : 'closed'}
+          key={gameFormOpen ? 'game-form-open' : 'game-form-closed'}
           isOpen={gameFormOpen}
           onClose={() => setGameFormOpen(false)}
           onSubmit={handleGameFormSubmit}
@@ -193,7 +193,7 @@ const App: React.FC = () => {
         />
 
         <VersionForm
-          key={versionFormOpen ? 'open' : 'closed'}
+          key={versionFormOpen ? 'version-form-open' : 'version-form-closed'}
           isOpen={versionFormOpen}
           onClose={() => setVersionFormOpen(false)}
           onSubmit={handleVersionFormSubmit}
