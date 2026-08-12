@@ -8,12 +8,12 @@
 
 @theme {
   /* Surface layers (brightness hierarchy, no shadows) */
-  --color-ink: #101018;
+  --color-ink: #0a0a10;
   --color-panel: #14141c;
-  --color-card: #1a1a24;
-  --color-hover: #22222e;
+  --color-card: #1c1c28;
+  --color-hover: #262632;
   --color-input: #0e0e14;
-  --color-elevated: #16161e;
+  --color-elevated: #1a1a24;
 
   /* Borders: subtle white low-opacity */
   --color-line: rgba(255, 255, 255, 0.06);
@@ -21,10 +21,10 @@
   --default-border-color: rgba(255, 255, 255, 0.06);
 
   /* Text hierarchy */
-  --color-fg: #e4e4ec;
-  --color-fg-2: #7c7c8e;
-  --color-fg-3: #4e4e5e;
-  --color-fg-4: #3a3a46;
+  --color-fg: #f2f2f8;
+  --color-fg-2: #8e8ea2;
+  --color-fg-3: #5c5c6e;
+  --color-fg-4: #42424e;
 
   /* Accent: indigo, used sparingly */
   --color-accent: #6366f1;
