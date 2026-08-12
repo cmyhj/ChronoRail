@@ -223,7 +223,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           </div>
 
           {/* Timeline gantt */}
-          <div className="bg-panel/50 backdrop-blur-xl rounded-xl border border-line overflow-x-auto">
+          <div className="bg-panel/50 backdrop-blur-xl rounded-xl border border-line overflow-x-auto lg:overflow-x-visible">
             <div className="min-w-[600px] md:min-w-[800px]">
               {/* Time scale header */}
               <div className="flex border-b border-line bg-elevated/40 backdrop-blur-xl sticky top-0 z-10">

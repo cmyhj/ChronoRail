@@ -35,10 +35,9 @@ export const VersionBlock: React.FC<VersionBlockProps> = ({
     >
       <WobbleCard
         containerClassName={`
-          h-full w-full py-0 bg-transparent rounded-md
+          h-full w-full bg-transparent rounded-md
           ${isCurrent ? 'ring-1 ring-accent/60' : ''}
         `}
-        className="h-full w-full px-1.5 py-0 sm:px-1.5"
       >
         <div
           className={`

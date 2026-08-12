@@ -3,6 +3,7 @@ import { ArrowRight, Zap } from 'lucide-react';
 import dayjs from 'dayjs';
 import { GameIcon } from '../Common/GameIcon';
 import { CardSpotlight } from '../ui/card-spotlight';
+import { TextGenerateEffect } from '../ui/text-generate-effect';
 import type { Game, Version, Banner } from '../../types';
 
 interface UpcomingHeroProps {
@@ -112,9 +113,11 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
     <div className="mb-6">
       <div className="flex items-center gap-2 mb-3 px-1">
         <Zap size={14} className="text-accent" />
-        <h2 className="text-xs font-semibold text-fg-3 uppercase tracking-wider">
-          即将到来
-        </h2>
+        <TextGenerateEffect
+          words="即将到来"
+          className="text-xs font-semibold uppercase tracking-wider"
+          duration={0.4}
+        />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
