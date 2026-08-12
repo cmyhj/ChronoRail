@@ -34,19 +34,17 @@ export const VersionBlock: React.FC<VersionBlockProps> = ({
       onClick={onClick}
     >
       <WobbleCard
-        containerClassName="h-full w-full py-0 bg-transparent"
+        containerClassName={`
+          h-full w-full py-0 bg-transparent rounded-md
+          ${isCurrent ? 'ring-1 ring-accent/60' : ''}
+        `}
         className="h-full w-full px-1.5 py-0 sm:px-1.5"
       >
         <div
           className={`
             h-full w-full rounded-md px-1.5 md:px-2 flex flex-col items-center justify-center
             transition-all duration-150
-            ${isCurrent
-              ? 'ring-1 ring-accent/60'
-              : isPast
-                ? 'opacity-30'
-                : 'opacity-80'
-            }
+            ${isPast ? 'opacity-30' : 'opacity-80'}
             hover:opacity-100
           `}
           style={{
