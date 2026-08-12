@@ -239,7 +239,7 @@
   }
 }
 
-/* 沿竖线滑动的光点 */
+/* 沿竖线滑动的光点（匀速，从下往上） */
 .today-scan {
   position: absolute;
   left: 50%;
@@ -247,32 +247,28 @@
   height: 26px;
   transform: translateX(-50%);
   border-radius: 9999px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(129, 140, 248, 0.9));
+  background: linear-gradient(180deg, rgba(129, 140, 248, 0.9), rgba(255, 255, 255, 0.9));
   box-shadow:
     0 0 8px rgba(129, 140, 248, 0.9),
     0 0 20px rgba(99, 102, 241, 0.5);
-  animation: today-scan 3s ease-in-out infinite;
+  animation: today-scan 2.8s linear infinite;
   pointer-events: none;
 }
 
 @keyframes today-scan {
   0% {
-    top: -10%;
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
-  45% {
-    top: 45%;
-    opacity: 1;
-  }
-  92% {
     top: 105%;
     opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  94% {
+    top: -10%;
+    opacity: 1;
   }
   100% {
-    top: 105%;
+    top: -10%;
     opacity: 0;
   }
 }
