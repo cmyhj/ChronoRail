@@ -2,6 +2,7 @@ import React from 'react';
 import { Edit, Trash2 } from 'lucide-react';
 import { GameIcon } from '../Common/GameIcon';
 import { gameColors } from '../Common/gameData';
+import { CardSpotlight } from '../ui/card-spotlight';
 import type { Game } from '../../types';
 
 interface GameCardProps {
@@ -22,11 +23,12 @@ export const GameCard: React.FC<GameCardProps> = ({
   const color = game.color || gameColors[game.id] || '#6366f1';
 
   return (
-    <div
-      className={`relative bg-card rounded-xl border border-line overflow-hidden hover:border-line-strong transition-all duration-200 group card-glow ${className}`}
+    <CardSpotlight
+      color={color}
+      className={`group/spotlight relative bg-card/60 backdrop-blur-xl rounded-xl border border-line overflow-hidden hover:border-line-strong transition-all duration-200 ${className}`}
       style={style}
     >
-      <div className="p-4">
+      <div className="p-4 relative z-10">
         <div className="flex items-start gap-3 mb-3">
           <div className="relative shrink-0">
             <div
@@ -62,7 +64,7 @@ export const GameCard: React.FC<GameCardProps> = ({
         </p>
       </div>
 
-      <div className="px-3 py-2 bg-elevated/50 border-t border-line flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+      <div className="px-3 py-2 bg-elevated/50 border-t border-line flex items-center gap-0.5 opacity-0 group-hover/spotlight:opacity-100 transition-opacity duration-150 relative z-10">
         <button
           onClick={onEdit}
           className="p-1.5 text-fg-3 hover:text-info hover:bg-white/[0.04] rounded-md transition-colors duration-150"
@@ -81,6 +83,6 @@ export const GameCard: React.FC<GameCardProps> = ({
           <Trash2 size={14} />
         </button>
       </div>
-    </div>
+    </CardSpotlight>
   );
 };

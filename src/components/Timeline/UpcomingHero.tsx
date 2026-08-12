@@ -43,7 +43,7 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
 
         if (futureBanners.length > 0) {
           const next = futureBanners[0];
-          const days = dayjs(next.startDate).diff(dayjs(), 'day');
+          const days = dayjs(next.startDate).startOf('day').diff(dayjs().startOf('day'), 'day');
           return {
             game,
             nextEvent: {
@@ -65,7 +65,7 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
           const soonestEnding = ongoingBanners.sort((a, b) =>
             a.endDate.localeCompare(b.endDate)
           )[0];
-          const days = dayjs(soonestEnding.endDate).diff(dayjs(), 'day');
+          const days = dayjs(soonestEnding.endDate).startOf('day').diff(dayjs().startOf('day'), 'day');
           return {
             game,
             nextEvent: {
@@ -86,7 +86,7 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
 
         if (futureVersions.length > 0) {
           const next = futureVersions[0];
-          const days = dayjs(next.startDate).diff(dayjs(), 'day');
+          const days = dayjs(next.startDate).startOf('day').diff(dayjs().startOf('day'), 'day');
           return {
             game,
             nextEvent: {
