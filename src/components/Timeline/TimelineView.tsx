@@ -249,6 +249,26 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                       <span className="ml-1">{marker.format('MM/DD')}</span>
                     </div>
                   ))}
+                  {/* 刻度头部今天标记：胶囊标签 + 竖线 */}
+                  {todayPosition !== null && (
+                    <>
+                      <div
+                        className="absolute top-0 bottom-0 w-[2px] today-line pointer-events-none"
+                        style={{ left: `${todayPosition}%`, transform: 'translateX(-50%)' }}
+                      />
+                      <div
+                        className="absolute top-1 z-10 pointer-events-none"
+                        style={{
+                          left: `${todayPosition}%`,
+                          transform: 'translateX(-50%)',
+                        }}
+                      >
+                        <span className="today-badge text-[8.5px] font-bold text-white px-1.5 py-[2px] rounded-full whitespace-nowrap tracking-wide">
+                          今天
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 

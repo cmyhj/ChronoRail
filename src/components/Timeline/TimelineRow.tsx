@@ -157,13 +157,19 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
         {/* Today line */}
         {todayPosition !== null && (
           <>
+            {/* 极淡光晕带 */}
+            <div
+              className="absolute top-0 bottom-0 today-halo z-[9] pointer-events-none"
+              style={{
+                left: `${todayPosition}%`,
+                width: '28px',
+                transform: 'translateX(-50%)',
+              }}
+            />
+            {/* 渐变竖线：顶部亮、向下渐隐 */}
             <div
               className="absolute top-0 bottom-0 w-[2px] today-line z-10 pointer-events-none"
-              style={{ left: `${todayPosition}%` }}
-            />
-            <div
-              className="absolute -top-1 w-2.5 h-2.5 bg-accent rounded-full -translate-x-1/2 z-10 pointer-events-none"
-              style={{ left: `${todayPosition}%` }}
+              style={{ left: `${todayPosition}%`, transform: 'translateX(-50%)' }}
             />
           </>
         )}

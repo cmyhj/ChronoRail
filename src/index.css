@@ -217,9 +217,34 @@
  * Timeline: today line
  * ============================================================ */
 
+/* 竖线：顶部亮、向下渐隐，带柔和发光 */
 .today-line {
-  background: var(--color-accent);
-  box-shadow: 0 0 8px rgba(99, 102, 241, 0.30);
+  background: linear-gradient(
+    180deg,
+    rgba(129, 140, 248, 0.95) 0%,
+    rgba(99, 102, 241, 0.55) 45%,
+    rgba(99, 102, 241, 0.08) 100%
+  );
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.35);
+}
+
+/* 竖线两侧的极淡光晕带 */
+.today-halo {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(99, 102, 241, 0.05) 40%,
+    rgba(99, 102, 241, 0.05) 60%,
+    transparent 100%
+  );
+}
+
+/* 顶部胶囊标签 */
+.today-badge {
+  background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+  box-shadow:
+    0 2px 8px rgba(99, 102, 241, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 /* ============================================================
