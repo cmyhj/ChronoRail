@@ -239,7 +239,7 @@
   }
 }
 
-/* 沿竖线滑动的光点（匀速，从下往上） */
+/* 沿竖线滑动的光点（匀速，从下往上，无淡入淡出） */
 .today-scan {
   position: absolute;
   left: 50%;
@@ -255,12 +255,13 @@
   pointer-events: none;
 }
 
+/* 光点完全滑出容器后才循环，配合容器 overflow:hidden 消除跳变 */
 @keyframes today-scan {
   0% {
-    top: 105%;
+    top: 100%;
   }
   100% {
-    top: -10%;
+    top: -80%;
   }
 }
 

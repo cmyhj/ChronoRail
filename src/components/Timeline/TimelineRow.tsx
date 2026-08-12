@@ -168,11 +168,13 @@ export const TimelineRow: React.FC<TimelineRowProps> = React.memo(({
             />
             {/* 渐变竖线：顶部亮、向下渐隐 */}
             <div
-              className="absolute top-0 bottom-0 w-[2px] today-line z-10 pointer-events-none"
+              className="absolute top-0 bottom-0 w-[2px] today-line z-10 pointer-events-none overflow-hidden"
               style={{ left: `${todayPosition}%`, transform: 'translateX(-50%)' }}
             >
-              {/* 流动光点（所有行同步，整齐划一） */}
+              {/* 流动光点 ×3 接力：相位均匀错开，消除循环空窗 */}
               <div className="today-scan" />
+              <div className="today-scan" style={{ animationDelay: '-0.53s' }} />
+              <div className="today-scan" style={{ animationDelay: '-1.07s' }} />
             </div>
           </>
         )}
