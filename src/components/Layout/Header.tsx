@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { useResponsive } from '../../hooks/useResponsive';
+import { NAV_ITEMS } from '../../constants/navigation';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
@@ -9,26 +10,57 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   const { isMobile } = useResponsive();
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-40 bg-panel border-b border-line">
-      <div className="flex items-center gap-2 px-3 h-12">
+    <header className="glass-header sticky top-0 z-40 border-b border-line">
+      <div className="flex items-center h-12 px-4">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-1.5 group shrink-0">
-          <div className="w-7 h-7 bg-accent rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-[10px]">CR</span>
+        <Link to="/" className="flex items-center gap-2 shrink-0 mr-6 group">
+          <div className="w-7 h-7 bg-accent rounded-lg flex items-center justify-center transition-transform duration-200 group-hover:scale-105">
+            <span className="text-white font-bold text-[10px] tracking-tight">CR</span>
           </div>
-          <span className="text-sm font-bold text-fg hidden sm:block">
+          <span className="text-sm font-bold text-fg hidden sm:block tracking-tight">
             ChronoRail
           </span>
         </Link>
 
-        {/* GitHub */}
+        {/* Desktop horizontal tabs */}
+        {!isMobile && (
+          <nav className="flex items-center gap-0.5">
+            {NAV_ITEMS.map((item) => {
+              const Icon = item.lucideIcon;
+              const active = isActive(item.path);
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`
+                    flex items-center gap-2 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-all duration-150
+                    ${active
+                      ? 'bg-white/[0.07] text-fg'
+                      : 'text-fg-3 hover:text-fg-2 hover:bg-white/[0.03]'
+                    }
+                  `}
+                >
+                  <Icon size={15} strokeWidth={active ? 2 : 1.5} />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+        )}
+
+        <div className="flex-1" />
+
+        {/* GitHub link */}
         <a
           href="https://github.com/cmyhj/ChronoRail"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-1.5 text-fg-2 hover:text-fg hover:bg-hover rounded-lg transition-all duration-150"
+          className="p-1.5 text-fg-3 hover:text-fg-2 hover:bg-white/[0.04] rounded-lg transition-colors duration-150"
           title="GitHub"
           aria-label="GitHub"
         >
@@ -37,11 +69,11 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
           </svg>
         </a>
 
-        {/* 移动端菜单按钮 */}
+        {/* Mobile menu button */}
         {isMobile && (
           <button
             onClick={onMenuToggle}
-            className="ml-auto p-1.5 text-fg-2 hover:text-fg hover:bg-hover rounded-lg transition-all duration-150"
+            className="ml-2 p-1.5 text-fg-2 hover:text-fg hover:bg-white/[0.05] rounded-lg transition-colors duration-150"
             aria-label="打开菜单"
           >
             <Menu size={18} />

@@ -18,32 +18,30 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
-  // 预计算 games Map，避免在 CalendarDay 中重复 find
   const gamesMap = useMemo(() => {
     const map = new Map<string, Game>();
-    games.forEach(g => map.set(g.id, g));
+    games.forEach((g) => map.set(g.id, g));
     return map;
   }, [games]);
 
-  // 获取当前月份的日期
   const calendarDays = useMemo(() => {
     const year = currentDate.year();
     const month = currentDate.month();
-    
+
     const firstDay = dayjs().year(year).month(month).startOf('month');
     const lastDay = dayjs().year(year).month(month).endOf('month');
-    
+
     const startDayOfWeek = firstDay.day();
-    
+
     const days: Array<{ date: dayjs.Dayjs; isCurrentMonth: boolean }> = [];
-    
+
     for (let i = startDayOfWeek - 1; i >= 0; i--) {
       days.push({
         date: firstDay.subtract(i + 1, 'day'),
         isCurrentMonth: false,
       });
     }
-    
+
     let current = firstDay;
     while (current.isBefore(lastDay) || current.isSame(lastDay, 'day')) {
       days.push({
@@ -52,7 +50,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       });
       current = current.add(1, 'day');
     }
-    
+
     const remaining = 42 - days.length;
     for (let i = 0; i < remaining; i++) {
       days.push({
@@ -60,34 +58,31 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
         isCurrentMonth: false,
       });
     }
-    
+
     return days;
   }, [currentDate]);
 
-  // 获取每天的版本
   const versionsByDate = useMemo(() => {
     const grouped: Record<string, Version[]> = {};
-    
-    versions.forEach(version => {
+
+    versions.forEach((version) => {
       const dateKey = dayjs(version.startDate).format('YYYY-MM-DD');
       if (!grouped[dateKey]) {
         grouped[dateKey] = [];
       }
       grouped[dateKey].push(version);
     });
-    
+
     return grouped;
   }, [versions]);
 
-  // 获取选中日期的版本
   const selectedDateVersions = useMemo(() => {
     if (!selectedDate) return [];
     return versionsByDate[selectedDate] || [];
   }, [selectedDate, versionsByDate]);
 
-  // 导航
   const navigate = useCallback((direction: 'prev' | 'next') => {
-    setCurrentDate(prev => prev.add(direction === 'prev' ? -1 : 1, 'month'));
+    setCurrentDate((prev) => prev.add(direction === 'prev' ? -1 : 1, 'month'));
     setSelectedDate(null);
   }, []);
 
@@ -96,116 +91,113 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
     setSelectedDate(dayjs().format('YYYY-MM-DD'));
   }, []);
 
-  // 稳定的日期点击回调
   const handleDayClick = useCallback((dateKey: string) => {
     setSelectedDate(dateKey);
   }, []);
 
-  // 星期标题
   const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
   return (
-    <div className="h-full flex flex-col">
-      {/* 工具栏 */}
-      <div className="flex items-center justify-between p-3 md:p-4 bg-panel border-b border-line">
-        <button
-          onClick={() => navigate('prev')}
-          className="flex items-center justify-center w-10 h-10 text-fg-2 hover:text-fg hover:bg-hover active:bg-white/10 rounded-lg transition-colors duration-150"
-        >
-          <ChevronLeft size={20} />
-        </button>
+    <div className="h-full flex flex-col overflow-auto">
+      <div className="p-4 md:p-6 max-w-[1400px] mx-auto w-full">
+        {/* Calendar header */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => navigate('prev')}
+              className="flex items-center justify-center w-8 h-8 text-fg-3 hover:text-fg hover:bg-white/[0.05] rounded-lg transition-colors duration-150"
+            >
+              <ChevronLeft size={18} />
+            </button>
 
-        <div className="flex items-center gap-2 md:gap-3">
-          <span className="text-fg font-semibold text-base md:text-lg tracking-wide">
-            {currentDate.format('YYYY年MM月')}
-          </span>
+            <span className="text-base font-semibold text-fg tabular-nums min-w-[120px] text-center">
+              {currentDate.format('YYYY年MM月')}
+            </span>
+
+            <button
+              onClick={() => navigate('next')}
+              className="flex items-center justify-center w-8 h-8 text-fg-3 hover:text-fg hover:bg-white/[0.05] rounded-lg transition-colors duration-150"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+
           <button
             onClick={goToToday}
-            className="px-3 py-1.5 text-xs md:text-sm font-medium text-accent bg-accent/10 hover:bg-accent/20 rounded-full transition-colors duration-150"
+            className="px-3 py-1.5 text-[12px] font-medium text-accent bg-accent/10 hover:bg-accent/15 rounded-md transition-colors duration-150"
           >
             今天
           </button>
         </div>
 
-        <button
-          onClick={() => navigate('next')}
-          className="flex items-center justify-center w-10 h-10 text-fg-2 hover:text-fg hover:bg-hover active:bg-white/10 rounded-lg transition-colors duration-150"
-        >
-          <ChevronRight size={20} />
-        </button>
-      </div>
+        {/* Calendar body */}
+        <div className="flex flex-col lg:flex-row gap-4">
+          {/* Calendar grid */}
+          <div className="flex-1 bg-panel rounded-xl border border-line p-3">
+            <div className="grid grid-cols-7 gap-1 mb-2">
+              {weekDays.map((day) => (
+                <div
+                  key={day}
+                  className="text-center text-[11px] font-medium text-fg-4 py-1.5"
+                >
+                  {day}
+                </div>
+              ))}
+            </div>
 
-      {/* 日历内容 */}
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
-        {/* 日历网格 */}
-        <div className="flex-1 p-4 overflow-auto">
-          {/* 星期标题 */}
-          <div className="grid grid-cols-7 gap-1 mb-2">
-            {weekDays.map(day => (
-              <div
-                key={day}
-                className="text-center text-xs font-medium text-fg-3 py-2"
-              >
-                {day}
-              </div>
-            ))}
+            <div className="grid grid-cols-7 gap-1">
+              {calendarDays.map(({ date, isCurrentMonth }) => {
+                const dateKey = date.format('YYYY-MM-DD');
+                const dayVersions = versionsByDate[dateKey] || [];
+                const isSelected = selectedDate === dateKey;
+                const isToday = date.isSame(dayjs(), 'day');
+
+                return (
+                  <CalendarDay
+                    key={dateKey}
+                    date={date}
+                    isCurrentMonth={isCurrentMonth}
+                    isToday={isToday}
+                    isSelected={isSelected}
+                    versions={dayVersions}
+                    gamesMap={gamesMap}
+                    onClick={handleDayClick}
+                    dateKey={dateKey}
+                  />
+                );
+              })}
+            </div>
           </div>
 
-          {/* 日期网格 */}
-          <div className="grid grid-cols-7 gap-1">
-            {calendarDays.map(({ date, isCurrentMonth }) => {
-              const dateKey = date.format('YYYY-MM-DD');
-              const dayVersions = versionsByDate[dateKey] || [];
-              const isSelected = selectedDate === dateKey;
-              const isToday = date.isSame(dayjs(), 'day');
-
-              return (
-                <CalendarDay
-                  key={dateKey}
-                  date={date}
-                  isCurrentMonth={isCurrentMonth}
-                  isToday={isToday}
-                  isSelected={isSelected}
-                  versions={dayVersions}
-                  gamesMap={gamesMap}
-                  onClick={handleDayClick}
-                  dateKey={dateKey}
-                />
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 侧边详情 */}
-        {selectedDate && (
-          <div className="lg:w-80 border-t lg:border-t-0 lg:border-l border-line bg-panel overflow-auto animate-overlay-in">
-            <div className="p-4">
-              <h3 className="text-lg font-semibold text-fg mb-4">
+          {/* Side detail */}
+          {selectedDate && (
+            <div className="lg:w-72 bg-panel rounded-xl border border-line p-4 animate-fade-in">
+              <h3 className="text-sm font-semibold text-fg mb-3">
                 {dayjs(selectedDate).format('YYYY年MM月DD日')}
               </h3>
 
               {selectedDateVersions.length > 0 ? (
-                <div className="space-y-3">
-                  {selectedDateVersions.map(version => {
+                <div className="space-y-2">
+                  {selectedDateVersions.map((version) => {
                     const game = gamesMap.get(version.gameId);
                     return (
                       <div
                         key={version.id}
                         onClick={() => onVersionClick?.(version)}
-                        className="p-3 bg-card rounded-lg border border-line cursor-pointer hover:border-accent/30 transition-colors duration-150"
+                        className="p-2.5 bg-card rounded-lg border border-line cursor-pointer hover:border-line-strong transition-colors duration-150"
                       >
-                        <div className="flex items-center gap-2 mb-2">
+                        <div className="flex items-center gap-1.5 mb-1">
                           <div
-                            className="w-2 h-2 rounded-full"
+                            className="w-1.5 h-1.5 rounded-full"
                             style={{ backgroundColor: game?.color || '#6366f1' }}
                           />
-                          <span className="text-xs text-fg-2">{game?.name}</span>
+                          <span className="text-[10px] text-fg-3">{game?.name}</span>
                         </div>
-                        <div className="text-sm font-medium text-fg mb-1">
+                        <div className="text-[13px] font-medium text-fg">
                           v{version.version} - {version.name}
                         </div>
                         {version.description && (
-                          <p className="text-xs text-fg-3 line-clamp-2">
+                          <p className="text-[11px] text-fg-3 line-clamp-2 mt-1">
                             {version.description}
                           </p>
                         )}
@@ -214,13 +206,13 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                   })}
                 </div>
               ) : (
-                <p className="text-sm text-fg-3 text-center py-8">
+                <p className="text-[12px] text-fg-4 text-center py-6">
                   当天没有版本更新
                 </p>
               )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

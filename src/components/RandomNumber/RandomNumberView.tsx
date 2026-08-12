@@ -12,26 +12,31 @@ export const RandomNumberView: React.FC = () => {
     const random = Math.floor(Math.random() * max) + 1;
     setResult(random);
     setLastRange(max);
-    setFlashKey(k => k + 1);
+    setFlashKey((k) => k + 1);
   }, []);
 
-  const handleNumberClick = useCallback((num: number) => {
-    generateRandom(num);
-  }, [generateRandom]);
+  const handleNumberClick = useCallback(
+    (num: number) => {
+      generateRandom(num);
+    },
+    [generateRandom]
+  );
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
+    setInputValue(e.target.value);
   }, []);
 
-  const handleInputKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      const num = parseInt(inputValue, 10);
-      if (num >= 2) {
-        generateRandom(num);
+  const handleInputKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        const num = parseInt(inputValue, 10);
+        if (num >= 2) {
+          generateRandom(num);
+        }
       }
-    }
-  }, [inputValue, generateRandom]);
+    },
+    [inputValue, generateRandom]
+  );
 
   const handleRegenerate = useCallback(() => {
     if (lastRange >= 2) {
@@ -42,70 +47,69 @@ export const RandomNumberView: React.FC = () => {
   const numbers = [2, 3, 4, 5, 6, 7, 8, 9];
 
   return (
-    <div className="h-full flex flex-col">
-      {/* 工具栏 */}
-      <div className="flex items-center justify-between p-3 md:p-4 bg-panel border-b border-line">
-        <h1 className="text-fg font-semibold text-base md:text-lg">
-          随机数生成器
-        </h1>
-        {result !== null && (
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleRegenerate}
-            icon={<RefreshCw size={14} />}
-          >
-            重新生成
-          </Button>
-        )}
-      </div>
+    <div className="h-full flex flex-col overflow-auto">
+      <div className="p-4 md:p-6 max-w-[600px] mx-auto w-full">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-base font-semibold text-fg">
+            随机数生成器
+          </h1>
+          {result !== null && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleRegenerate}
+              icon={<RefreshCw size={13} />}
+            >
+              重新生成
+            </Button>
+          )}
+        </div>
 
-      {/* 内容区域 */}
-      <div className="flex-1 flex items-center justify-center p-4">
-        <div className="w-full max-w-sm">
-          {/* 结果显示框 */}
-          <div className="mb-8 p-8 bg-card rounded-2xl border border-line text-center">
-            {result === null ? (
-              <div>
-                <div className="text-6xl font-bold text-fg-3 mb-2">?</div>
-                <p className="text-sm text-fg-3">
-                  点击下方按钮或输入数字开始
-                </p>
-              </div>
-            ) : (
-              <div>
-                <div key={flashKey} className="text-7xl font-bold text-accent mb-2 animate-number-flash">
-                  {result}
-                </div>
-                <p className="text-sm text-fg-2">
-                  1 ~ {lastRange} 的随机数
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* 九宫格 */}
-          <div className="grid grid-cols-3 gap-3">
-            {numbers.map((num) => (
-              <button
-                key={num}
-                onClick={() => handleNumberClick(num)}
-                className="aspect-square flex items-center justify-center text-2xl font-bold text-fg bg-card border border-line rounded-xl hover:bg-hover hover:border-accent/30 active:scale-95 transition-all duration-150"
+        {/* Result */}
+        <div className="mb-8 p-10 bg-panel rounded-2xl border border-line text-center">
+          {result === null ? (
+            <div>
+              <div className="text-6xl font-bold text-fg-4 mb-3">?</div>
+              <p className="text-[13px] text-fg-3">
+                点击下方按钮或输入数字开始
+              </p>
+            </div>
+          ) : (
+            <div>
+              <div
+                key={flashKey}
+                className="text-7xl font-bold text-accent mb-2 animate-number-flash tabular-nums"
               >
-                {num}
-              </button>
-            ))}
-            {/* 输入框 */}
-            <input
-              type="number"
-              value={inputValue}
-              onChange={handleInputChange}
-              onKeyDown={handleInputKeyDown}
-              placeholder="n"
-              min="2"
-              className="aspect-square flex items-center justify-center text-center text-xl font-bold text-fg bg-card border border-line rounded-xl focus:outline-none focus:border-accent placeholder-fg-3 w-full"
-            />
-          </div>
+                {result}
+              </div>
+              <p className="text-[13px] text-fg-3 tabular-nums">
+                1 ~ {lastRange} 的随机数
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Number pad */}
+        <div className="grid grid-cols-3 gap-2.5">
+          {numbers.map((num) => (
+            <button
+              key={num}
+              onClick={() => handleNumberClick(num)}
+              className="aspect-square flex items-center justify-center text-xl font-bold text-fg-2 bg-card border border-line rounded-xl hover:bg-hover hover:border-line-strong hover:text-fg active:scale-95 transition-all duration-150"
+            >
+              {num}
+            </button>
+          ))}
+          <input
+            type="number"
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
+            placeholder="n"
+            min="2"
+            className="aspect-square flex items-center justify-center text-center text-xl font-bold text-fg bg-card border border-line rounded-xl focus:outline-none focus:border-accent placeholder-fg-4 w-full tabular-nums"
+          />
         </div>
       </div>
     </div>

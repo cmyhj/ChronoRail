@@ -1,43 +1,45 @@
 @import "tailwindcss";
 
 /* ============================================================
- * 设计系统：21st.dev 克制暗色 dashboard 风格
- * 近黑背景 + 明度层次 + 白色细边框 + indigo 强调
- * 禁止霓虹发光 / 噪点 / 渐变光晕 / pulse 动画
+ * ChronoRail v2 Design System
+ * Deep dark command-center aesthetic
+ * Near-black base + indigo accent + frosted glass header
  * ============================================================ */
 
 @theme {
-  /* 表面层次（靠明度区分，不用阴影） */
-  --color-ink: #0a0a0c; /* 页面背景 */
-  --color-panel: #101014; /* 侧边栏 / 头部 */
-  --color-card: #17171a; /* 卡片 */
-  --color-hover: #1e1e24; /* hover 表面 */
-  --color-input: #131318; /* 输入框 */
+  /* Surface layers (brightness hierarchy, no shadows) */
+  --color-ink: #07070a;
+  --color-panel: #0d0d12;
+  --color-card: #121218;
+  --color-hover: #1a1a22;
+  --color-input: #0e0e14;
+  --color-elevated: #16161e;
 
-  /* 边框：统一白色低透明度细边框 */
-  --color-line: rgba(255, 255, 255, 0.07);
-  --color-line-strong: rgba(255, 255, 255, 0.12);
-  --default-border-color: rgba(255, 255, 255, 0.07);
+  /* Borders: subtle white low-opacity */
+  --color-line: rgba(255, 255, 255, 0.06);
+  --color-line-strong: rgba(255, 255, 255, 0.10);
+  --default-border-color: rgba(255, 255, 255, 0.06);
 
-  /* 文字层级 */
-  --color-fg: #e8e8f0; /* 主文字 */
-  --color-fg-2: #8a8a9a; /* 次级 */
-  --color-fg-3: #5c5c6e; /* 弱化 */
-  --color-fg-4: #48484f; /* 最弱 */
+  /* Text hierarchy */
+  --color-fg: #e4e4ec;
+  --color-fg-2: #7c7c8e;
+  --color-fg-3: #4e4e5e;
+  --color-fg-4: #3a3a46;
 
-  /* 强调色：仅用于主按钮 / "今天" / 选中态 / 时间轴今天线 / 焦点环 */
+  /* Accent: indigo, used sparingly */
   --color-accent: #6366f1;
   --color-accent-hover: #4f46e5;
 
-  /* 语义色：低饱和，小面积使用 */
+  /* Semantic colors: low saturation, small area */
   --color-success: #34d399;
   --color-warning: #fbbf24;
   --color-danger: #f87171;
   --color-info: #818cf8;
 
-  /* 字体 */
+  /* Font */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', 'Liberation Mono', monospace;
 }
 
 @layer base {
@@ -61,39 +63,38 @@
     min-height: 100vh;
   }
 
-  /* 细滚动条 */
+  /* Thin scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.14);
   }
 
-  /* 选中文本 */
+  /* Selection */
   ::selection {
-    background: rgba(99, 102, 241, 0.35);
+    background: rgba(99, 102, 241, 0.30);
     color: #ffffff;
   }
 
-  /* 数字与日期用等宽对齐 */
+  /* Tabular numbers for data */
   .tabular {
     font-variant-numeric: tabular-nums;
   }
 }
 
 /* ============================================================
- * 表单基础样式
+ * Form base styles
  * ============================================================ */
 
-/* 输入框 / 文本域 / 下拉 */
 .input-base {
   width: 100%;
   border-radius: 8px;
@@ -114,14 +115,13 @@
 .input-base:focus-visible {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
 }
 .input-base:disabled {
   color: var(--color-fg-3);
   cursor: not-allowed;
 }
 
-/* 表单标签 */
 .field-label {
   display: block;
   font-size: 13px;
@@ -131,17 +131,12 @@
 }
 
 /* ============================================================
- * 动效（克制）：hover 150-200ms 颜色过渡；
- * 弹窗 fade + 轻微 zoom；入场 fade-up 300ms + 50ms stagger
+ * Animations (restrained)
  * ============================================================ */
 
 @keyframes overlay-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes modal-in {
@@ -188,6 +183,11 @@
   }
 }
 
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .animate-overlay-in {
   animation: overlay-in 200ms ease-out;
 }
@@ -204,29 +204,32 @@
   animation: toast-in 200ms ease-out;
 }
 
-/* 列表入场：通过 style={{ ['--delay']: 'xxms' }} 实现 50ms 交错 */
 .enter {
   animation: fade-up 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--delay, 0ms);
 }
 
+.animate-fade-in {
+  animation: fade-in 300ms ease-out both;
+}
+
 /* ============================================================
- * 时间轴：今天的竖线（2px indigo + 极淡光晕）
+ * Timeline: today line
  * ============================================================ */
 
 .today-line {
   background: var(--color-accent);
-  box-shadow: 0 0 6px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.30);
 }
 
 /* ============================================================
- * 随机数闪烁（保留原有功能，去掉霓虹发光）
+ * Random number flash
  * ============================================================ */
 
 @keyframes number-flash {
   0% {
-    transform: scale(1.18);
-    filter: brightness(1.6);
+    transform: scale(1.15);
+    filter: brightness(1.5);
   }
   100% {
     transform: scale(1);
@@ -239,7 +242,43 @@
 }
 
 /* ============================================================
- * 无障碍：遵循 prefers-reduced-motion
+ * Frosted glass header
+ * ============================================================ */
+
+.glass-header {
+  background: rgba(13, 13, 18, 0.80);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ============================================================
+ * Card hover glow (very subtle)
+ * ============================================================ */
+
+.card-glow {
+  position: relative;
+}
+.card-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), transparent 50%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  pointer-events: none;
+}
+.card-glow:hover::before {
+  opacity: 1;
+}
+
+/* ============================================================
+ * Accessibility: prefers-reduced-motion
  * ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {

@@ -55,12 +55,10 @@ export const GameForm: React.FC<GameFormProps> = ({
 
   const [activeTab, setActiveTab] = useState<'preset' | 'custom'>(initialData ? 'custom' : 'preset');
 
-  // 检查游戏是否已添加
   const isGameAdded = (gameId: string) => {
-    return existingGames.some(g => g.id === gameId);
+    return existingGames.some((g) => g.id === gameId);
   };
 
-  // 处理预置游戏添加
   const handleAddPresetGame = (gameId: GameId) => {
     if (onAddPreset) {
       onAddPreset(gameId);
@@ -68,7 +66,6 @@ export const GameForm: React.FC<GameFormProps> = ({
     }
   };
 
-  // 处理自定义表单提交
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim()) return;
@@ -76,7 +73,6 @@ export const GameForm: React.FC<GameFormProps> = ({
     onClose();
   };
 
-  // 获取所有预置游戏
   const presetGames = getPresetGames();
 
   return (
@@ -86,25 +82,24 @@ export const GameForm: React.FC<GameFormProps> = ({
       title={initialData ? '编辑游戏' : '添加游戏'}
       size="lg"
     >
-      {/* 标签页 */}
       {!initialData && (
-        <div className="flex mb-6 bg-panel rounded-lg p-1">
+        <div className="flex mb-5 bg-elevated rounded-lg p-0.5">
           <button
             onClick={() => setActiveTab('preset')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-150 ${
+            className={`flex-1 py-1.5 px-3 rounded-md text-[13px] font-medium transition-colors duration-150 ${
               activeTab === 'preset'
                 ? 'bg-accent text-white'
-                : 'text-fg-2 hover:text-fg'
+                : 'text-fg-3 hover:text-fg-2'
             }`}
           >
             游戏库
           </button>
           <button
             onClick={() => setActiveTab('custom')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-150 ${
+            className={`flex-1 py-1.5 px-3 rounded-md text-[13px] font-medium transition-colors duration-150 ${
               activeTab === 'custom'
                 ? 'bg-accent text-white'
-                : 'text-fg-2 hover:text-fg'
+                : 'text-fg-3 hover:text-fg-2'
             }`}
           >
             自定义游戏
@@ -112,37 +107,36 @@ export const GameForm: React.FC<GameFormProps> = ({
         </div>
       )}
 
-      {/* 预置游戏列表 */}
       {activeTab === 'preset' && !initialData && (
-        <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2">
-          <p className="text-sm text-fg-2 mb-4">
-            从游戏库中选择游戏，支持自动获取的会自动配置API
+        <div className="space-y-1.5 max-h-[400px] overflow-y-auto pr-1">
+          <p className="text-[12px] text-fg-3 mb-3">
+            从游戏库中选择，支持自动获取的会自动配置API
           </p>
-          
-          {presetGames.map(config => {
+
+          {presetGames.map((config) => {
             const isAdded = isGameAdded(config.id);
             return (
               <div
                 key={config.id}
-                className={`flex items-center justify-between p-3 rounded-lg border transition-colors duration-150 ${
+                className={`flex items-center justify-between p-2.5 rounded-lg border transition-colors duration-150 ${
                   isAdded
-                    ? 'bg-hover/50 border-line opacity-60'
-                    : 'bg-card border-line hover:border-accent/30 cursor-pointer'
+                    ? 'bg-hover/30 border-line opacity-50'
+                    : 'bg-card border-line hover:border-line-strong cursor-pointer'
                 }`}
                 onClick={() => !isAdded && handleAddPresetGame(config.id as GameId)}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2.5">
                   <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: `${config.color}15` }}
+                    className="w-9 h-9 rounded-lg flex items-center justify-center"
+                    style={{ backgroundColor: `${config.color}12` }}
                   >
-                    <GameIcon gameId={config.id} size={24} />
+                    <GameIcon gameId={config.id} size={22} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium text-fg">
+                    <h4 className="text-[13px] font-medium text-fg">
                       {config.name}
                     </h4>
-                    <p className="text-xs text-fg-3 mt-0.5">
+                    <p className="text-[10px] text-fg-4 mt-0.5">
                       {config.autoFetch ? '支持自动获取' : '需要手动输入'}
                     </p>
                   </div>
@@ -161,10 +155,9 @@ export const GameForm: React.FC<GameFormProps> = ({
               </div>
             );
           })}
-          
-          {/* 重置预置游戏按钮 */}
+
           {onResetPresets && (
-            <div className="pt-4 border-t border-line mt-4">
+            <div className="pt-3 border-t border-line mt-3">
               <Button
                 variant="ghost"
                 size="sm"
@@ -183,54 +176,42 @@ export const GameForm: React.FC<GameFormProps> = ({
         </div>
       )}
 
-      {/* 自定义表单 */}
       {activeTab === 'custom' && (
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* 游戏名称 */}
           <div>
-            <label className="field-label">
-              游戏名称 *
-            </label>
+            <label className="field-label">游戏名称 *</label>
             <input
               type="text"
               value={formData.name}
-              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+              onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
               placeholder="输入游戏名称"
               className="input-base"
               required
             />
           </div>
 
-          {/* 图标URL */}
           <div>
-            <label className="field-label">
-              图标URL（可选）
-            </label>
+            <label className="field-label">图标URL（可选）</label>
             <input
               type="text"
               value={formData.icon}
-              onChange={(e) => setFormData(prev => ({ ...prev, icon: e.target.value }))}
+              onChange={(e) => setFormData((prev) => ({ ...prev, icon: e.target.value }))}
               placeholder="输入图标URL地址"
               className="input-base"
             />
-            <p className="text-xs text-fg-3 mt-1">
-              留空将使用默认图标
-            </p>
+            <p className="text-[10px] text-fg-4 mt-1">留空将使用默认图标</p>
           </div>
 
-          {/* 主题色 */}
           <div>
-            <label className="field-label">
-              主题色
-            </label>
-            <div className="flex flex-wrap gap-2 mb-2">
-              {presetColors.map(color => (
+            <label className="field-label">主题色</label>
+            <div className="flex flex-wrap gap-1.5 mb-2">
+              {presetColors.map((color) => (
                 <button
                   key={color}
                   type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, color }))}
-                  className={`w-8 h-8 rounded-lg transition-all duration-150 ${
-                    formData.color === color ? 'scale-110 ring-2 ring-white' : 'hover:scale-105'
+                  onClick={() => setFormData((prev) => ({ ...prev, color }))}
+                  className={`w-7 h-7 rounded-lg transition-all duration-150 ${
+                    formData.color === color ? 'scale-110 ring-2 ring-white/30' : 'hover:scale-105'
                   }`}
                   style={{ backgroundColor: color }}
                 />
@@ -239,16 +220,15 @@ export const GameForm: React.FC<GameFormProps> = ({
             <input
               type="color"
               value={formData.color}
-              onChange={(e) => setFormData(prev => ({ ...prev, color: e.target.value }))}
-              className="w-full h-10 bg-input border border-line rounded-lg cursor-pointer"
+              onChange={(e) => setFormData((prev) => ({ ...prev, color: e.target.value }))}
+              className="w-full h-9 bg-input border border-line rounded-lg cursor-pointer"
             />
           </div>
 
-          {/* 自动获取 */}
-          <div className="flex items-center justify-between p-4 bg-panel rounded-lg border border-line">
+          <div className="flex items-center justify-between p-3 bg-elevated rounded-lg border border-line">
             <div>
-              <h4 className="text-sm font-medium text-fg">自动获取版本</h4>
-              <p className="text-xs text-fg-3 mt-1">
+              <h4 className="text-[13px] font-medium text-fg">自动获取版本</h4>
+              <p className="text-[10px] text-fg-4 mt-0.5">
                 启用后将自动从API获取版本更新信息
               </p>
             </div>
@@ -256,23 +236,22 @@ export const GameForm: React.FC<GameFormProps> = ({
               <input
                 type="checkbox"
                 checked={formData.autoFetch}
-                onChange={(e) => setFormData(prev => ({ 
-                  ...prev, 
+                onChange={(e) => setFormData((prev) => ({
+                  ...prev,
                   autoFetch: e.target.checked,
                   fetchSource: e.target.checked ? 'mihoyo' : 'manual',
                 }))}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-hover peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+              <div className="w-10 h-5.5 bg-hover peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4.5 after:w-4.5 after:transition-all peer-checked:bg-accent"></div>
             </label>
           </div>
 
-          {/* 提交按钮 */}
-          <div className="flex justify-end gap-3 pt-4">
-            <Button variant="ghost" onClick={onClose}>
+          <div className="flex justify-end gap-2 pt-3">
+            <Button variant="ghost" size="sm" onClick={onClose}>
               取消
             </Button>
-            <Button type="submit">
+            <Button type="submit" size="sm">
               {initialData ? '保存' : '添加'}
             </Button>
           </div>

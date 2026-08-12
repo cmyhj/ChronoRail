@@ -30,62 +30,60 @@ export const CalendarDay: React.FC<CalendarDayProps> = React.memo(({
     <div
       onClick={() => onClick(dateKey)}
       className={`
-        relative min-h-[60px] md:min-h-[80px] p-1 md:p-1.5 rounded-lg cursor-pointer transition-colors duration-150
-        ${isCurrentMonth ? 'bg-card' : 'bg-ink/50'}
-        ${isSelected 
-          ? 'ring-2 ring-accent bg-accent/10' 
-          : 'border border-line/50 hover:bg-hover'
+        relative min-h-[56px] md:min-h-[72px] p-1 md:p-1.5 rounded-lg cursor-pointer transition-colors duration-150
+        ${isCurrentMonth ? 'bg-card/50' : 'bg-transparent'}
+        ${isSelected
+          ? 'ring-1 ring-accent/50 bg-accent/[0.06]'
+          : 'border border-transparent hover:bg-hover hover:border-line/30'
         }
-        ${isToday && !isSelected ? 'border-accent/40' : ''}
+        ${isToday && !isSelected ? 'border-accent/30' : ''}
       `}
     >
-      {/* 日期数字 */}
       <div className="flex items-center justify-between mb-0.5 md:mb-1">
         <span
           className={`
-            text-[10px] md:text-xs font-medium
-            ${isToday 
-              ? 'w-5 h-5 md:w-6 md:h-6 flex items-center justify-center bg-accent text-white rounded-full' 
-              : isCurrentMonth 
-                ? 'text-fg' 
-                : 'text-fg-3'
+            text-[10px] md:text-[11px] font-medium
+            ${isToday
+              ? 'w-5 h-5 md:w-5.5 md:h-5.5 flex items-center justify-center bg-accent text-white rounded-full text-[9px]'
+              : isCurrentMonth
+                ? 'text-fg-2'
+                : 'text-fg-4'
             }
           `}
         >
           {date.date()}
         </span>
-        
+
         {versions.length > 0 && (
-          <span className="text-[8px] md:text-[10px] text-fg-3">
+          <span className="text-[8px] md:text-[9px] text-fg-4 tabular-nums">
             {versions.length}
           </span>
         )}
       </div>
 
-      {/* 版本点 */}
-      <div className="space-y-0 md:space-y-0.5">
-        {displayVersions.map(version => {
+      <div className="space-y-px">
+        {displayVersions.map((version) => {
           const color = gamesMap.get(version.gameId)?.color || '#6366f1';
           return (
             <div
               key={version.id}
-              className="flex items-center gap-0.5 md:gap-1 px-0.5 md:px-1 py-0 md:py-0.5 rounded text-[8px] md:text-[10px] truncate"
+              className="flex items-center gap-0.5 px-0.5 py-0 rounded text-[7px] md:text-[9px] truncate"
               style={{
-                backgroundColor: `${color}15`,
+                backgroundColor: `${color}10`,
                 color,
               }}
             >
               <div
-                className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full shrink-0"
+                className="w-[3px] h-[3px] md:w-1 md:h-1 rounded-full shrink-0"
                 style={{ backgroundColor: color }}
               />
-              <span className="truncate">v{version.version}</span>
+              <span className="truncate font-medium">v{version.version}</span>
             </div>
           );
         })}
-        
+
         {remainingCount > 0 && (
-          <div className="text-[8px] md:text-[10px] text-fg-3 text-center">
+          <div className="text-[7px] md:text-[9px] text-fg-4 text-center">
             +{remainingCount}
           </div>
         )}

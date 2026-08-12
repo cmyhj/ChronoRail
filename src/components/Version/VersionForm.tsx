@@ -37,7 +37,6 @@ export const VersionForm: React.FC<VersionFormProps> = ({
     };
   });
 
-  // 处理表单提交
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.version.trim() || !formData.name.trim() || !formData.startDate) return;
@@ -53,11 +52,8 @@ export const VersionForm: React.FC<VersionFormProps> = ({
       size="lg"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* 游戏名称（只读） */}
         <div>
-          <label className="field-label">
-            游戏
-          </label>
+          <label className="field-label">游戏</label>
           <input
             type="text"
             value={gameName}
@@ -66,84 +62,69 @@ export const VersionForm: React.FC<VersionFormProps> = ({
           />
         </div>
 
-        {/* 版本号 */}
         <div>
-          <label className="field-label">
-            版本号 *
-          </label>
+          <label className="field-label">版本号 *</label>
           <input
             type="text"
             value={formData.version}
-            onChange={(e) => setFormData(prev => ({ ...prev, version: e.target.value }))}
+            onChange={(e) => setFormData((prev) => ({ ...prev, version: e.target.value }))}
             placeholder="例如: 4.3, 1.5, 2.0"
             className="input-base"
             required
           />
         </div>
 
-        {/* 版本名称 */}
         <div>
-          <label className="field-label">
-            版本名称 *
-          </label>
+          <label className="field-label">版本名称 *</label>
           <input
             type="text"
             value={formData.name}
-            onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+            onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
             placeholder="例如: 沉于生者的忘川"
             className="input-base"
             required
           />
         </div>
 
-        {/* 日期 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="field-label">
-              更新日期 *
-            </label>
+            <label className="field-label">更新日期 *</label>
             <input
               type="date"
               value={formData.startDate}
-              onChange={(e) => setFormData(prev => ({ ...prev, startDate: e.target.value }))}
+              onChange={(e) => setFormData((prev) => ({ ...prev, startDate: e.target.value }))}
               className="input-base"
               required
             />
           </div>
-          
+
           <div>
-            <label className="field-label">
-              结束日期（可选）
-            </label>
+            <label className="field-label">结束日期（可选）</label>
             <input
               type="date"
               value={formData.endDate}
-              onChange={(e) => setFormData(prev => ({ ...prev, endDate: e.target.value }))}
+              onChange={(e) => setFormData((prev) => ({ ...prev, endDate: e.target.value }))}
               className="input-base"
             />
           </div>
         </div>
 
-        {/* 版本描述 */}
         <div>
-          <label className="field-label">
-            版本描述（可选）
-          </label>
+          <label className="field-label">版本描述（可选）</label>
           <textarea
             value={formData.description}
-            onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+            onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
             placeholder="输入版本更新内容摘要..."
             rows={3}
             className="input-base resize-none"
           />
         </div>
 
-        {/* 提交按钮 */}
-        <div className="flex justify-end gap-3 pt-4">
-          <Button variant="ghost" onClick={onClose}>
+        <div className="flex justify-end gap-2 pt-3">
+          <Button variant="ghost" size="sm" onClick={onClose}>
             取消
           </Button>
-          <Button type="submit">
+          <Button type="submit" size="sm">
             {initialData ? '保存' : '添加'}
           </Button>
         </div>
