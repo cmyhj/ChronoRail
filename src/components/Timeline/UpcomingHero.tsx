@@ -164,21 +164,23 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
                 </div>
               </div>
 
-              <div className="shrink-0 text-right">
+              <div className="shrink-0 text-right flex flex-col items-end gap-1">
                 {item.daysUntil <= 0 ? (
-                  <span className="text-[11px] font-semibold text-success">今天</span>
+                  <span className="inline-flex px-2 py-0.5 text-[10px] font-semibold text-white bg-accent rounded-full">
+                    今天
+                  </span>
                 ) : item.daysUntil <= 3 ? (
-                  <span className="text-[11px] font-semibold text-accent">
+                  <span className="inline-flex px-2 py-0.5 text-[10px] font-semibold text-accent bg-accent/10 rounded-full">
                     {item.daysUntil}天后
                   </span>
                 ) : (
-                  <span className="text-[11px] text-fg-3 tabular-nums">
+                  <span className="inline-flex px-2 py-0.5 text-[10px] font-medium text-fg-2 bg-white/[0.05] rounded-full">
                     {item.daysUntil}天后
                   </span>
                 )}
-                <div className="text-[10px] text-fg-4 tabular-nums">
+                <span className="text-[10px] text-fg-4 tabular-nums">
                   {dayjs(item.nextEvent?.startDate).format('MM/DD')}
-                </div>
+                </span>
               </div>
             </div>
           );

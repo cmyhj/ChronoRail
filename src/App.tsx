@@ -130,7 +130,7 @@ const App: React.FC = () => {
           plusColor="#6366f1"
           plusSize={64}
           fade={false}
-          className="z-0 opacity-[0.25]"
+          className="z-0 opacity-[0.5]"
         />
         <Header
           onMenuToggle={() => setDrawerOpen(true)}
