@@ -2,7 +2,7 @@
 
 import { useMotionValue, motion, useMotionTemplate } from "motion/react";
 import React, { useState } from "react";
-import type { MouseEvent as ReactMouseEvent } from "react";
+import type { MouseEvent as ReactMouseEvent, TouchEvent as ReactTouchEvent } from "react";
 import { CanvasRevealEffect } from "./canvas-reveal-effect";
 import { cn } from "../../lib/utils";
 
@@ -19,20 +19,37 @@ export const CardSpotlight = ({
 } & React.HTMLAttributes<HTMLDivElement>) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+
+  const setPosition = (clientX: number, clientY: number, el: HTMLElement) => {
+    const { left, top } = el.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  };
+
   function handleMouseMove({
     currentTarget,
     clientX,
     clientY,
   }: ReactMouseEvent<HTMLDivElement>) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
+    setPosition(clientX, clientY, currentTarget);
   }
 
   const [isHovering, setIsHovering] = useState(false);
+  const touchTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const handleMouseEnter = () => setIsHovering(true);
   const handleMouseLeave = () => setIsHovering(false);
+
+  // 移动端：单击时在手指位置亮起光斑，1.2s 后自动熄灭
+  const handleTouchStart = (e: ReactTouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    setPosition(touch.clientX, touch.clientY, e.currentTarget);
+    setIsHovering(true);
+    if (touchTimerRef.current) clearTimeout(touchTimerRef.current);
+    touchTimerRef.current = setTimeout(() => setIsHovering(false), 1200);
+  };
+
   return (
     <div
       className={cn(
@@ -42,10 +59,13 @@ export const CardSpotlight = ({
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
       {...props}
     >
       <motion.div
-        className="pointer-events-none absolute z-0 -inset-px rounded-md opacity-0 transition duration-300 group-hover/spotlight:opacity-100"
+        className={`pointer-events-none absolute z-0 -inset-px rounded-md transition duration-300 ${
+          isHovering ? "opacity-100" : "opacity-0 group-hover/spotlight:opacity-100"
+        }`}
         style={{
           backgroundColor: color,
           maskImage: useMotionTemplate`
