@@ -2,6 +2,7 @@ import React from 'react';
 import { Plus } from 'lucide-react';
 import { GameCard } from './GameCard';
 import { Button } from '../Common/Button';
+import { TextGenerateEffect } from '../ui/text-generate-effect';
 import type { Game } from '../../types';
 
 interface GameListProps {
@@ -23,7 +24,9 @@ export const GameList: React.FC<GameListProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h2 className="text-base font-semibold text-fg">游戏管理</h2>
+            <h2 className="text-base font-semibold text-fg">
+              <TextGenerateEffect words="游戏管理" duration={0.8} className="text-base" />
+            </h2>
             <p className="text-[12px] text-fg-3 mt-0.5">
               共 {games.length} 个游戏
             </p>

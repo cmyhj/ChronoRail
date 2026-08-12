@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { RefreshCw } from 'lucide-react';
 import { Button } from '../Common/Button';
+import { TextGenerateEffect } from '../ui/text-generate-effect';
 
 export const RandomNumberView: React.FC = () => {
   const [result, setResult] = useState<number | null>(null);
@@ -52,7 +53,7 @@ export const RandomNumberView: React.FC = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-base font-semibold text-fg">
-            随机数生成器
+            <TextGenerateEffect words="随机数生成器" duration={0.8} className="text-base" />
           </h1>
           {result !== null && (
             <Button

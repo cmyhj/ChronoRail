@@ -116,7 +116,7 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
         <TextGenerateEffect
           words="即将到来"
           className="text-xs font-semibold uppercase tracking-wider"
-          duration={0.4}
+          duration={0.8}
         />
       </div>
 

@@ -15,7 +15,10 @@ export const TextGenerateEffect = ({
   duration?: number;
 }) => {
   const [scope, animate] = useAnimate();
-  const wordsArray = words.split(" ");
+  // 中文无空格：按字符逐个显示；英文按单词
+  const wordsArray = words.includes(' ')
+    ? words.split(' ')
+    : Array.from(words);
   useEffect(() => {
     animate(
       "span",
@@ -25,7 +28,7 @@ export const TextGenerateEffect = ({
       },
       {
         duration: duration ? duration : 1,
-        delay: stagger(0.2),
+        delay: stagger(0.15),
       }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,7 +46,7 @@ export const TextGenerateEffect = ({
                 filter: filter ? "blur(10px)" : "none",
               }}
             >
-              {word}{" "}
+              {word}{words.includes(' ') ? ' ' : ''}
             </motion.span>
           );
         })}

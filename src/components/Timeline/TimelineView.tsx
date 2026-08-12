@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
 import dayjs from 'dayjs';
 import { TimelineRow } from './TimelineRow';
 import { UpcomingHero } from './UpcomingHero';
+import { TextGenerateEffect } from '../ui/text-generate-effect';
 import { useResponsive } from '../../hooks/useResponsive';
 import { mihoyoService } from '../../services/mihoyo';
 import type { Game, Version, Banner } from '../../types';
@@ -189,9 +190,11 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           <div className="flex items-center justify-between mb-3 px-1">
             <div className="flex items-center gap-2">
               <CalendarDays size={14} className="text-fg-3" />
-              <h2 className="text-xs font-semibold text-fg-3 uppercase tracking-wider">
-                时间轴
-              </h2>
+              <TextGenerateEffect
+                words="时间轴"
+                className="text-xs font-semibold uppercase tracking-wider"
+                duration={0.8}
+              />
             </div>
 
             <div className="flex items-center gap-1">
