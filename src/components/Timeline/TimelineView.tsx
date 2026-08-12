@@ -223,10 +223,10 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           </div>
 
           {/* Timeline gantt */}
-          <div className="bg-panel rounded-xl border border-line overflow-x-auto">
+          <div className="bg-panel/90 backdrop-blur-xl rounded-xl border border-line overflow-x-auto">
             <div className="min-w-[600px] md:min-w-[800px]">
               {/* Time scale header */}
-              <div className="flex border-b border-line bg-elevated sticky top-0 z-10">
+              <div className="flex border-b border-line bg-elevated/80 backdrop-blur-xl sticky top-0 z-10">
                 <div
                   className={`shrink-0 px-3 py-2 border-r border-line ${
                     isMobile ? 'w-24' : 'w-44'
