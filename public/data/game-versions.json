@@ -1,260 +1,790 @@
 {
-  "fetchedAt": "2026-06-07T12:00:00Z",
-  "games": {
-    "genshin": {
-      "gameId": "genshin",
-      "gameName": "原神",
-      "versions": [
-        {
-          "version": "7.0", "name": "无神怜爱的雪国", "startDate": "2026-08-12", "endDate": "2026-09-23",
-          "banners": [
-            { "name": "上半卡池", "character": "翾风回雪·奥黛塔(冰)", "startDate": "2026-08-12", "endDate": "2026-09-02" },
-            { "name": "下半卡池", "character": "菲林斯", "startDate": "2026-09-02", "endDate": "2026-09-23" },
-            { "name": "下半卡池", "character": "伊涅芙", "startDate": "2026-09-02", "endDate": "2026-09-23" }
-          ]
-        },
-        {
-          "version": "5.8", "name": "映夏!归乡?千灵节!", "startDate": "2026-07-01", "endDate": "2026-08-11",
-          "banners": [
-            { "name": "上半卡池", "character": "桑多涅", "startDate": "2026-07-01", "endDate": "2026-07-22" },
-            { "name": "下半卡池", "character": "待确认", "startDate": "2026-07-22", "endDate": "2026-08-11" }
-          ]
-        },
-        {
-          "version": "5.7", "name": "虚空劫灰往世书", "startDate": "2026-05-20", "endDate": "2026-07-01",
-          "banners": [
-            { "name": "上半卡池", "character": "尼可/布伦妮", "startDate": "2026-05-20", "endDate": "2026-06-10" },
-            { "name": "上半卡池", "character": "杜林", "startDate": "2026-05-20", "endDate": "2026-06-10" },
-            { "name": "下半卡池", "character": "洛恩", "startDate": "2026-06-10", "endDate": "2026-07-01" },
-            { "name": "下半卡池", "character": "玛薇卡", "startDate": "2026-06-10", "endDate": "2026-07-01" }
-          ]
-        },
-        { "version": "5.6", "name": "空月之歌·鸣弦", "startDate": "2026-04-08", "endDate": "2026-05-20", "banners": [] },
-        { "version": "5.5", "name": "空月之歌·序曲", "startDate": "2026-02-25", "endDate": "2026-04-08", "banners": [] },
-        { "version": "5.4", "name": "彩糖与蔷薇的幻宴", "startDate": "2026-01-14", "endDate": "2026-02-25", "banners": [] },
-        { "version": "5.3", "name": "烈焰与焚毁的战歌", "startDate": "2025-12-03", "endDate": "2026-01-14", "banners": [] }
-      ]
+ "fetchedAt": "2026-08-14T00:00:00Z",
+ "games": {
+  "genshin": {
+   "gameId": "genshin",
+   "gameName": "原神",
+   "versions": [
+    {
+     "version": "7.0",
+     "name": "无神怜爱的雪国",
+     "startDate": "2026-08-12",
+     "endDate": "2026-09-23",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "翾风回雪·奥黛塔(冰)",
+       "startDate": "2026-08-12",
+       "endDate": "2026-09-02"
+      },
+      {
+       "name": "下半卡池",
+       "character": "菲林斯",
+       "startDate": "2026-09-02",
+       "endDate": "2026-09-23"
+      },
+      {
+       "name": "下半卡池",
+       "character": "伊涅芙",
+       "startDate": "2026-09-02",
+       "endDate": "2026-09-23"
+      }
+     ]
     },
-    "starrail": {
-      "gameId": "starrail",
-      "gameName": "崩坏：星穹铁道",
-      "versions": [
-        {
-          "version": "4.4", "name": "鸣笛于归寂之时", "startDate": "2026-07-15", "endDate": "2026-08-26",
-          "banners": [
-            { "name": "姬子·启行", "character": "姬子·启行", "startDate": "2026-07-15", "endDate": "2026-08-26" }
-          ]
-        },
-        {
-          "version": "4.3", "name": "沉于生者的忘川", "startDate": "2026-06-01", "endDate": "2026-07-15",
-          "banners": [
-            { "name": "上半卡池", "character": "千冶·刃 + 爻光", "startDate": "2026-06-01", "endDate": "2026-06-24" },
-            { "name": "下半卡池", "character": "昔涟 + 白厄", "startDate": "2026-06-24", "endDate": "2026-07-15" },
-            { "name": "联动跃迁", "character": "远坂凛（Fate联动）", "startDate": "2026-07-24", "endDate": "2026-08-15" }
-          ]
-        },
-        { "version": "4.2", "name": "混沌兽的黄金时代", "startDate": "2026-04-20", "endDate": "2026-06-01", "banners": [] },
-        { "version": "4.1", "name": "银河沦陷日", "startDate": "2026-03-09", "endDate": "2026-04-20", "banners": [] },
-        { "version": "4.0", "name": "冬梦中的拥抱", "startDate": "2026-01-26", "endDate": "2026-03-09", "banners": [] },
-        { "version": "3.7", "name": "尘世奇谭录", "startDate": "2025-12-15", "endDate": "2026-01-26", "banners": [] }
-      ]
+    {
+     "version": "5.8",
+     "name": "映夏!归乡?千灵节!",
+     "startDate": "2026-07-01",
+     "endDate": "2026-08-11",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "桑多涅",
+       "startDate": "2026-07-01",
+       "endDate": "2026-07-22"
+      },
+      {
+       "name": "下半卡池",
+       "character": "待确认",
+       "startDate": "2026-07-22",
+       "endDate": "2026-08-11"
+      }
+     ]
     },
-    "zzz": {
-      "gameId": "zzz",
-      "gameName": "绝区零",
-      "versions": [
-        {
-          "version": "3.1", "name": "漫长的告别", "startDate": "2026-07-29", "endDate": "2026-09-08",
-          "banners": [
-            { "name": "卡池", "character": "蕾米埃尔", "startDate": "2026-07-29", "endDate": "2026-09-08" },
-            { "name": "卡池", "character": "希格莉德", "startDate": "2026-08-19", "endDate": "2026-09-08" }
-          ]
-        },
-        {
-          "version": "3.0", "name": "某个梦游者的自白", "startDate": "2026-06-17", "endDate": "2026-07-28",
-          "banners": [
-            { "name": "上半卡池", "character": "维琳娜", "startDate": "2026-06-17", "endDate": "2026-07-08" },
-            { "name": "下半卡池", "character": "诺姆", "startDate": "2026-07-08", "endDate": "2026-07-28" }
-          ]
-        },
-        {
-          "version": "2.8", "name": "新·艾利都日落时", "startDate": "2026-05-06", "endDate": "2026-06-17",
-          "banners": [
-            { "name": "上半卡池", "character": "普罗米娅", "startDate": "2026-05-06", "endDate": "2026-05-27" },
-            { "name": "下半卡池", "character": "星徽·比利", "startDate": "2026-05-27", "endDate": "2026-06-17" }
-          ]
-        },
-        { "version": "2.7", "name": "幕影通告", "startDate": "2026-03-25", "endDate": "2026-05-06", "banners": [] },
-        { "version": "2.6", "name": "云端遗梦", "startDate": "2026-02-11", "endDate": "2026-03-25", "banners": [] },
-        { "version": "2.5", "name": "来自深渊", "startDate": "2026-01-01", "endDate": "2026-02-11", "banners": [] },
-        { "version": "2.4", "name": "灼热金属", "startDate": "2025-11-20", "endDate": "2026-01-01", "banners": [] }
-      ]
+    {
+     "version": "5.7",
+     "name": "虚空劫灰往世书",
+     "startDate": "2026-05-20",
+     "endDate": "2026-07-01",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "尼可/布伦妮",
+       "startDate": "2026-05-20",
+       "endDate": "2026-06-10"
+      },
+      {
+       "name": "上半卡池",
+       "character": "杜林",
+       "startDate": "2026-05-20",
+       "endDate": "2026-06-10"
+      },
+      {
+       "name": "下半卡池",
+       "character": "洛恩",
+       "startDate": "2026-06-10",
+       "endDate": "2026-07-01"
+      },
+      {
+       "name": "下半卡池",
+       "character": "玛薇卡",
+       "startDate": "2026-06-10",
+       "endDate": "2026-07-01"
+      }
+     ]
     },
-    "wutheringwaves": {
-      "gameId": "wutheringwaves",
-      "gameName": "鸣潮",
-      "versions": [
-        {
-          "version": "3.6", "name": "蜃云灯影，凡尘剑心", "startDate": "2026-08-20", "endDate": "2026-10-01",
-          "banners": [
-            { "name": "上半卡池", "character": "清宵", "startDate": "2026-08-20", "endDate": "2026-09-10" },
-            { "name": "下半卡池", "character": "景燃", "startDate": "2026-09-10", "endDate": "2026-10-01" }
-          ]
-        },
-        {
-          "version": "3.5", "name": "遗音扶剑，荡梦而歌", "startDate": "2026-07-10", "endDate": "2026-08-21",
-          "banners": [
-            { "name": "上半卡池", "character": "秧秧·玄翎 + 陆·赫斯", "startDate": "2026-07-10", "endDate": "2026-07-31" },
-            { "name": "下半卡池", "character": "穗穗", "startDate": "2026-07-31", "endDate": "2026-08-21" }
-          ]
-        },
-        {
-          "version": "3.4", "name": "未选择的梦", "startDate": "2026-06-08", "endDate": "2026-07-09",
-          "banners": [
-            { "name": "上半卡池", "character": "露西 + 蕾贝卡", "startDate": "2026-06-08", "endDate": "2026-07-09" },
-            { "name": "下半卡池", "character": "洛瑟菈", "startDate": "2026-06-13", "endDate": "2026-07-09" }
-          ]
-        },
-        { "version": "3.3", "name": "自星海尽处回响", "startDate": "2026-04-30", "endDate": "2026-06-08", "banners": [] },
-        { "version": "3.2", "name": "于影中启明的决心", "startDate": "2026-03-19", "endDate": "2026-04-27", "banners": [] },
-        { "version": "3.1", "name": "月之暗面", "startDate": "2026-02-06", "endDate": "2026-03-19", "banners": [] },
-        { "version": "3.0", "name": "潮起", "startDate": "2025-12-25", "endDate": "2026-02-06", "banners": [] }
-      ]
+    {
+     "version": "5.6",
+     "name": "空月之歌·鸣弦",
+     "startDate": "2026-04-08",
+     "endDate": "2026-05-20",
+     "banners": []
     },
-    "arknights": {
-      "gameId": "arknights",
-      "gameName": "明日方舟",
-      "versions": [
-        {
-          "version": "SideStory", "name": "直到大地变成一颗酸橙", "startDate": "2026-08-01", "endDate": "2026-08-22",
-          "banners": [
-            { "name": "限定寻访", "character": "予愿安洁莉娜[限定] \\ 珊比", "startDate": "2026-08-01", "endDate": "2026-08-14" }
-          ]
-        },
-        {
-          "version": "故事集", "name": "丛林症结", "startDate": "2026-07-10", "endDate": "2026-07-17",
-          "banners": [
-            { "name": "限定寻访", "character": "谬因", "startDate": "2026-07-10", "endDate": "2026-07-24" }
-          ]
-        },
-        {
-          "version": "危机合约", "name": "「涤墨作战」", "startDate": "2026-06-26", "endDate": "2026-07-10",
-          "banners": [
-            { "name": "联合行动", "character": "联合行动", "startDate": "2026-06-26", "endDate": "2026-07-10" }
-          ]
-        },
-        {
-          "version": "泡影苍霆", "name": "明日方舟×怪物猎人联动", "startDate": "2026-06-01", "endDate": "2026-06-29",
-          "banners": [
-            { "name": "泡影迷踪干员寻访", "character": "异格梓兰 + 空爆", "startDate": "2026-06-01", "endDate": "2026-06-15" },
-            { "name": "砺火成锋（复刻）", "character": "麒麟+夜刀 / 火龙+黑角", "startDate": "2026-06-15", "endDate": "2026-06-29" }
-          ]
-        },
-        { "version": "慈悲灯塔", "name": "主线活动", "startDate": "2026-05-15", "endDate": "2026-06-01", "banners": [] },
-        { "version": "空想花庭", "name": "SideStory", "startDate": "2026-04-03", "endDate": "2026-05-15", "banners": [] },
-        { "version": "水晶箭行动", "name": "SideStory", "startDate": "2026-02-20", "endDate": "2026-04-03", "banners": [] },
-        { "version": "尘影余音", "name": "SideStory", "startDate": "2026-01-09", "endDate": "2026-02-20", "banners": [] }
-      ]
+    {
+     "version": "5.5",
+     "name": "空月之歌·序曲",
+     "startDate": "2026-02-25",
+     "endDate": "2026-04-08",
+     "banners": []
     },
-    "reverse1999": {
-      "gameId": "reverse1999",
-      "gameName": "重返未来:1999",
-      "versions": [
-        {
-          "version": "3.9", "name": "重燃！流金之海", "startDate": "2026-08-13", "endDate": "2026-09-24",
-          "banners": [
-            { "name": "上半卡池", "character": "赫多涅（岩）", "startDate": "2026-08-13", "endDate": "2026-09-03" },
-            { "name": "下半卡池", "character": "纳西索斯（兽）", "startDate": "2026-09-03", "endDate": "2026-09-24" }
-          ]
-        },
-        {
-          "version": "联动", "name": "×原子之心联动", "startDate": "2026-07-23", "endDate": "2026-08-13",
-          "banners": [
-            { "name": "同步开发卡池", "character": "双生舞伶", "startDate": "2026-07-23", "endDate": "2026-08-13" }
-          ]
-        },
-        {
-          "version": "3.8", "name": "世纪末尺度", "startDate": "2026-06-11", "endDate": "2026-07-23",
-          "banners": [
-            { "name": "轮换征集", "character": "伊戈尔（六星兽灵感）", "startDate": "2026-06-09", "endDate": "2026-06-23" },
-            { "name": "活动征集「往昔应我声」", "character": "回声谣（岩）", "startDate": "2026-06-11", "endDate": "2026-07-02" },
-            { "name": "活动征集「明日之础」", "character": "奠基石（岩）", "startDate": "2026-07-02", "endDate": "2026-07-23" }
-          ]
-        },
-        { "version": "3.7", "name": "他者的悲哀", "startDate": "2026-04-30", "endDate": "2026-06-11", "banners": [] },
-        { "version": "3.6", "name": "孤独之歌", "startDate": "2026-03-19", "endDate": "2026-04-30", "banners": [] },
-        { "version": "3.5", "name": "复兴！米卢特兰", "startDate": "2026-02-05", "endDate": "2026-03-19", "banners": [] },
-        { "version": "3.4", "name": "飞驰明日之城", "startDate": "2025-12-25", "endDate": "2026-02-05", "banners": [] },
-        { "version": "3.3", "name": "洞穴的黄金国", "startDate": "2025-11-13", "endDate": "2025-12-25", "banners": [] }
-      ]
+    {
+     "version": "5.4",
+     "name": "彩糖与蔷薇的幻宴",
+     "startDate": "2026-01-14",
+     "endDate": "2026-02-25",
+     "banners": []
     },
-    "arknights_endfield": {
-      "gameId": "arknights_endfield",
-      "gameName": "明日方舟:终末地",
-      "versions": [
-        {
-          "version": "1.4", "name": "向渊行", "startDate": "2026-07-16", "endDate": "2026-09-02",
-          "banners": [
-            { "name": "卡池「诀」", "character": "诀", "startDate": "2026-07-16", "endDate": "2026-08-09" },
-            { "name": "卡池「梨诺」", "character": "梨诺", "startDate": "2026-08-09", "endDate": "2026-09-02" }
-          ]
-        },
-        {
-          "version": "1.3", "name": "寻遗散记", "startDate": "2026-06-05", "endDate": "2026-07-17",
-          "banners": [
-            { "name": "上半卡池", "character": "弭弗", "startDate": "2026-06-05", "endDate": "2026-06-26" },
-            { "name": "下半卡池", "character": "卡缪", "startDate": "2026-06-26", "endDate": "2026-07-17" }
-          ]
-        },
-        { "version": "1.2", "name": "春晓时", "startDate": "2026-04-17", "endDate": "2026-06-05", "banners": [] },
-        { "version": "1.1", "name": "新潮起，故渊离", "startDate": "2026-03-12", "endDate": "2026-04-17", "banners": [] },
-        { "version": "1.0", "name": "公测", "startDate": "2026-01-16", "endDate": "2026-03-12", "banners": [] }
-      ]
-    },
-    "yihuan": {
-      "gameId": "yihuan",
-      "gameName": "异环",
-      "versions": [
-        {
-          "version": "1.3", "name": "雾中朔望星回", "startDate": "2026-08-13", "endDate": "2026-09-24",
-          "banners": [
-            { "name": "上半卡池", "character": "残虹/娜娜莉", "startDate": "2026-08-13", "endDate": "2026-09-03" },
-            { "name": "下半卡池", "character": "灵可/浔", "startDate": "2026-09-03", "endDate": "2026-09-24" }
-          ]
-        },
-        {
-          "version": "1.2", "name": "九百九十九夜", "startDate": "2026-07-02", "endDate": "2026-08-13",
-          "banners": [
-            { "name": "上半卡池", "character": "真红", "startDate": "2026-07-02", "endDate": "2026-07-23" },
-            { "name": "下半卡池", "character": "伊洛伊", "startDate": "2026-07-23", "endDate": "2026-08-13" }
-          ]
-        },
-        {
-          "version": "1.1", "name": "游梦洄廊", "startDate": "2026-05-28", "endDate": "2026-07-02",
-          "banners": [
-            { "name": "上半卡池", "character": "安魂曲", "startDate": "2026-05-28", "endDate": "2026-06-18" },
-            { "name": "下半卡池", "character": "卡厄斯", "startDate": "2026-06-18", "endDate": "2026-07-02" }
-          ]
-        },
-        { "version": "1.0", "name": "公测", "startDate": "2026-04-22", "endDate": "2026-05-28", "banners": [] }
-      ]
-    },
-    "doublehelix": {
-      "gameId": "doublehelix",
-      "gameName": "二重螺旋",
-      "versions": [
-        {
-          "version": "1.4", "name": "银星奔流", "startDate": "2026-06-02", "endDate": "2026-07-27",
-          "banners": [
-            { "name": "沉浸式戏剧限时奖励", "character": "芙罗拉", "startDate": "2026-06-02", "endDate": "2026-06-30" },
-            { "name": "梦魇残声挑战奖励", "character": "希尔妲", "startDate": "2026-06-30", "endDate": "2026-07-27" }
-          ]
-        },
-        { "version": "1.3", "name": "皓苍诀", "startDate": "2026-04-07", "endDate": "2026-06-02", "banners": [] },
-        { "version": "1.2", "name": "冬暮", "startDate": "2026-02-10", "endDate": "2026-04-07", "banners": [] },
-        { "version": "1.1", "name": "大风歌·上", "startDate": "2025-12-23", "endDate": "2026-02-10", "banners": [] },
-        { "version": "1.0", "name": "公测", "startDate": "2025-10-28", "endDate": "2025-12-23", "banners": [] }
-      ]
+    {
+     "version": "5.3",
+     "name": "烈焰与焚毁的战歌",
+     "startDate": "2025-12-03",
+     "endDate": "2026-01-14",
+     "banners": []
     }
+   ]
+  },
+  "starrail": {
+   "gameId": "starrail",
+   "gameName": "崩坏：星穹铁道",
+   "versions": [
+    {
+     "version": "4.5",
+     "name": "挥掷千星的筹码",
+     "startDate": "2026-08-26",
+     "endDate": "2026-10-07",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "知更鸟·晴歌 + 光锥「你将起身歌唱」；复刻 风堇 +「愿虹光永驻天空」",
+       "startDate": "2026-08-26",
+       "endDate": "2026-09-16"
+      },
+      {
+       "name": "下半卡池",
+       "character": "砂金·戏浪 + 光锥「向浪花掷下盛夏」；复刻 不死途 +「一场谎言的终幕」",
+       "startDate": "2026-09-16",
+       "endDate": "2026-10-07"
+      }
+     ]
+    },
+    {
+     "version": "4.4",
+     "name": "鸣笛于归寂之时",
+     "startDate": "2026-07-15",
+     "endDate": "2026-08-26",
+     "banners": [
+      {
+       "name": "姬子·启行",
+       "character": "姬子·启行",
+       "startDate": "2026-07-15",
+       "endDate": "2026-08-26"
+      }
+     ]
+    },
+    {
+     "version": "4.3",
+     "name": "沉于生者的忘川",
+     "startDate": "2026-06-01",
+     "endDate": "2026-07-15",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "千冶·刃 + 爻光",
+       "startDate": "2026-06-01",
+       "endDate": "2026-06-24"
+      },
+      {
+       "name": "下半卡池",
+       "character": "昔涟 + 白厄",
+       "startDate": "2026-06-24",
+       "endDate": "2026-07-15"
+      },
+      {
+       "name": "联动跃迁",
+       "character": "远坂凛（Fate联动）",
+       "startDate": "2026-07-24",
+       "endDate": "2026-08-15"
+      }
+     ]
+    },
+    {
+     "version": "4.2",
+     "name": "混沌兽的黄金时代",
+     "startDate": "2026-04-20",
+     "endDate": "2026-06-01",
+     "banners": []
+    },
+    {
+     "version": "4.1",
+     "name": "银河沦陷日",
+     "startDate": "2026-03-09",
+     "endDate": "2026-04-20",
+     "banners": []
+    },
+    {
+     "version": "4.0",
+     "name": "冬梦中的拥抱",
+     "startDate": "2026-01-26",
+     "endDate": "2026-03-09",
+     "banners": []
+    },
+    {
+     "version": "3.7",
+     "name": "尘世奇谭录",
+     "startDate": "2025-12-15",
+     "endDate": "2026-01-26",
+     "banners": []
+    }
+   ]
+  },
+  "zzz": {
+   "gameId": "zzz",
+   "gameName": "绝区零",
+   "versions": [
+    {
+     "version": "3.1",
+     "name": "漫长的告别",
+     "startDate": "2026-07-29",
+     "endDate": "2026-09-08",
+     "banners": [
+      {
+       "name": "卡池",
+       "character": "蕾米埃尔",
+       "startDate": "2026-07-29",
+       "endDate": "2026-09-08"
+      },
+      {
+       "name": "卡池",
+       "character": "希格莉德",
+       "startDate": "2026-08-19",
+       "endDate": "2026-09-08"
+      }
+     ]
+    },
+    {
+     "version": "3.0",
+     "name": "某个梦游者的自白",
+     "startDate": "2026-06-17",
+     "endDate": "2026-07-28",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "维琳娜",
+       "startDate": "2026-06-17",
+       "endDate": "2026-07-08"
+      },
+      {
+       "name": "下半卡池",
+       "character": "诺姆",
+       "startDate": "2026-07-08",
+       "endDate": "2026-07-28"
+      }
+     ]
+    },
+    {
+     "version": "2.8",
+     "name": "新·艾利都日落时",
+     "startDate": "2026-05-06",
+     "endDate": "2026-06-17",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "普罗米娅",
+       "startDate": "2026-05-06",
+       "endDate": "2026-05-27"
+      },
+      {
+       "name": "下半卡池",
+       "character": "星徽·比利",
+       "startDate": "2026-05-27",
+       "endDate": "2026-06-17"
+      }
+     ]
+    },
+    {
+     "version": "2.7",
+     "name": "幕影通告",
+     "startDate": "2026-03-25",
+     "endDate": "2026-05-06",
+     "banners": []
+    },
+    {
+     "version": "2.6",
+     "name": "云端遗梦",
+     "startDate": "2026-02-11",
+     "endDate": "2026-03-25",
+     "banners": []
+    },
+    {
+     "version": "2.5",
+     "name": "来自深渊",
+     "startDate": "2026-01-01",
+     "endDate": "2026-02-11",
+     "banners": []
+    },
+    {
+     "version": "2.4",
+     "name": "灼热金属",
+     "startDate": "2025-11-20",
+     "endDate": "2026-01-01",
+     "banners": []
+    }
+   ]
+  },
+  "wutheringwaves": {
+   "gameId": "wutheringwaves",
+   "gameName": "鸣潮",
+   "versions": [
+    {
+     "version": "3.6",
+     "name": "蜃云灯影，凡尘剑心",
+     "startDate": "2026-08-20",
+     "endDate": "2026-10-01",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "清宵",
+       "startDate": "2026-08-20",
+       "endDate": "2026-09-10"
+      },
+      {
+       "name": "下半卡池",
+       "character": "景燃",
+       "startDate": "2026-09-10",
+       "endDate": "2026-10-01"
+      }
+     ]
+    },
+    {
+     "version": "3.5",
+     "name": "遗音扶剑，荡梦而歌",
+     "startDate": "2026-07-10",
+     "endDate": "2026-08-21",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "秧秧·玄翎 + 陆·赫斯",
+       "startDate": "2026-07-10",
+       "endDate": "2026-07-31"
+      },
+      {
+       "name": "下半卡池",
+       "character": "穗穗",
+       "startDate": "2026-07-31",
+       "endDate": "2026-08-21"
+      }
+     ]
+    },
+    {
+     "version": "3.4",
+     "name": "未选择的梦",
+     "startDate": "2026-06-08",
+     "endDate": "2026-07-09",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "露西 + 蕾贝卡",
+       "startDate": "2026-06-08",
+       "endDate": "2026-07-09"
+      },
+      {
+       "name": "下半卡池",
+       "character": "洛瑟菈",
+       "startDate": "2026-06-13",
+       "endDate": "2026-07-09"
+      }
+     ]
+    },
+    {
+     "version": "3.3",
+     "name": "自星海尽处回响",
+     "startDate": "2026-04-30",
+     "endDate": "2026-06-08",
+     "banners": []
+    },
+    {
+     "version": "3.2",
+     "name": "于影中启明的决心",
+     "startDate": "2026-03-19",
+     "endDate": "2026-04-27",
+     "banners": []
+    },
+    {
+     "version": "3.1",
+     "name": "月之暗面",
+     "startDate": "2026-02-06",
+     "endDate": "2026-03-19",
+     "banners": []
+    },
+    {
+     "version": "3.0",
+     "name": "潮起",
+     "startDate": "2025-12-25",
+     "endDate": "2026-02-06",
+     "banners": []
+    }
+   ]
+  },
+  "arknights": {
+   "gameId": "arknights",
+   "gameName": "明日方舟",
+   "versions": [
+    {
+     "version": "SideStory",
+     "name": "直到大地变成一颗酸橙",
+     "startDate": "2026-08-01",
+     "endDate": "2026-08-22",
+     "banners": [
+      {
+       "name": "限定寻访",
+       "character": "予愿安洁莉娜[限定] \\ 珊比",
+       "startDate": "2026-08-01",
+       "endDate": "2026-08-14"
+      }
+     ]
+    },
+    {
+     "version": "故事集",
+     "name": "丛林症结",
+     "startDate": "2026-07-10",
+     "endDate": "2026-07-17",
+     "banners": [
+      {
+       "name": "限定寻访",
+       "character": "谬因",
+       "startDate": "2026-07-10",
+       "endDate": "2026-07-24"
+      }
+     ]
+    },
+    {
+     "version": "危机合约",
+     "name": "「涤墨作战」",
+     "startDate": "2026-06-26",
+     "endDate": "2026-07-10",
+     "banners": [
+      {
+       "name": "联合行动",
+       "character": "联合行动",
+       "startDate": "2026-06-26",
+       "endDate": "2026-07-10"
+      }
+     ]
+    },
+    {
+     "version": "泡影苍霆",
+     "name": "明日方舟×怪物猎人联动",
+     "startDate": "2026-06-01",
+     "endDate": "2026-06-29",
+     "banners": [
+      {
+       "name": "泡影迷踪干员寻访",
+       "character": "异格梓兰 + 空爆",
+       "startDate": "2026-06-01",
+       "endDate": "2026-06-15"
+      },
+      {
+       "name": "砺火成锋（复刻）",
+       "character": "麒麟+夜刀 / 火龙+黑角",
+       "startDate": "2026-06-15",
+       "endDate": "2026-06-29"
+      }
+     ]
+    },
+    {
+     "version": "慈悲灯塔",
+     "name": "主线活动",
+     "startDate": "2026-05-15",
+     "endDate": "2026-06-01",
+     "banners": []
+    },
+    {
+     "version": "空想花庭",
+     "name": "SideStory",
+     "startDate": "2026-04-03",
+     "endDate": "2026-05-15",
+     "banners": []
+    },
+    {
+     "version": "水晶箭行动",
+     "name": "SideStory",
+     "startDate": "2026-02-20",
+     "endDate": "2026-04-03",
+     "banners": []
+    },
+    {
+     "version": "尘影余音",
+     "name": "SideStory",
+     "startDate": "2026-01-09",
+     "endDate": "2026-02-20",
+     "banners": []
+    }
+   ]
+  },
+  "reverse1999": {
+   "gameId": "reverse1999",
+   "gameName": "重返未来:1999",
+   "versions": [
+    {
+     "version": "3.9",
+     "name": "重燃！流金之海",
+     "startDate": "2026-08-13",
+     "endDate": "2026-09-24",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "赫多涅（岩）",
+       "startDate": "2026-08-13",
+       "endDate": "2026-09-03"
+      },
+      {
+       "name": "下半卡池",
+       "character": "纳西索斯（兽）",
+       "startDate": "2026-09-03",
+       "endDate": "2026-09-24"
+      }
+     ]
+    },
+    {
+     "version": "联动",
+     "name": "×原子之心联动",
+     "startDate": "2026-07-23",
+     "endDate": "2026-08-13",
+     "banners": [
+      {
+       "name": "同步开发卡池",
+       "character": "双生舞伶",
+       "startDate": "2026-07-23",
+       "endDate": "2026-08-13"
+      }
+     ]
+    },
+    {
+     "version": "3.8",
+     "name": "世纪末尺度",
+     "startDate": "2026-06-11",
+     "endDate": "2026-07-23",
+     "banners": [
+      {
+       "name": "轮换征集",
+       "character": "伊戈尔（六星兽灵感）",
+       "startDate": "2026-06-09",
+       "endDate": "2026-06-23"
+      },
+      {
+       "name": "活动征集「往昔应我声」",
+       "character": "回声谣（岩）",
+       "startDate": "2026-06-11",
+       "endDate": "2026-07-02"
+      },
+      {
+       "name": "活动征集「明日之础」",
+       "character": "奠基石（岩）",
+       "startDate": "2026-07-02",
+       "endDate": "2026-07-23"
+      }
+     ]
+    },
+    {
+     "version": "3.7",
+     "name": "他者的悲哀",
+     "startDate": "2026-04-30",
+     "endDate": "2026-06-11",
+     "banners": []
+    },
+    {
+     "version": "3.6",
+     "name": "孤独之歌",
+     "startDate": "2026-03-19",
+     "endDate": "2026-04-30",
+     "banners": []
+    },
+    {
+     "version": "3.5",
+     "name": "复兴！米卢特兰",
+     "startDate": "2026-02-05",
+     "endDate": "2026-03-19",
+     "banners": []
+    },
+    {
+     "version": "3.4",
+     "name": "飞驰明日之城",
+     "startDate": "2025-12-25",
+     "endDate": "2026-02-05",
+     "banners": []
+    },
+    {
+     "version": "3.3",
+     "name": "洞穴的黄金国",
+     "startDate": "2025-11-13",
+     "endDate": "2025-12-25",
+     "banners": []
+    }
+   ]
+  },
+  "arknights_endfield": {
+   "gameId": "arknights_endfield",
+   "gameName": "明日方舟:终末地",
+   "versions": [
+    {
+     "version": "1.4",
+     "name": "向渊行",
+     "startDate": "2026-07-16",
+     "endDate": "2026-09-02",
+     "banners": [
+      {
+       "name": "卡池「诀」",
+       "character": "诀",
+       "startDate": "2026-07-16",
+       "endDate": "2026-08-09"
+      },
+      {
+       "name": "卡池「梨诺」",
+       "character": "梨诺",
+       "startDate": "2026-08-09",
+       "endDate": "2026-09-02"
+      }
+     ]
+    },
+    {
+     "version": "1.3",
+     "name": "寻遗散记",
+     "startDate": "2026-06-05",
+     "endDate": "2026-07-17",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "弭弗",
+       "startDate": "2026-06-05",
+       "endDate": "2026-06-26"
+      },
+      {
+       "name": "下半卡池",
+       "character": "卡缪",
+       "startDate": "2026-06-26",
+       "endDate": "2026-07-17"
+      }
+     ]
+    },
+    {
+     "version": "1.2",
+     "name": "春晓时",
+     "startDate": "2026-04-17",
+     "endDate": "2026-06-05",
+     "banners": []
+    },
+    {
+     "version": "1.1",
+     "name": "新潮起，故渊离",
+     "startDate": "2026-03-12",
+     "endDate": "2026-04-17",
+     "banners": []
+    },
+    {
+     "version": "1.0",
+     "name": "公测",
+     "startDate": "2026-01-16",
+     "endDate": "2026-03-12",
+     "banners": []
+    }
+   ]
+  },
+  "yihuan": {
+   "gameId": "yihuan",
+   "gameName": "异环",
+   "versions": [
+    {
+     "version": "1.3",
+     "name": "雾中朔望星回",
+     "startDate": "2026-08-13",
+     "endDate": "2026-09-24",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "残虹/娜娜莉",
+       "startDate": "2026-08-13",
+       "endDate": "2026-09-03"
+      },
+      {
+       "name": "下半卡池",
+       "character": "灵可/浔",
+       "startDate": "2026-09-03",
+       "endDate": "2026-09-24"
+      }
+     ]
+    },
+    {
+     "version": "1.2",
+     "name": "九百九十九夜",
+     "startDate": "2026-07-02",
+     "endDate": "2026-08-13",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "真红",
+       "startDate": "2026-07-02",
+       "endDate": "2026-07-23"
+      },
+      {
+       "name": "下半卡池",
+       "character": "伊洛伊",
+       "startDate": "2026-07-23",
+       "endDate": "2026-08-13"
+      }
+     ]
+    },
+    {
+     "version": "1.1",
+     "name": "游梦洄廊",
+     "startDate": "2026-05-28",
+     "endDate": "2026-07-02",
+     "banners": [
+      {
+       "name": "上半卡池",
+       "character": "安魂曲",
+       "startDate": "2026-05-28",
+       "endDate": "2026-06-18"
+      },
+      {
+       "name": "下半卡池",
+       "character": "卡厄斯",
+       "startDate": "2026-06-18",
+       "endDate": "2026-07-02"
+      }
+     ]
+    },
+    {
+     "version": "1.0",
+     "name": "公测",
+     "startDate": "2026-04-22",
+     "endDate": "2026-05-28",
+     "banners": []
+    }
+   ]
+  },
+  "doublehelix": {
+   "gameId": "doublehelix",
+   "gameName": "二重螺旋",
+   "versions": [
+    {
+     "version": "1.4",
+     "name": "银星奔流",
+     "startDate": "2026-06-02",
+     "endDate": "2026-07-27",
+     "banners": [
+      {
+       "name": "沉浸式戏剧限时奖励",
+       "character": "芙罗拉",
+       "startDate": "2026-06-02",
+       "endDate": "2026-06-30"
+      },
+      {
+       "name": "梦魇残声挑战奖励",
+       "character": "希尔妲",
+       "startDate": "2026-06-30",
+       "endDate": "2026-07-27"
+      }
+     ]
+    },
+    {
+     "version": "1.3",
+     "name": "皓苍诀",
+     "startDate": "2026-04-07",
+     "endDate": "2026-06-02",
+     "banners": []
+    },
+    {
+     "version": "1.2",
+     "name": "冬暮",
+     "startDate": "2026-02-10",
+     "endDate": "2026-04-07",
+     "banners": []
+    },
+    {
+     "version": "1.1",
+     "name": "大风歌·上",
+     "startDate": "2025-12-23",
+     "endDate": "2026-02-10",
+     "banners": []
+    },
+    {
+     "version": "1.0",
+     "name": "公测",
+     "startDate": "2025-10-28",
+     "endDate": "2025-12-23",
+     "banners": []
+    }
+   ]
   }
+ }
 }
