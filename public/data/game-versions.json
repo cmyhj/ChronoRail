@@ -603,6 +603,20 @@
    "gameName": "明日方舟:终末地",
    "versions": [
     {
+     "version": "1.5",
+     "name": "雪凇幽梦",
+     "startDate": "2026-09-02",
+     "endDate": "2026-09-30",
+     "banners": [
+      {
+       "name": "卡池「提弗洛斯」",
+       "character": "提弗洛斯",
+       "startDate": "2026-09-02",
+       "endDate": "2026-09-30"
+      }
+     ]
+    },
+    {
      "version": "1.4",
      "name": "向渊行",
      "startDate": "2026-07-16",
