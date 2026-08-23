@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-08-14T00:00:00Z",
+ "fetchedAt": "2026-08-24T00:00:00Z",
  "games": {
   "genshin": {
    "gameId": "genshin",
@@ -13,19 +13,13 @@
      "banners": [
       {
        "name": "上半卡池",
-       "character": "翾风回雪·奥黛塔(冰)",
+       "character": "伊涅芙 + 茜特菈莉（复刻）",
        "startDate": "2026-08-12",
        "endDate": "2026-09-02"
       },
       {
        "name": "下半卡池",
-       "character": "菲林斯",
-       "startDate": "2026-09-02",
-       "endDate": "2026-09-23"
-      },
-      {
-       "name": "下半卡池",
-       "character": "伊涅芙",
+       "character": "玛拉妮（复刻） + 恰斯卡（复刻）",
        "startDate": "2026-09-02",
        "endDate": "2026-09-23"
       }
@@ -117,40 +111,58 @@
    "gameId": "starrail",
    "gameName": "崩坏：星穹铁道",
    "versions": [
-    {
-     "version": "4.5",
-     "name": "挥掷千星的筹码",
-     "startDate": "2026-08-26",
-     "endDate": "2026-10-07",
-     "banners": [
-      {
-       "name": "上半卡池",
-       "character": "知更鸟·晴歌；复刻 风堇",
-       "startDate": "2026-08-26",
-       "endDate": "2026-09-16"
-      },
-      {
-       "name": "下半卡池",
-       "character": "砂金·戏浪；复刻 不死途",
-       "startDate": "2026-09-16",
-       "endDate": "2026-10-07"
-      }
-     ]
-    },
-    {
-     "version": "4.4",
-     "name": "鸣笛于归寂之时",
-     "startDate": "2026-07-15",
-     "endDate": "2026-08-26",
-     "banners": [
-      {
-       "name": "姬子·启行",
-       "character": "姬子·启行",
-       "startDate": "2026-07-15",
-       "endDate": "2026-08-26"
-      }
-     ]
-    },
+   {
+    "version": "4.5",
+    "name": "挥掷千星的筹码",
+    "startDate": "2026-08-26",
+    "endDate": "2026-10-07",
+    "banners": [
+     {
+      "name": "上半卡池",
+      "character": "知更鸟·晴歌；复刻 风堇",
+      "startDate": "2026-08-26",
+      "endDate": "2026-09-16"
+     },
+     {
+      "name": "下半卡池",
+      "character": "砂金·戏浪；复刻 不死途",
+      "startDate": "2026-09-16",
+      "endDate": "2026-10-07"
+     }
+    ]
+   },
+   {
+    "version": "4.4",
+    "name": "鸣笛于归寂之时",
+    "startDate": "2026-07-15",
+    "endDate": "2026-08-26",
+    "banners": [
+     {
+      "name": "全版本UP",
+      "character": "姬子·启行",
+      "startDate": "2026-07-15",
+      "endDate": "2026-08-26"
+     },
+     {
+      "name": "上半卡池",
+      "character": "火花（复刻）+ 丹恒·腾荒（复刻）+ 长夜月（复刻）",
+      "startDate": "2026-07-15",
+      "endDate": "2026-07-29"
+     },
+     {
+      "name": "下半卡池",
+      "character": "刻律德菈（复刻）+ 那刻夏（复刻）+ 砂金（复刻）",
+      "startDate": "2026-07-29",
+      "endDate": "2026-08-26"
+     },
+     {
+      "name": "联动跃迁",
+      "character": "远坂凛 + 吉尔伽美什（Fate联动）",
+      "startDate": "2026-07-24",
+      "endDate": "2026-08-26"
+     }
+    ]
+   },
     {
      "version": "4.3",
      "name": "沉于生者的忘川",
@@ -211,26 +223,32 @@
    "gameId": "zzz",
    "gameName": "绝区零",
    "versions": [
-    {
-     "version": "3.1",
-     "name": "漫长的告别",
-     "startDate": "2026-07-29",
-     "endDate": "2026-09-08",
-     "banners": [
-      {
-       "name": "卡池",
-       "character": "蕾米埃尔",
-       "startDate": "2026-07-29",
-       "endDate": "2026-09-08"
-      },
-      {
-       "name": "卡池",
-       "character": "希格莉德",
-       "startDate": "2026-08-19",
-       "endDate": "2026-09-08"
-      }
-     ]
-    },
+   {
+    "version": "3.1",
+    "name": "漫长的告别",
+    "startDate": "2026-07-29",
+    "endDate": "2026-09-08",
+    "banners": [
+     {
+      "name": "全版本UP",
+      "character": "蕾米埃尔",
+      "startDate": "2026-07-29",
+      "endDate": "2026-09-08"
+     },
+     {
+      "name": "上半卡池",
+      "character": "爱芮",
+      "startDate": "2026-07-29",
+      "endDate": "2026-08-19"
+     },
+     {
+      "name": "下半卡池",
+      "character": "希格莉德",
+      "startDate": "2026-08-19",
+      "endDate": "2026-09-08"
+     }
+    ]
+   },
     {
      "version": "3.0",
      "name": "某个梦游者的自白",
