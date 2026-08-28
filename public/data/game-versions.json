@@ -224,16 +224,36 @@
       "gameName": "绝区零",
       "versions": [
         {
+          "version": "3.2",
+          "name": "她与她的隐秘往事",
+          "startDate": "2026-09-09",
+          "endDate": "待确认",
+          "banners": [
+            {
+              "name": "上半卡池",
+              "character": "克拉蕾·弗林特",
+              "startDate": "2026-09-09",
+              "endDate": "待确认"
+            },
+            {
+              "name": "下半卡池",
+              "character": "洛克茜",
+              "startDate": "待确认",
+              "endDate": "待确认"
+            }
+          ]
+        },
+        {
           "version": "3.1",
           "name": "漫长的告别",
           "startDate": "2026-07-29",
-          "endDate": "2026-09-08",
+          "endDate": "2026-09-09",
           "banners": [
             {
               "name": "全版本UP",
               "character": "蕾米埃尔",
               "startDate": "2026-07-29",
-              "endDate": "2026-09-08"
+              "endDate": "2026-09-09"
             },
             {
               "name": "上半卡池",
@@ -245,7 +265,7 @@
               "name": "下半卡池",
               "character": "希格莉德",
               "startDate": "2026-08-19",
-              "endDate": "2026-09-08"
+              "endDate": "2026-09-09"
             }
           ]
         },
