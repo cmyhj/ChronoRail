@@ -438,6 +438,20 @@
       "gameName": "明日方舟",
       "versions": [
         {
+          "version": "SideStory 月行水上",
+          "name": "月行水上",
+          "startDate": "2026-09-04",
+          "endDate": "2026-09-25",
+          "banners": [
+            {
+              "name": "圣城春日学生寻访（P3联动）",
+              "character": "结城理[限定]",
+              "startDate": "2026-09-04",
+              "endDate": "2026-09-25"
+            }
+          ]
+        },
+        {
           "version": "SideStory",
           "name": "直到大地变成一颗酸橙",
           "startDate": "2026-08-01",
