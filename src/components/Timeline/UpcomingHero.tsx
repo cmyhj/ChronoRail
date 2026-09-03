@@ -25,6 +25,12 @@ interface UpcomingItem {
   daysUntil: number;
 }
 
+const formatDaysUntil = (days: number): string => {
+  if (days === 1) return '明天';
+  if (days === 2) return '后天';
+  return `${days}天后`;
+};
+
 export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
   games,
   versions,
@@ -182,11 +188,11 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
                     </span>
                   ) : item.daysUntil <= 3 ? (
                     <span className="inline-flex px-2 py-0.5 text-[10px] font-semibold text-warning bg-warning/10 rounded-full">
-                      {item.daysUntil}天后结束
+                      {formatDaysUntil(item.daysUntil)}结束
                     </span>
                   ) : (
                     <span className="inline-flex px-2 py-0.5 text-[10px] font-medium text-fg-2 bg-white/[0.05] rounded-full">
-                      {item.daysUntil}天后结束
+                      {formatDaysUntil(item.daysUntil)}结束
                     </span>
                   )
                 ) : item.daysUntil <= 0 ? (
@@ -195,11 +201,11 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
                   </span>
                 ) : item.daysUntil <= 3 ? (
                   <span className="inline-flex px-2 py-0.5 text-[10px] font-semibold text-accent bg-accent/10 rounded-full">
-                    {item.daysUntil}天后
+                    {formatDaysUntil(item.daysUntil)}
                   </span>
                 ) : (
                   <span className="inline-flex px-2 py-0.5 text-[10px] font-medium text-fg-2 bg-white/[0.05] rounded-full">
-                    {item.daysUntil}天后
+                    {formatDaysUntil(item.daysUntil)}
                   </span>
                 )}
                 <span className="text-[10px] text-fg-4 tabular-nums">
