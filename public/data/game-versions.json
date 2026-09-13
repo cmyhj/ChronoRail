@@ -1,10 +1,30 @@
 {
-  "fetchedAt": "2026-08-24T00:00:00Z",
+  "fetchedAt": "2026-09-13T00:00:00Z",
   "games": {
     "genshin": {
       "gameId": "genshin",
       "gameName": "原神",
       "versions": [
+        {
+          "version": "7.1",
+          "name": "往冥府的安魂歌",
+          "startDate": "2026-09-24",
+          "endDate": "2026-11-04",
+          "banners": [
+            {
+              "name": "上半卡池",
+              "character": "薇斯纳(风) + 沃雅妮莎(水)",
+              "startDate": "2026-09-24",
+              "endDate": "2026-10-14"
+            },
+            {
+              "name": "下半卡池",
+              "character": "丝柯克(冰,复刻) + 爱可菲(冰,复刻)",
+              "startDate": "2026-10-14",
+              "endDate": "2026-11-04"
+            }
+          ]
+        },
         {
           "version": "7.0",
           "name": "无神怜爱的雪国",
@@ -438,6 +458,13 @@
       "gameName": "明日方舟",
       "versions": [
         {
+          "version": "故事集",
+          "name": "月行水上后过渡",
+          "startDate": "2026-09-25",
+          "endDate": "2026-10-21",
+          "banners": []
+        },
+        {
           "version": "SideStory 月行水上",
           "name": "月行水上",
           "startDate": "2026-09-04",
@@ -547,6 +574,20 @@
       "gameId": "reverse1999",
       "gameName": "重返未来:1999",
       "versions": [
+        {
+          "version": "4.0",
+          "name": "应门者",
+          "startDate": "2026-09-24",
+          "endDate": "2026-11-05",
+          "banners": [
+            {
+              "name": "巡游限定卡池",
+              "character": "待9/12前瞻公布",
+              "startDate": "2026-09-24",
+              "endDate": "2026-10-15"
+            }
+          ]
+        },
         {
           "version": "3.9",
           "name": "重燃！流金之海",
@@ -736,10 +777,30 @@
       "gameName": "异环",
       "versions": [
         {
+          "version": "1.4",
+          "name": "待确认",
+          "startDate": "2026-09-30",
+          "endDate": "2026-11-11",
+          "banners": [
+            {
+              "name": "上半卡池",
+              "character": "黑羽(魂,新)",
+              "startDate": "2026-09-30",
+              "endDate": "2026-10-22"
+            },
+            {
+              "name": "下半卡池",
+              "character": "明音凛(相,新)",
+              "startDate": "2026-10-22",
+              "endDate": "2026-11-11"
+            }
+          ]
+        },
+        {
           "version": "1.3",
           "name": "雾中朔望星回",
           "startDate": "2026-08-13",
-          "endDate": "2026-09-24",
+          "endDate": "2026-09-30",
           "banners": [
             {
               "name": "上半卡池",
@@ -751,7 +812,7 @@
               "name": "下半卡池",
               "character": "灵可/浔",
               "startDate": "2026-09-03",
-              "endDate": "2026-09-24"
+              "endDate": "2026-09-30"
             }
           ]
         },
