@@ -364,10 +364,54 @@
       "gameName": "鸣潮",
       "versions": [
         {
+          "version": "3.7",
+          "name": "镜锁妄世，心照红尘",
+          "startDate": "2026-09-30",
+          "endDate": "2026-11-19",
+          "banners": [
+            {
+              "name": "上半卡池",
+              "character": "心月狐",
+              "startDate": "2026-09-30",
+              "endDate": "2026-10-20"
+            },
+            {
+              "name": "复刻·千咲",
+              "character": "千咲",
+              "startDate": "2026-09-30",
+              "endDate": "2026-10-20"
+            },
+            {
+              "name": "复刻·尤诺",
+              "character": "尤诺",
+              "startDate": "2026-09-30",
+              "endDate": "2026-10-20"
+            },
+            {
+              "name": "下半卡池",
+              "character": "锁暝",
+              "startDate": "2026-10-20",
+              "endDate": "2026-11-19"
+            },
+            {
+              "name": "复刻·琳奈",
+              "character": "琳奈",
+              "startDate": "2026-10-20",
+              "endDate": "2026-11-19"
+            },
+            {
+              "name": "复刻·洛瑟菈",
+              "character": "洛瑟菈",
+              "startDate": "2026-10-20",
+              "endDate": "2026-11-19"
+            }
+          ]
+        },
+        {
           "version": "3.6",
           "name": "蜃云灯影，凡尘剑心",
           "startDate": "2026-08-20",
-          "endDate": "2026-10-01",
+          "endDate": "2026-09-30",
           "banners": [
             {
               "name": "上半卡池",
@@ -379,7 +423,7 @@
               "name": "下半卡池",
               "character": "景燃",
               "startDate": "2026-09-10",
-              "endDate": "2026-10-01"
+              "endDate": "2026-09-30"
             }
           ]
         },
@@ -714,16 +758,42 @@
       "gameName": "明日方舟:终末地",
       "versions": [
         {
+          "version": "1.6",
+          "name": "待确认",
+          "startDate": "2026-10-01",
+          "endDate": "2026-11-11",
+          "banners": [
+            {
+              "name": "上半卡池",
+              "character": "黍",
+              "startDate": "2026-10-01",
+              "endDate": "2026-10-21"
+            },
+            {
+              "name": "复刻·伊冯",
+              "character": "伊冯",
+              "startDate": "2026-10-01",
+              "endDate": "2026-10-21"
+            },
+            {
+              "name": "下半卡池",
+              "character": "M3",
+              "startDate": "2026-10-21",
+              "endDate": "2026-11-11"
+            }
+          ]
+        },
+        {
           "version": "1.5",
           "name": "雪凇幽梦",
           "startDate": "2026-09-02",
-          "endDate": "2026-09-30",
+          "endDate": "2026-10-01",
           "banners": [
             {
               "name": "卡池「提弗洛斯」",
               "character": "提弗洛斯",
               "startDate": "2026-09-02",
-              "endDate": "2026-09-30"
+              "endDate": "2026-10-01"
             }
           ]
         },
