@@ -132,10 +132,36 @@
       "gameName": "崩坏：星穹铁道",
       "versions": [
         {
+          "version": "4.6",
+          "name": "月升之前，与兽共舞",
+          "startDate": "2026-09-28",
+          "endDate": "2026-11-11",
+          "banners": [
+            {
+              "name": "全版本UP",
+              "character": "真珠（冰·欢愉）",
+              "startDate": "2026-09-28",
+              "endDate": "2026-11-11"
+            },
+            {
+              "name": "上半卡池",
+              "character": "复刻 绯英",
+              "startDate": "2026-09-28",
+              "endDate": "2026-10-20"
+            },
+            {
+              "name": "下半卡池",
+              "character": "复刻 千冶·刃",
+              "startDate": "2026-10-20",
+              "endDate": "2026-11-11"
+            }
+          ]
+        },
+        {
           "version": "4.5",
           "name": "挥掷千星的筹码",
           "startDate": "2026-08-26",
-          "endDate": "2026-10-07",
+          "endDate": "2026-09-28",
           "banners": [
             {
               "name": "上半卡池",
