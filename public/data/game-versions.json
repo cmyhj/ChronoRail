@@ -529,10 +529,24 @@
       "gameName": "明日方舟",
       "versions": [
         {
+          "version": "SideStory 昨日海",
+          "name": "昨日海",
+          "startDate": "2026-10-09",
+          "endDate": "2026-10-30",
+          "banners": [
+            {
+              "name": "【海渊巡游】限时寻访",
+              "character": "克莱门莎[6★·50%] \\ 德·托莱多 / 火哨[5★·50%]",
+              "startDate": "2026-10-09",
+              "endDate": "2026-10-23"
+            }
+          ]
+        },
+        {
           "version": "故事集",
-          "name": "月行水上后过渡",
-          "startDate": "2026-09-25",
-          "endDate": "2026-10-21",
+          "name": "逐影集趣",
+          "startDate": "2026-09-20",
+          "endDate": "2026-09-30",
           "banners": []
         },
         {
@@ -791,6 +805,32 @@
       "gameId": "arknights_endfield",
       "gameName": "明日方舟:终末地",
       "versions": [
+        {
+          "version": "1.6",
+          "name": "丹青渡",
+          "startDate": "2026-10-15",
+          "endDate": "2026-11-27",
+          "banners": [
+            {
+              "name": "上半卡池「祀」",
+              "character": "祀（6★·辅助·寒冷）",
+              "startDate": "2026-10-15",
+              "endDate": "2026-11-05"
+            },
+            {
+              "name": "下半卡池「明河」",
+              "character": "明河（6★·近卫·电磁）",
+              "startDate": "2026-11-05",
+              "endDate": "2026-11-27"
+            },
+            {
+              "name": "复刻卡池「汤汤」",
+              "character": "汤汤（术士·寒冷）",
+              "startDate": "2026-10-15",
+              "endDate": "2026-11-05"
+            }
+          ]
+        },
         {
           "version": "1.5",
           "name": "雪凇幽梦",
