@@ -271,6 +271,26 @@
       "gameName": "绝区零",
       "versions": [
         {
+          "version": "3.3",
+          "name": "重返天空的旅程",
+          "startDate": "2026-10-21",
+          "endDate": "2026-12-02",
+          "banners": [
+            {
+              "name": "上半卡池",
+              "character": "菲欧妮",
+              "startDate": "2026-10-21",
+              "endDate": "2026-11-11"
+            },
+            {
+              "name": "下半卡池",
+              "character": "赛维里安",
+              "startDate": "2026-11-11",
+              "endDate": "2026-12-02"
+            }
+          ]
+        },
+        {
           "version": "3.2",
           "name": "她与她的隐秘往事",
           "startDate": "2026-09-09",
