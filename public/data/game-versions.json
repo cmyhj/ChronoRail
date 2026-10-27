@@ -6,6 +6,26 @@
       "gameName": "原神",
       "versions": [
         {
+          "version": "7.2",
+          "name": "坏灭肇始之时",
+          "startDate": "2026-11-04",
+          "endDate": "2026-12-16",
+          "banners": [
+            {
+              "name": "上半卡池",
+              "character": "米提亚(雷) + 芙宁娜(水,复刻) + 瓦列里(雷,4★)",
+              "startDate": "2026-11-04",
+              "endDate": "2026-11-25"
+            },
+            {
+              "name": "下半卡池",
+              "character": "兹白（复刻） + 莉奈娅（复刻）",
+              "startDate": "2026-11-25",
+              "endDate": "2026-12-16"
+            }
+          ]
+        },
+        {
           "version": "7.1",
           "name": "往冥府的安魂歌",
           "startDate": "2026-09-23",
@@ -549,6 +569,20 @@
       "gameName": "明日方舟",
       "versions": [
         {
+          "version": "SideStory 时间啊，向前！",
+          "name": "时间啊，向前！",
+          "startDate": "2026-11-01",
+          "endDate": "2026-11-22",
+          "banners": [
+            {
+              "name": "【将雪投火】限定寻访",
+              "character": "塔露拉[限定] / 冻河",
+              "startDate": "2026-11-01",
+              "endDate": "2026-11-15"
+            }
+          ]
+        },
+        {
           "version": "SideStory 昨日海",
           "name": "昨日海",
           "startDate": "2026-10-09",
@@ -686,6 +720,26 @@
       "gameId": "reverse1999",
       "gameName": "重返未来:1999",
       "versions": [
+        {
+          "version": "4.1",
+          "name": "亚特兰蒂斯谋杀案",
+          "startDate": "2026-11-05",
+          "endDate": "2026-12-17",
+          "banners": [
+            {
+              "name": "上半卡池",
+              "character": "佩施塔（星）",
+              "startDate": "2026-11-05",
+              "endDate": "2026-11-26"
+            },
+            {
+              "name": "下半卡池",
+              "character": "伊芙琳（兽）",
+              "startDate": "2026-11-26",
+              "endDate": "2026-12-17"
+            }
+          ]
+        },
         {
           "version": "4.0",
           "name": "应门者",
