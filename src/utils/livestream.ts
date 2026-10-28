@@ -75,5 +75,5 @@ export function selectLivestreamVersions(versions: Version[], gameId: string, no
     if (v.gameId !== gameId) return false;
     const start = parseLivestreamTime(v.livestream?.startAt);
     return start !== null && start >= now && start <= windowEnd;
-  }).sort((a, b) => b.startDate.localeCompare(a.startDate));
+  }).sort((a, b) => parseLivestreamTime(a.livestream?.startAt)! - parseLivestreamTime(b.livestream?.startAt)!);
 }

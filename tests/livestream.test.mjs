@@ -102,6 +102,16 @@ test('React renders game/version, timezone, timestamps, countdown and ended stat
   assert.match(render(fixture.livestream, now + 86400000), /直播已结束/);
 });
 
+test('card title links to the official source, unusable URLs keep a plain title', () => {
+  const linked = /<h3[^>]*><a href="https:\/\/example\.com\/fixture-announcement"[^>]*>测试游戏 · v9\.9 测试版本<\/a><\/h3>/;
+  assert.match(render(fixture.livestream), linked);
+  assert.match(renderPreview([game], [fixture]), linked);
+  for (const value of [undefined, '', 'javascript:alert(1)', '/relative', 'https://user:password@example.com']) {
+    assert.doesNotMatch(render({ officialUrl: value }), /<h3[^>]*><a /);
+    assert.match(render({ officialUrl: value }), /<h3[^>]*><span class="text-fg">测试游戏 · v9\.9 测试版本<\/span><\/h3>/);
+  }
+});
+
 const week = 7 * 24 * 60 * 60 * 1000;
 const at = (id, timestamp) => ({
   ...fixture, id, name: id, livestream: { startAt: new Date(timestamp).toISOString() },
@@ -136,13 +146,14 @@ test('relative Beijing dates use calendar days, Monday weeks, and 24-hour minute
   assert.equal(relative(parse('2027-01-01T00:05:00+08:00'), parse('2026-12-30T23:55:00+08:00')), '后天00:05');
 });
 
-test('homepage cards have exactly the unchanged title and relative time, detail stays complete', () => {
+test('homepage cards keep the unchanged title, now linked to the official source', () => {
   const version = { ...fixture, livestream: { ...fixture.livestream, version: '10.0', name: '下一版本' } };
   const html = renderPreview([game], [version]);
   const card = html.match(/<article[^>]*>(.*?)<\/article>/s)?.[1];
   assert.ok(card);
-  assert.match(card, /^<h3[^>]*>测试游戏 · v10\.0 下一版本<\/h3><p[^>]*><time[^>]*>今天21:00<\/time><\/p>$/);
-  assert.doesNotMatch(card, /下版本前瞻|当前版本|距直播|开始：|结束：|北京时间|UTC|官方|<a /);
+  assert.match(card, /^<h3[^>]*><a href="https:\/\/example\.com\/fixture-announcement"[^>]*>测试游戏 · v10\.0 下一版本<\/a><\/h3><p[^>]*><time[^>]*>今天21:00<\/time><\/p>$/);
+  assert.equal((card.match(/<a /g) || []).length, 1);
+  assert.doesNotMatch(card, /下版本前瞻|当前版本|距直播|开始：|结束：|北京时间|UTC|官方直播/);
   const detail = render({ ...fixture.livestream, version: '10.0', name: '下一版本' });
   assert.match(detail, /下版本前瞻/);
   assert.match(detail, /北京时间/);
@@ -181,7 +192,7 @@ test('selection keeps eligible older versions, timezone equivalents, and does no
   const latest = { ...fixture, id: 'new', startDate: '2030-06-01', livestream: undefined };
   const old = { ...fixture, id: 'old', startDate: '2030-01-01' };
   const source = [old, fixture, latest];
-  assert.deepEqual(select(source, game.id, now).map(v => v.id), [fixture.id, 'old']);
+  assert.deepEqual(select(source, game.id, now).map(v => v.id), ['old', fixture.id]);
   assert.deepEqual(source.map(v => v.id), ['old', fixture.id, 'new']);
   for (const startAt of ['2030-05-08T20:00:00+08:00', '2030-05-08T12:00:00Z']) {
     assert.equal(select([{ ...fixture, livestream: { startAt } }], game.id, now).length, 1);
@@ -189,6 +200,58 @@ test('selection keeps eligible older versions, timezone equivalents, and does no
   const html = renderPreview([game], source);
   assert.equal((html.match(/<article/g) || []).length, 2);
   assert.doesNotMatch(html, /直播时间待公布|未来7天暂无/);
+});
+
+test('selection sorts shuffled starts by instant, preserving ties and frozen source data', () => {
+  const source = [
+    { ...at('late', now + 7200000), startDate: '2030-01-01' },
+    { ...at('tie-first', now + 3600000), startDate: '2030-02-01' },
+    { ...at('earliest', now), startDate: '2030-03-01' },
+    { ...at('tie-second', now + 3600000), startDate: '2030-04-01',
+      livestream: { startAt: '2030-05-01T21:00:00+08:00' } },
+  ];
+  const snapshot = structuredClone(source);
+  source.forEach(version => { Object.freeze(version.livestream); Object.freeze(version); });
+  Object.freeze(source);
+  const selected = select(source, game.id, now);
+  assert.deepEqual(selected.map(v => v.id), ['earliest', 'tie-first', 'tie-second', 'late']);
+  assert.notEqual(selected, source);
+  assert.deepEqual(source, snapshot);
+});
+
+test('homepage globally sorts multiple games by instant, not game/date text or release order', () => {
+  const other = { id: 'other', name: '另一游戏' };
+  const games = Object.freeze([Object.freeze(game), Object.freeze(other)]);
+  const source = [
+    { ...at('late', now + 10800000), startDate: '2030-12-01' },
+    { ...at('tie-first', now + 3600000), startDate: '2030-01-01',
+      livestream: { startAt: '2030-05-01T21:00:00+08:00' } },
+    { ...at('tie-second', now + 3600000), startDate: '2030-11-01' },
+    { ...at('earliest', now + 1800000), gameId: other.id,
+      livestream: { startAt: '2030-05-01T07:30:00-05:00' } },
+    { ...at('other-tie', now + 3600000), gameId: other.id },
+    { ...at('middle', now + 7200000), gameId: other.id },
+  ];
+  const snapshot = structuredClone(source);
+  source.forEach(version => { Object.freeze(version.livestream); Object.freeze(version); });
+  Object.freeze(source);
+  const html = renderPreview(games, source);
+  const titles = [...html.matchAll(/<h3[^>]*>(.*?)<\/h3>/g)].map(match => match[1].replace(/<[^>]*>/g, ''));
+  assert.deepEqual(titles, [
+    '另一游戏 · v9.9 earliest', '测试游戏 · v9.9 tie-first',
+    '测试游戏 · v9.9 tie-second', '另一游戏 · v9.9 other-tie',
+    '另一游戏 · v9.9 middle', '测试游戏 · v9.9 late',
+  ]);
+  assert.deepEqual(source, snapshot);
+  assert.deepEqual(games.map(g => g.id), [game.id, other.id]);
+  const detail = renderToStaticMarkup(React.createElement(LivestreamPreview, {
+    games, versions: source, scope: 'detail',
+  }));
+  assert.deepEqual([...detail.matchAll(/<h3[^>]*>(.*?)<\/h3>/g)].map(match => match[1].replace(/<[^>]*>/g, '')), [
+    '测试游戏 · v9.9 late', '测试游戏 · v9.9 tie-first',
+    '测试游戏 · v9.9 tie-second', '另一游戏 · v9.9 earliest',
+    '另一游戏 · v9.9 other-tie', '另一游戏 · v9.9 middle',
+  ]);
 });
 
 test('homepage re-evaluates the time window while standalone detail cards remain unfiltered', () => {

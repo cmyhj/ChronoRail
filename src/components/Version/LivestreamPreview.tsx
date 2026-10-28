@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Radio } from 'lucide-react';
 import type { Game, Version } from '../../types';
-import { formatLivestreamTime, formatRelativeLivestreamTime, livestreamStatus, safeOfficialUrl, selectLivestreamVersions } from '../../utils/livestream';
+import { formatLivestreamTime, formatRelativeLivestreamTime, livestreamStatus, parseLivestreamTime, safeOfficialUrl, selectLivestreamVersions } from '../../utils/livestream';
 
 type PreviewGame = Pick<Game, 'id' | 'name'>;
 
@@ -14,10 +14,22 @@ export function LivestreamCard({ game, version, now, compact = false }: {
   const livestream = version?.livestream;
   const status = livestreamStatus(livestream, now);
   const url = safeOfficialUrl(livestream?.officialUrl);
+  const title = `${game.name} · ${version ? `v${livestream?.version ?? version.version} ${livestream?.name ?? (livestream?.version && livestream.version !== version.version ? '' : version.name)}` : '版本待公布'}`;
   return (
     <article className="bg-elevated/60 rounded-lg border border-line p-3 min-w-0">
-      <h3 className="text-[13px] font-medium text-fg break-words">
-        {game.name} · {version ? `v${livestream?.version ?? version.version} ${livestream?.name ?? (livestream?.version && livestream.version !== version.version ? '' : version.name)}` : '版本待公布'}
+      <h3 className="text-[13px] font-medium break-words">
+        {url ? (
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent hover:underline focus-visible:outline-2 focus-visible:outline-accent"
+          >
+            {title}
+          </a>
+        ) : (
+          <span className="text-fg">{title}</span>
+        )}
       </h3>
       {compact ? (
         <p className="text-[12px] text-info mt-2 tabular-nums">
@@ -70,6 +82,11 @@ export function LivestreamPreview({ games, versions, scope = 'homepage' }: {
       : versions.filter(version => version.gameId === game.id)
     ).map(version => ({ game, version }))
   );
+  if (scope === 'homepage') {
+    upcoming.sort((a, b) =>
+      parseLivestreamTime(a.version.livestream?.startAt)! - parseLivestreamTime(b.version.livestream?.startAt)!
+    );
+  }
 
   return (
     <section aria-label="版本前瞻直播" className="bg-panel/50 backdrop-blur-xl rounded-xl border border-line p-4 mb-5">
