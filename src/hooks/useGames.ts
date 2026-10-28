@@ -14,7 +14,6 @@ export const DEFAULT_PRESET_GAMES: GameId[] = [
   'reverse1999',
   'arknights_endfield',
   'yihuan',
-  'doublehelix',
 ];
 
 // 已删除预置游戏的存储键
@@ -90,7 +89,7 @@ export function useGames() {
       autoFetch: formData.autoFetch,
       fetchSource: formData.fetchSource,
     });
-    setGames(prev => [...prev, newGame]);
+    setGames(gameService.getAll());
     return newGame;
   }, []);
 
@@ -98,7 +97,7 @@ export function useGames() {
   const updateGame = useCallback((id: string, updates: Partial<Game>): Game | null => {
     const updated = gameService.update(id, updates);
     if (updated) {
-      setGames(prev => prev.map(g => g.id === id ? updated : g));
+      setGames(gameService.getAll());
     }
     return updated;
   }, []);
@@ -147,7 +146,7 @@ export function useGames() {
       fetchSource: config.autoFetch ? 'mihoyo' : 'manual',
     });
 
-    setGames(prev => [...prev, newGame]);
+    setGames(gameService.getAll());
     return newGame;
   }, []);
 

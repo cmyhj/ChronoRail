@@ -71,14 +71,6 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
     color: '#14b8a6',
     icon: 'yihuan',
   },
-  // 二重螺旋
-  doublehelix: {
-    id: 'doublehelix',
-    name: '二重螺旋',
-    autoFetch: true,
-    color: '#ec4899',
-    icon: 'doublehelix',
-  },
 };
 
 // 所有游戏ID类型

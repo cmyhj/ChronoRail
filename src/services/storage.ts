@@ -1,5 +1,6 @@
 import type { DataStore, Game, Version, GitHubConfig } from '../types';
 import { generateId, getCurrentTimestamp } from '../utils/date';
+import { removeRetiredPresets } from '../utils/retiredPresets';
 
 const STORAGE_KEY = 'chronorail_data';
 const GITHUB_CONFIG_KEY = 'chronorail_github_config';
@@ -26,11 +27,12 @@ export const storage = {
       if (!data) return { ...defaultData };
       
       const parsed = JSON.parse(data) as DataStore;
-      // 数据版本迁移
-      if (parsed.version !== DATA_VERSION) {
-        return this.migrateData(parsed);
+      const migrated = parsed.version !== DATA_VERSION ? this.migrateData(parsed) : parsed;
+      const cleaned = removeRetiredPresets(migrated);
+      if (cleaned !== parsed) {
+        this.saveData(cleaned);
       }
-      return parsed;
+      return cleaned;
     } catch (error) {
       console.error('Failed to get data from storage:', error);
       return { ...defaultData };
@@ -43,7 +45,7 @@ export const storage = {
   saveData(data: DataStore): void {
     try {
       const updated = {
-        ...data,
+        ...removeRetiredPresets(data),
         lastUpdated: getCurrentTimestamp(),
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
@@ -57,12 +59,12 @@ export const storage = {
    */
   migrateData(oldData: Partial<DataStore>): DataStore {
     // 这里可以添加数据迁移逻辑
-    return {
+    return removeRetiredPresets({
       games: oldData.games || [],
       versions: oldData.versions || [],
       lastUpdated: getCurrentTimestamp(),
       version: DATA_VERSION,
-    };
+    });
   },
 
   /**

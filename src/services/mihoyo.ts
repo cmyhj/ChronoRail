@@ -1,5 +1,6 @@
-import type { Banner } from '../types';
+import type { Banner, Livestream } from '../types';
 import dayjs from 'dayjs';
+import { isRetiredIdentity } from '../utils/retiredPresets';
 
 // 数据文件路径
 const DATA_URL = '/ChronoRail/data/game-versions.json';
@@ -13,6 +14,7 @@ interface GameVersion {
   startDate: string;
   endDate: string;
   banners?: Banner[];
+  livestream?: Livestream;
 }
 
 interface GameInfo {
@@ -86,7 +88,11 @@ export const mihoyoService = {
     if (cachedData) return cachedData;
     const response = await fetch(`${DATA_URL}?t=${Date.now()}`);
     if (!response.ok) throw new Error('Failed to fetch data');
-    cachedData = await response.json();
+    const data = await response.json() as GameData;
+    data.games = Object.fromEntries(Object.entries(data.games).filter(([id, game]) =>
+      ![id, game.gameId, game.gameName].some(isRetiredIdentity)
+    ));
+    cachedData = data;
     return cachedData || { fetchedAt: '', games: {} };
   },
 };

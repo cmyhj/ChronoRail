@@ -73,7 +73,7 @@ public/data/game-versions.json
 | `reverse1999` | 重返未来:1999 |
 | `arknights_endfield` | 明日方舟:终末地 |
 | `yihuan` | 异环 |
-| `doublehelix` | 二重螺旋 |
+
 
 ---
 

@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:livestream": "node --test tests/livestream.test.mjs",
+    "test:retired-presets": "node --test tests/retired-presets.test.mjs"
   },
   "dependencies": {
     "@paper-design/shaders-react": "^0.0.80",

@@ -11,6 +11,15 @@ export interface Game {
   updatedAt: string;             // 更新时间
 }
 
+// 公告确认的直播信息；时间必须为带 Z 或 UTC 偏移的 ISO 时间戳
+export interface Livestream {
+  version?: string;              // 前瞻目标版本，独立于承载记录的当前版本
+  name?: string;                 // 前瞻目标版本名称
+  startAt?: string;
+  endAt?: string;
+  officialUrl?: string;
+}
+
 // 版本信息
 export interface Version {
   id: string;                    // 唯一标识
@@ -20,6 +29,7 @@ export interface Version {
   startDate: string;             // 更新日期 (YYYY-MM-DD)
   endDate?: string;              // 结束日期（可选）
   description?: string;          // 更新内容摘要
+  livestream?: Livestream;       // 可选，不影响旧版本数据
   isAutoFetched: boolean;        // 是否自动获取
   createdAt: string;             // 创建时间
   updatedAt: string;             // 更新时间

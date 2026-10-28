@@ -5,6 +5,7 @@ import { Modal } from '../Common/Modal';
 import { Button } from '../Common/Button';
 import { GameIcon } from '../Common/GameIcon';
 import { gameColors } from '../Common/gameData';
+import { LivestreamPreview } from './LivestreamPreview';
 import type { Game, Version } from '../../types';
 
 interface VersionDetailProps {
@@ -103,6 +104,11 @@ export const VersionDetail: React.FC<VersionDetailProps> = ({
         </div>
 
         {/* Description */}
+        <LivestreamPreview
+          scope="detail"
+          games={[{ id: version.gameId, name: game?.name || version.gameId }]}
+          versions={[version]}
+        />
         {version.description && (
           <div className="bg-elevated rounded-lg p-3 border border-line">
             <h4 className="text-[11px] font-medium text-fg-4 mb-1.5">版本描述</h4>

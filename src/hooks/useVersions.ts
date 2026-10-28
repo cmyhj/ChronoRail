@@ -76,6 +76,10 @@ export function useVersions(gameId?: string) {
 
         if (existing) {
           const updates: Partial<Version> = {};
+          if (mihoyoVersion.livestream !== undefined &&
+              JSON.stringify(existing.livestream) !== JSON.stringify(mihoyoVersion.livestream)) {
+            updates.livestream = mihoyoVersion.livestream;
+          }
           
           if (mihoyoVersion.name && existing.name !== mihoyoVersion.name) {
             updates.name = mihoyoVersion.name;
@@ -98,6 +102,7 @@ export function useVersions(gameId?: string) {
             name: mihoyoVersion.name,
             startDate: mihoyoVersion.startDate,
             endDate: mihoyoVersion.endDate,
+            livestream: mihoyoVersion.livestream,
             isAutoFetched: true,
           });
           added++;

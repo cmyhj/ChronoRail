@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
 import dayjs from 'dayjs';
 import { TimelineRow } from './TimelineRow';
 import { UpcomingHero } from './UpcomingHero';
+import { LivestreamPreview } from '../Version/LivestreamPreview';
 import { TextGenerateEffect } from '../ui/text-generate-effect';
 import { useResponsive } from '../../hooks/useResponsive';
 import { mihoyoService } from '../../services/mihoyo';
@@ -25,6 +26,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   const [remoteVersions, setRemoteVersions] = useState<Version[]>([]);
 
   useEffect(() => {
+    let cancelled = false;
     const loadData = async () => {
       const bannerMap: Record<string, Banner[]> = {};
       const remote: Version[] = [];
@@ -41,16 +43,20 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
             name: v.name,
             startDate: v.startDate,
             endDate: v.endDate,
+            livestream: v.livestream,
             isAutoFetched: true,
             createdAt: '',
             updatedAt: '',
           });
         }
       }
-      setAllBanners(bannerMap);
-      setRemoteVersions(remote);
+      if (!cancelled) {
+        setAllBanners(bannerMap);
+        setRemoteVersions(remote);
+      }
     };
     loadData();
+    return () => { cancelled = true; };
   }, [games]);
 
   const mergedVersions = useMemo(() => {
@@ -58,7 +64,12 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
     const remoteOnly = remoteVersions.filter(
       (v) => !localKeys.has(`${v.gameId}:${v.version}`)
     );
-    return [...versions, ...remoteOnly];
+    return [...versions.map(v => ({
+      ...v,
+      livestream: v.livestream ?? remoteVersions.find(
+        remote => remote.gameId === v.gameId && remote.version === v.version
+      )?.livestream,
+    })), ...remoteOnly];
   }, [versions, remoteVersions]);
 
   const dateRange = useMemo(() => {
@@ -185,6 +196,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
         />
 
         {/* Timeline section */}
+        <LivestreamPreview games={games} versions={mergedVersions} />
         <div>
           {/* Timeline header */}
           <div className="flex items-center justify-between mb-3 px-1">
