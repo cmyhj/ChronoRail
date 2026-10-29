@@ -1025,14 +1025,40 @@
       "gameName": "异环",
       "versions": [
         {
+          "version": "1.5",
+          "name": "致电，空想迷数",
+          "startDate": "2026-11-05",
+          "endDate": "2026-12-17",
+          "banners": [
+            {
+              "name": "上半卡池",
+              "character": "曳尔沐(光,新)",
+              "startDate": "2026-11-05",
+              "endDate": "2026-11-26"
+            },
+            {
+              "name": "复刻·真红",
+              "character": "真红",
+              "startDate": "2026-11-05",
+              "endDate": "2026-11-26"
+            },
+            {
+              "name": "下半卡池",
+              "character": "Exe(暗,新)",
+              "startDate": "2026-11-26",
+              "endDate": "2026-12-17"
+            },
+            {
+              "name": "复刻·卡厄斯",
+              "character": "卡厄斯",
+              "startDate": "2026-11-26",
+              "endDate": "2026-12-17"
+            }
+          ]
+        },
+        {
           "version": "1.4",
           "name": "祷歌为谁而诵",
-          "livestream": {
-            "version": "1.5",
-            "name": "致电，空想迷数",
-            "startAt": "2026-10-28T19:30:00+08:00",
-            "officialUrl": "https://live.bilibili.com/1890951177"
-          },
           "startDate": "2026-09-24",
           "endDate": "2026-11-05",
           "banners": [
