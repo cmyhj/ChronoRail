@@ -295,7 +295,6 @@ test('confirmed production previews render announced versions without changing r
   const clock = Date.parse('2026-10-27T12:00:00+08:00');
   for (const [id, current, next, title, startAt] of [
     ['starrail', '4.6', '4.7', '此刻，将群星付之一笑', '2026-10-30T19:30:00+08:00'],
-    ['yihuan', '1.4', '1.5', '致电，空想迷数', '2026-10-28T19:30:00+08:00'],
   ]) {
     const info = data.games[id];
     const record = info.versions[0];
@@ -316,6 +315,22 @@ test('confirmed production previews render announced versions without changing r
     assert.match(detail, /下版本前瞻/);
     assert.ok(detail.includes(`当前版本 v${current}`));
   }
+});
+
+test('yihuan 1.5 release record replaces the consumed preview', async () => {
+  const data = JSON.parse(await readFile('public/data/game-versions.json', 'utf8'));
+  const info = data.games.yihuan;
+  const record = info.versions.find(v => v.version === '1.5');
+  assert.ok(record, 'official 1.5 record is written after the preview aired');
+  assert.equal(record.name, '致电，空想迷数');
+  assert.equal(record.startDate, '2026-11-05');
+  assert.ok(!info.versions.some(v => v.livestream), 'consumed preview is no longer pending');
+  const upper = record.banners.find(b => b.name === '上半卡池');
+  const lower = record.banners.find(b => b.name === '下半卡池');
+  assert.match(upper.character, /曳尔沐/);
+  assert.match(lower.character, /Exe/);
+  assert.equal(upper.endDate, lower.startDate);
+  assert.equal(lower.endDate, record.endDate);
 });
 
 test('production JSON contains no synthetic livestream fixture', async () => {
