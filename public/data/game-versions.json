@@ -152,6 +152,32 @@
       "gameName": "崩坏：星穹铁道",
       "versions": [
         {
+          "version": "4.7",
+          "name": "此刻，将群星付之一笑",
+          "startDate": "2026-11-11",
+          "endDate": "2026-12-23",
+          "banners": [
+            {
+              "name": "全版本UP",
+              "character": "星神★阿哈",
+              "startDate": "2026-11-11",
+              "endDate": "2026-12-23"
+            },
+            {
+              "name": "上半卡池",
+              "character": "银狼LV.999 / 火花 / 爻光",
+              "startDate": "2026-11-11",
+              "endDate": "2026-12-02"
+            },
+            {
+              "name": "下半卡池",
+              "character": "黄泉 / 丹恒·饮月 / 景元",
+              "startDate": "2026-12-02",
+              "endDate": "2026-12-23"
+            }
+          ]
+        },
+        {
           "version": "4.6",
           "name": "月升之前，与兽共舞",
           "livestream": {
