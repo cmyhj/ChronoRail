@@ -44,9 +44,9 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
         const banners = allBanners[game.id] || [];
         const gameVersions = versions.filter((v) => v.gameId === game.id);
 
-        // Find the next upcoming banner
+        // Find the next upcoming banner（含今天新开的卡池，不要漏掉今天开放的）
         const futureBanners = banners
-          .filter((b) => b.startDate > today)
+          .filter((b) => b.startDate >= today)
           .sort((a, b) => a.startDate.localeCompare(b.startDate));
 
         if (futureBanners.length > 0) {
@@ -66,9 +66,9 @@ export const UpcomingHero: React.FC<UpcomingHeroProps> = ({
           };
         }
 
-        // Find ongoing banners (check when they end)
+        // Find ongoing banners (check when they end)（含今天结束的卡池）
         const ongoingBanners = banners.filter(
-          (b) => b.startDate <= today && b.endDate > today
+          (b) => b.startDate <= today && b.endDate >= today
         );
         if (ongoingBanners.length > 0) {
           const soonestEnding = ongoingBanners.sort((a, b) =>
