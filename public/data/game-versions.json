@@ -504,7 +504,12 @@
               "startDate": "2026-10-22",
               "endDate": "2026-11-12"
             }
-          ]
+          ],
+          "livestream": {
+            "version": "3.8",
+            "startAt": "2026-11-06T19:00:00+08:00",
+            "officialUrl": "https://www.youtube.com/watch?v=REG1NpJfhlk"
+          }
         },
         {
           "version": "3.6",
