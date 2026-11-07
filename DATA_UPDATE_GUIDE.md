@@ -61,6 +61,28 @@ public/data/game-versions.json
 }
 ```
 
+> ⚠️ 实际文件用的是 `games.<gameId>.versions[]`（最新版本在最前），上面的 `current/nextVersion/history` 结构已过时。
+
+### 日期估算标记 `dateEstimation`（可选，官方日期缺失时）
+
+当官方已公布版本上线日、但**尚未公布版本结束日/上下半切换日**时，按该游戏往期常见周期暂估，并在该版本条目上挂追踪标记，后续拿到官方日期时替换：
+
+```json
+"dateEstimation": {
+  "pending": true,
+  "fields": ["endDate", "banners.0.endDate", "banners.3.startDate", "banners.3.endDate"],
+  "basis": "官方仅公布上线日；按该游戏近 N 个版本统计总周期众数 X 天、上半众数 Y 天推算……",
+  "sources": ["https://官方公告或前瞻链接"],
+  "estimatedAt": "YYYY-MM-DD",
+  "lastCheckedAt": "YYYY-MM-DD"
+}
+```
+
+- `fields`：相对该 version 对象的 JSON 路径，只列**估算**字段；官方已明确的日期（如 `startDate`）绝不列入。
+- `basis`：写明样本、统计出的总天数与上半长度，以及为什么排除某些特别版。
+- 官方确认某个字段后：替换该字段值，并从 `fields` 中移除；`fields` 清空时 `pending` 置 `false`（无估算字段时可整体删除该对象）。
+- 活动截止日（如忆旅赠礼 11:59）不等于版本结束日，不能拿来当 `endDate`。
+
 ## 支持的游戏ID
 
 | 游戏ID | 游戏名称 |
