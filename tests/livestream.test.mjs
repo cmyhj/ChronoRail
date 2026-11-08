@@ -290,31 +290,23 @@ test('data service carries optional metadata through history fetch (fixture only
   }
 });
 
-test('confirmed production previews render announced versions without changing release records', async () => {
-  const data = JSON.parse(await readFile('public/data/game-versions.json', 'utf8'));
-  const clock = Date.parse('2026-10-27T12:00:00+08:00');
-  for (const [id, current, next, title, startAt] of [
-    ['starrail', '4.6', '4.7', '此刻，将群星付之一笑', '2026-10-30T19:30:00+08:00'],
-  ]) {
-    const info = data.games[id];
-    const record = info.versions[0];
-    assert.equal(record.version, current);
-    assert.equal(record.livestream?.version, next);
-    assert.equal(record.livestream?.name, title);
-    assert.equal(record.livestream?.startAt, startAt);
-    assert.equal(record.livestream?.endAt, undefined);
-    assert.ok(!info.versions.some(v => v.version === next), 'no invented release date');
-    const version = { ...record, gameId: id, id: `${id}-${current}` };
-    const html = renderPreview([{ id, name: info.gameName }], [version], clock);
-    assert.match(html, new RegExp(`v${next.replace('.', '\\.')} ${title}`));
-    assert.doesNotMatch(html, new RegExp(`v${current.replace('.', '\\.')} `));
-    const detail = renderToStaticMarkup(React.createElement(LivestreamPreview, {
-      games: [{ id, name: info.gameName }], versions: [version], scope: 'detail',
-    }));
-    assert.ok(detail.includes(`v${next} ${title}`));
-    assert.match(detail, /下版本前瞻/);
-    assert.ok(detail.includes(`当前版本 v${current}`));
-  }
+test('confirmed production previews render announced versions without changing release records', () => {
+  // 生产数据里已播前瞻都会转正为正式版本记录（星铁 4.7、鸣潮 3.8、异环 1.5），
+  // 把生产版本号写死会让断言随数据自然过期，故这里用夹具验证同一渲染行为：
+  // 待播前瞻只渲染预告卡，且不得向版本数组追加任何发布记录。
+  const announced = { ...fixture, livestream: { ...fixture.livestream, version: '10.0', name: '下一版本' } };
+  const versions = [announced];
+  const snapshot = structuredClone(versions);
+  const html = renderPreview([game], versions, now);
+  assert.match(html, /v10\.0 下一版本/);
+  assert.doesNotMatch(html, /v9\.9 测试版本/);
+  assert.deepEqual(versions, snapshot, 'preview must not append a release record');
+  const detail = renderToStaticMarkup(React.createElement(LivestreamPreview, {
+    games: [game], versions, scope: 'detail',
+  }));
+  assert.ok(detail.includes('v10.0 下一版本'));
+  assert.match(detail, /下版本前瞻/);
+  assert.ok(detail.includes('当前版本 v9.9'));
 });
 
 test('yihuan 1.5 release record replaces the consumed preview', async () => {
