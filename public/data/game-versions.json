@@ -175,7 +175,21 @@
               "startDate": "2026-12-02",
               "endDate": "2026-12-23"
             }
-          ]
+          ],
+          "dateEstimation": {
+            "pending": true,
+            "fields": [
+              "banners.1.endDate",
+              "banners.2.startDate"
+            ],
+            "basis": "官方已确认 4.7 于 2026-11-11 上线；版本结束日 2026-12-23 由官方「4.7版本商店上新」公告窗口（至 2026-12-23 06:00）与 42 天周期互证，全版本UP「星神★阿哈」同区间。官方前瞻长图 EP.02 仅写「第一期/第二期」，不含日期；截至 2026-11-09，《4.7版本活动跃迁》官方公告尚未发布。按星铁近 6 个版本卡池分期统计：4.4=21+21、4.6=23+21、4.3=23+21（4.5 为 33 天特殊短版 17+16，已排除），上半通常 21 天，版本总长 42 天（2026-11-11~2026-12-23），故暂估上半 2026-11-11~2026-12-02（21 天）、下半 2026-12-02~2026-12-23（21 天，12-02 为周三，与星铁更新日一致）。待官方《活动跃迁》公告发布后覆盖。",
+            "sources": [
+              "https://www.hoyolab.com/article/47252649",
+              "https://hkrpg-api.mihoyo.com/common/hkrpg_cn/announcement/api/getAnnList?game=hkrpg&game_biz=hkrpg_cn&lang=zh-cn&bundle_id=hkrpg_cn&platform=pc&region=prod_gf_cn&level=70&uid=101000001"
+            ],
+            "estimatedAt": "2026-11-09",
+            "lastCheckedAt": "2026-11-09"
+          }
         },
         {
           "version": "4.6",
@@ -525,7 +539,7 @@
               "https://www.bilibili.com/video/BV1L44q6eEyt"
             ],
             "estimatedAt": "2026-11-07",
-            "lastCheckedAt": "2026-11-07"
+            "lastCheckedAt": "2026-11-09"
           }
         },
         {
