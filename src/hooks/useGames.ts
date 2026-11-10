@@ -20,8 +20,27 @@ export const DEFAULT_PRESET_GAMES: GameId[] = [
 // 已删除预置游戏的存储键
 const DELETED_PRESETS_KEY = 'chronorail_deleted_presets';
 
-// 「展开已隐藏游戏」的存储键
-const REVEAL_HIDDEN_KEY = 'chronorail_reveal_hidden';
+// 用户手动设置「已隐藏」的游戏 ID（默认值来自 GAME_CONFIGS[].hidden）
+const HIDDEN_GAMES_KEY = 'chronorail_hidden_games';
+
+/** 预置里标记为 hidden 的游戏 ID（作为默认隐藏集合） */
+function getDefaultHiddenIds(): string[] {
+  return Object.values(GAME_CONFIGS).filter(config => config.hidden).map(config => config.id);
+}
+
+/** 读取用户设置的隐藏集合；没有记录时回落到预置默认值 */
+function loadHiddenIds(): string[] {
+  try {
+    const raw = localStorage.getItem(HIDDEN_GAMES_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed.filter((id): id is string => typeof id === 'string');
+    }
+  } catch {
+    // ignore
+  }
+  return getDefaultHiddenIds();
+}
 
 /**
  * 获取已删除的预置游戏ID列表
@@ -84,30 +103,19 @@ export function useGames() {
     }
   });
 
-  // 默认隐藏的游戏（GAME_CONFIGS 里标了 hidden）：数据完整保留，仅在游戏管理页可展开
-  const [revealHidden, setRevealHidden] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem(REVEAL_HIDDEN_KEY) === '1';
-    } catch {
-      return false;
-    }
-  });
-
-  const hiddenIds = useMemo(
-    () => games.filter(g => GAME_CONFIGS[g.id]?.hidden).map(g => g.id),
-    [games]
-  );
+  // 隐藏的游戏：在「游戏管理」页逐款切换，数据完整保留，只影响展示
+  const [hiddenIds, setHiddenIds] = useState<string[]>(loadHiddenIds);
 
   const visibleGames = useMemo(
-    () => (revealHidden ? games : games.filter(g => !hiddenIds.includes(g.id))),
-    [games, hiddenIds, revealHidden]
+    () => games.filter(g => !hiddenIds.includes(g.id)),
+    [games, hiddenIds]
   );
 
-  const toggleHiddenVisibility = useCallback(() => {
-    setRevealHidden(prev => {
-      const next = !prev;
+  const toggleGameHidden = useCallback((id: string) => {
+    setHiddenIds(prev => {
+      const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id];
       try {
-        localStorage.setItem(REVEAL_HIDDEN_KEY, next ? '1' : '0');
+        localStorage.setItem(HIDDEN_GAMES_KEY, JSON.stringify(next));
       } catch {
         // ignore
       }
@@ -194,8 +202,7 @@ export function useGames() {
     games,
     visibleGames,
     hiddenIds,
-    revealHidden,
-    toggleHiddenVisibility,
+    toggleGameHidden,
     addGame,
     updateGame,
     deleteGame,

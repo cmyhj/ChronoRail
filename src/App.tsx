@@ -21,8 +21,7 @@ const App: React.FC = () => {
     games,
     visibleGames,
     hiddenIds,
-    revealHidden,
-    toggleHiddenVisibility,
+    toggleGameHidden,
     addGame,
     updateGame,
     deleteGame,
@@ -159,8 +158,7 @@ const App: React.FC = () => {
                   <GameList
                     games={games}
                     hiddenIds={hiddenIds}
-                    revealHidden={revealHidden}
-                    onToggleHidden={toggleHiddenVisibility}
+                    onToggleHidden={toggleGameHidden}
                     onAdd={handleAddGame}
                     onEdit={handleEditGame}
                     onDelete={handleDeleteGame}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, Eye, EyeOff } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { GameCard } from './GameCard';
 import { Button } from '../Common/Button';
 import { TextGenerateEffect } from '../ui/text-generate-effect';
@@ -8,8 +8,7 @@ import type { Game } from '../../types';
 interface GameListProps {
   games: Game[];
   hiddenIds?: string[];
-  revealHidden?: boolean;
-  onToggleHidden?: () => void;
+  onToggleHidden?: (gameId: string) => void;
   onAdd: () => void;
   onEdit: (game: Game) => void;
   onDelete: (game: Game) => void;
@@ -18,7 +17,6 @@ interface GameListProps {
 export const GameList: React.FC<GameListProps> = ({
   games,
   hiddenIds = [],
-  revealHidden = false,
   onToggleHidden,
   onAdd,
   onEdit,
@@ -38,28 +36,13 @@ export const GameList: React.FC<GameListProps> = ({
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
-            {hiddenIds.length > 0 && onToggleHidden && (
-              <Button
-                onClick={onToggleHidden}
-                icon={revealHidden ? <EyeOff size={14} /> : <Eye size={14} />}
-                size="sm"
-                variant="secondary"
-                aria-pressed={revealHidden}
-                title={revealHidden ? '收起已隐藏的游戏' : '在时间轴中显示已隐藏的游戏'}
-              >
-                <span className="hidden sm:inline">已隐藏 {hiddenIds.length}</span>
-              </Button>
-            )}
-
-            <Button
-              onClick={onAdd}
-              icon={<Plus size={15} />}
-              size="sm"
-            >
-              <span className="hidden sm:inline">添加游戏</span>
-            </Button>
-          </div>
+          <Button
+            onClick={onAdd}
+            icon={<Plus size={15} />}
+            size="sm"
+          >
+            <span className="hidden sm:inline">添加游戏</span>
+          </Button>
         </div>
 
         {/* Game grid */}
@@ -71,7 +54,9 @@ export const GameList: React.FC<GameListProps> = ({
                 game={game}
                 onEdit={() => onEdit(game)}
                 onDelete={() => onDelete(game)}
-                className={`enter ${hiddenIds.includes(game.id) && !revealHidden ? 'opacity-50' : ''}`}
+                isHidden={hiddenIds.includes(game.id)}
+                onToggleHidden={onToggleHidden ? () => onToggleHidden(game.id) : undefined}
+                className={`enter ${hiddenIds.includes(game.id) ? 'opacity-50' : ''}`}
                 style={{ ['--delay' as string]: `${index * 40}ms` }}
               />
             ))}

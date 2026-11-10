@@ -1,5 +1,5 @@
 import React from 'react';
-import { Edit, Trash2 } from 'lucide-react';
+import { Edit, Trash2, Eye, EyeOff } from 'lucide-react';
 import { GameIcon } from '../Common/GameIcon';
 import { gameColors } from '../Common/gameData';
 import { CardSpotlight } from '../ui/card-spotlight';
@@ -9,6 +9,8 @@ interface GameCardProps {
   game: Game;
   onEdit: () => void;
   onDelete: () => void;
+  isHidden?: boolean;
+  onToggleHidden?: () => void;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -17,6 +19,8 @@ export const GameCard: React.FC<GameCardProps> = ({
   game,
   onEdit,
   onDelete,
+  isHidden = false,
+  onToggleHidden,
   className = '',
   style,
 }) => {
@@ -56,6 +60,11 @@ export const GameCard: React.FC<GameCardProps> = ({
             }`}>
               {game.autoFetch ? '自动同步' : '手动管理'}
             </span>
+            {isHidden && (
+              <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-white/[0.06] text-fg-3">
+                已隐藏
+              </span>
+            )}
           </div>
         </div>
 
@@ -65,6 +74,20 @@ export const GameCard: React.FC<GameCardProps> = ({
       </div>
 
       <div className="px-3 py-2 bg-elevated/50 border-t border-line flex items-center gap-0.5 opacity-0 group-hover/spotlight:opacity-100 transition-opacity duration-150 relative z-10">
+        {onToggleHidden && (
+          <button
+            onClick={onToggleHidden}
+            className={`p-1.5 rounded-md transition-colors duration-150 hover:bg-white/[0.04] ${
+              isHidden ? 'text-accent hover:text-accent' : 'text-fg-3 hover:text-fg'
+            }`}
+            title={isHidden ? '在时间轴中显示' : '隐藏（不在时间轴显示）'}
+            aria-label={isHidden ? '显示游戏' : '隐藏游戏'}
+            aria-pressed={isHidden}
+          >
+            {isHidden ? <EyeOff size={14} /> : <Eye size={14} />}
+          </button>
+        )}
+
         <button
           onClick={onEdit}
           className="p-1.5 text-fg-3 hover:text-info hover:bg-white/[0.04] rounded-md transition-colors duration-150"
