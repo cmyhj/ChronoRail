@@ -17,7 +17,18 @@ import type { Game, Version, GameFormData, VersionFormData } from './types';
 
 const App: React.FC = () => {
   const { isMobile } = useResponsive();
-  const { games, addGame, updateGame, deleteGame, addPresetGame, resetPresets } = useGames();
+  const {
+    games,
+    visibleGames,
+    hiddenIds,
+    revealHidden,
+    toggleHiddenVisibility,
+    addGame,
+    updateGame,
+    deleteGame,
+    addPresetGame,
+    resetPresets,
+  } = useGames();
   const { versions, addVersion, updateVersion, deleteVersion, syncFromMihoyo } = useVersions();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -136,7 +147,7 @@ const App: React.FC = () => {
                 path="/"
                 element={
                   <TimelineView
-                    games={games}
+                    games={visibleGames}
                     versions={versions}
                     onVersionClick={handleVersionClick}
                   />
@@ -147,6 +158,9 @@ const App: React.FC = () => {
                 element={
                   <GameList
                     games={games}
+                    hiddenIds={hiddenIds}
+                    revealHidden={revealHidden}
+                    onToggleHidden={toggleHiddenVisibility}
                     onAdd={handleAddGame}
                     onEdit={handleEditGame}
                     onDelete={handleDeleteGame}
@@ -165,7 +179,7 @@ const App: React.FC = () => {
           <MobileDrawer
             isOpen={drawerOpen}
             onClose={() => setDrawerOpen(false)}
-            games={games}
+            games={visibleGames}
             onAddGame={handleAddGame}
           />
         )}

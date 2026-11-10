@@ -1269,6 +1269,17 @@
           ]
         }
       ]
+    },
+    "silverpalace": {
+      "gameId": "silverpalace",
+      "gameName": "白银之城",
+      "versions": [
+        {
+          "version": "1.0",
+          "name": "全球公测",
+          "startDate": "2026-12-14"
+        }
+      ]
     }
   }
 }

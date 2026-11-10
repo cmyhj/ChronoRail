@@ -69,8 +69,16 @@ def audit(path=DATA_FILE):
         loose = gid in ARKNIGHTS_LOOSE
 
         starts, spans, wds = [], [], []
-        for v in versions:
+        for idx, v in enumerate(versions):
             sd, ed = parse(v.get("startDate")), parse(v.get("endDate"))
+            if sd and not ed and idx == 0:
+                # 最新版本允许没有结束日（下一版尚未官宣）：开放式区间，前端按 42 天兜底渲染
+                soft(gid, "open_end", "最新版本 %s 未写结束日，等待下一版官宣" % v.get("version"),
+                     v.get("version"), "endDate")
+                starts.append((v, sd, None))
+                spans.append(None)
+                wds.append(sd.weekday())
+                continue
             if not sd or not ed:
                 hard(gid, "unparseable", "版本日期无法解析（会被前端静默丢弃）", v.get("version"))
                 continue
@@ -88,7 +96,7 @@ def audit(path=DATA_FILE):
             for i in range(len(starts) - 1):
                 newer, nsd, _ = starts[i]
                 older, _, oed = starts[i + 1]
-                if oed != nsd:
+                if oed is not None and oed != nsd:
                     gap = (nsd - oed).days
                     hard(gid, "gap" if gap > 0 else "overlap",
                          "%s 止于 %s，但 %s 起于 %s（%s %d 天）" % (
@@ -106,11 +114,12 @@ def audit(path=DATA_FILE):
                                  sd, WD[wd], WD[mode_wd]), v.get("version"), "startDate")
 
         # 周期离群（只提示）
-        if spans:
-            mode_span, cnt = Counter(spans).most_common(1)[0]
+        known_spans = [s for s in spans if s is not None]
+        if known_spans:
+            mode_span, cnt = Counter(known_spans).most_common(1)[0]
             if cnt >= 3:
                 for (v, sd, ed), sp in zip(starts, spans):
-                    if abs(sp - mode_span) > 2:
+                    if sp is not None and abs(sp - mode_span) > 2:
                         soft(gid, "cycle",
                              "周期 %d 天，该游戏多数版本 %d 天" % (sp, mode_span), v.get("version"))
 
@@ -152,7 +161,7 @@ def audit(path=DATA_FILE):
             "modal_weekday": WD[Counter(wds).most_common(1)[0][0]] if wds else None,
             "modal_span": Counter(spans).most_common(1)[0][0] if spans else None,
             "current_version": cur.get("version") if cur else None,
-            "current_range": "%s~%s" % (cur.get("startDate"), cur.get("endDate")) if cur else None,
+            "current_range": "%s~%s" % (cur.get("startDate"), cur.get("endDate") or "至今") if cur else None,
         }
 
     return report

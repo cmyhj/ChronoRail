@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import type { Game, GameFormData } from '../types';
 import { gameService } from '../services/storage';
 import { GAME_CONFIGS } from '../utils/parser';
@@ -14,10 +14,14 @@ export const DEFAULT_PRESET_GAMES: GameId[] = [
   'reverse1999',
   'arknights_endfield',
   'yihuan',
+  'silverpalace',
 ];
 
 // 已删除预置游戏的存储键
 const DELETED_PRESETS_KEY = 'chronorail_deleted_presets';
+
+// 「展开已隐藏游戏」的存储键
+const REVEAL_HIDDEN_KEY = 'chronorail_reveal_hidden';
 
 /**
  * 获取已删除的预置游戏ID列表
@@ -79,6 +83,37 @@ export function useGames() {
       return [];
     }
   });
+
+  // 默认隐藏的游戏（GAME_CONFIGS 里标了 hidden）：数据完整保留，仅在游戏管理页可展开
+  const [revealHidden, setRevealHidden] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(REVEAL_HIDDEN_KEY) === '1';
+    } catch {
+      return false;
+    }
+  });
+
+  const hiddenIds = useMemo(
+    () => games.filter(g => GAME_CONFIGS[g.id]?.hidden).map(g => g.id),
+    [games]
+  );
+
+  const visibleGames = useMemo(
+    () => (revealHidden ? games : games.filter(g => !hiddenIds.includes(g.id))),
+    [games, hiddenIds, revealHidden]
+  );
+
+  const toggleHiddenVisibility = useCallback(() => {
+    setRevealHidden(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem(REVEAL_HIDDEN_KEY, next ? '1' : '0');
+      } catch {
+        // ignore
+      }
+      return next;
+    });
+  }, []);
 
   // 添加游戏
   const addGame = useCallback((formData: GameFormData): Game => {
@@ -157,6 +192,10 @@ export function useGames() {
 
   return {
     games,
+    visibleGames,
+    hiddenIds,
+    revealHidden,
+    toggleHiddenVisibility,
     addGame,
     updateGame,
     deleteGame,

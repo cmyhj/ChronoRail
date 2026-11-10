@@ -5,6 +5,8 @@ export interface GameConfig {
   autoFetch: boolean;
   color: string;
   icon: string;
+  hidden?: boolean;   // 默认不在时间轴/推荐位显示（数据保留，游戏管理页可展开）
+  maintained?: boolean; // false = 不再由定时任务更新数据
 }
 
 // 所有支持的游戏配置
@@ -38,6 +40,8 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
     autoFetch: true,
     color: '#00b4d8',
     icon: 'wutheringwaves',
+    hidden: true,
+    maintained: false,
   },
   // 鹰角网络
   arknights: {
@@ -70,6 +74,14 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
     autoFetch: true,
     color: '#14b8a6',
     icon: 'yihuan',
+  },
+  // 乐元素 - 白银之城
+  silverpalace: {
+    id: 'silverpalace',
+    name: '白银之城',
+    autoFetch: true,
+    color: '#b0c4d8',
+    icon: 'silverpalace',
   },
 };
 
