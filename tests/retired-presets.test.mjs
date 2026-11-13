@@ -114,9 +114,9 @@ test('stale remote catalogs are filtered before caching or timeline merge', asyn
   }
 });
 
-test('production catalog has nine presets and no retired records or resources', async () => {
+test('production catalog has ten presets and no retired records or resources', async () => {
   const catalog = JSON.parse(await readFile('public/data/game-versions.json', 'utf8'));
-  assert.equal(Object.keys(GAME_CONFIGS).length, 9);
+  assert.equal(Object.keys(GAME_CONFIGS).length, 10);
   assert.deepEqual(Object.keys(catalog.games).sort(), Object.keys(GAME_CONFIGS).sort());
   for (const file of ['public/data/game-versions.json', 'public/data/chronorail.json',
     'src/components/Common/gameData.tsx', 'docs/livestream-sources.md']) {

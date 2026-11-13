@@ -83,6 +83,14 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
     color: '#b0c4d8',
     icon: 'silverpalace',
   },
+  // 蛮啾网络 - 蓝色星原：旅谣
+  azurpromilia: {
+    id: 'azurpromilia',
+    name: '蓝色星原：旅谣',
+    autoFetch: true,
+    color: '#8796e8',
+    icon: 'azurpromilia',
+  },
 };
 
 // 所有游戏ID类型

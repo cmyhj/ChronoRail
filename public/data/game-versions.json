@@ -1290,6 +1290,17 @@
           "startDate": "2026-12-14"
         }
       ]
+    },
+    "azurpromilia": {
+      "gameId": "azurpromilia",
+      "gameName": "蓝色星原：旅谣",
+      "versions": [
+        {
+          "version": "1.0",
+          "name": "正式公测",
+          "startDate": "2026-11-26"
+        }
+      ]
     }
   }
 }

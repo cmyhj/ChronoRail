@@ -12,6 +12,7 @@ export const gameIconUrls: Record<string, string> = {
   arknights_endfield: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/88/76/80/88768037-1209-c3a2-585b-944efdfdfce1/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg',
   yihuan: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a5/81/31/a5813161-38c3-1295-978f-9fd4f9c4bd16/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg',
   silverpalace: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a5/35/ac/a535ac5f-503d-fb48-6d1a-3eb8faadfc34/AppIcon-0-0-1x_U007emarketing-0-4-85-220.png/512x512bb.jpg',
+  azurpromilia: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/56/f3/07/56f3071e-0d98-dee4-f772-579894098ecc/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg',
 };
 
 // SVG图标备用方案
@@ -69,6 +70,12 @@ export const gameIcons: Record<string, React.ReactNode> = {
   default: (
     <svg viewBox="0 0 24 24" fill="currentColor">
       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+    </svg>
+  ),
+  azurpromilia: (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2l2.2 6.2L20.5 12l-6.3 2.2L12 22l-2.2-7.8L3.5 12l6.3-3.8L12 2z" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinejoin="round"/>
+      <circle cx="12" cy="12" r="1.6" fill="currentColor"/>
     </svg>
   ),
   silverpalace: (

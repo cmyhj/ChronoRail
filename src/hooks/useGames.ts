@@ -15,6 +15,7 @@ export const DEFAULT_PRESET_GAMES: GameId[] = [
   'arknights_endfield',
   'yihuan',
   'silverpalace',
+  'azurpromilia',
 ];
 
 // 已删除预置游戏的存储键
