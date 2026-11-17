@@ -3,6 +3,7 @@ import { GAME_CONFIGS } from '../../utils/parser';
 
 // 游戏官方图标URL（来自App Store）
 export const gameIconUrls: Record<string, string> = {
+  petitplanet: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a8/a5/fa/a8a5fa94-0782-1255-6e6a-22f58ce3712a/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg',
   genshin: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/27/b6/e4/27b6e435-c1df-2563-9eb1-73b99fadb1d0/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg',
   starrail: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/16/6d/07/166d07c4-f11c-33f3-eda9-a2cfa839fc85/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg',
   zzz: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/ba/24/b9/ba24b9a7-ce58-d64a-0247-46f81deec2fa/AppIcon-1x_U007emarketing-0-8-0-85-220-0.png/512x512bb.jpg',

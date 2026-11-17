@@ -16,6 +16,7 @@ export const DEFAULT_PRESET_GAMES: GameId[] = [
   'yihuan',
   'silverpalace',
   'azurpromilia',
+  'petitplanet',
 ];
 
 // 已删除预置游戏的存储键

@@ -1280,6 +1280,17 @@
         }
       ]
     },
+    "petitplanet": {
+      "gameId": "petitplanet",
+      "gameName": "星布谷地",
+      "versions": [
+        {
+          "version": "公测",
+          "name": "公测开启",
+          "startDate": "2026-12-04"
+        }
+      ]
+    },
     "silverpalace": {
       "gameId": "silverpalace",
       "gameName": "白银之城",

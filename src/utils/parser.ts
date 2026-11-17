@@ -91,6 +91,14 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
     color: '#8796e8',
     icon: 'azurpromilia',
   },
+  // 米哈游 - 星布谷地
+  petitplanet: {
+    id: 'petitplanet',
+    name: '星布谷地',
+    autoFetch: true,
+    color: '#e4b85f',
+    icon: 'petitplanet',
+  },
 };
 
 // 所有游戏ID类型
