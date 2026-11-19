@@ -1025,7 +1025,12 @@
               "startDate": "2026-10-29",
               "endDate": "2026-11-19"
             }
-          ]
+          ],
+          "livestream": {
+            "version": "2.0",
+            "startAt": "2026-11-21T19:30:00+08:00",
+            "officialUrl": "https://live.bilibili.com/1921300321"
+          }
         },
         {
           "version": "1.5",
