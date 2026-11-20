@@ -352,7 +352,13 @@
               "startDate": "2026-11-11",
               "endDate": "2026-12-02"
             }
-          ]
+          ],
+          "livestream": {
+            "version": "3.4",
+            "name": "长日终尽",
+            "startAt": "2026-11-20T18:30:00+08:00",
+            "officialUrl": "https://zenless.hoyoverse.com/zh-cn/news/167352"
+          }
         },
         {
           "version": "3.2",
