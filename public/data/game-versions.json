@@ -335,6 +335,45 @@
       "gameName": "绝区零",
       "versions": [
         {
+          "version": "3.4",
+          "name": "长日终尽",
+          "startDate": "2026-12-02",
+          "endDate": "2027-01-22",
+          "banners": [
+            {
+              "name": "限时频段「挽昼」",
+              "character": "挽昼",
+              "startDate": "2026-12-02",
+              "endDate": "2027-01-13"
+            },
+            {
+              "name": "复刻频段「爱丽丝」",
+              "character": "爱丽丝",
+              "startDate": "2027-01-01",
+              "endDate": "2027-01-13"
+            },
+            {
+              "name": "限时频段「卡芙卡」（绝区零×崩坏：星穹铁道联动）",
+              "character": "卡芙卡",
+              "startDate": "2027-01-01",
+              "endDate": "2027-01-22"
+            }
+          ],
+          "dateEstimation": {
+            "pending": true,
+            "fields": [
+              "endDate"
+            ],
+            "basis": "官方前瞻长图（news/167399）频段窗口：挽昼 12月2日更新后~1月12日14:59；爱丽丝复刻 1月1日12:00~1月12日14:59；卡芙卡 1月1日12:00~1月21日14:59。版本结束日官方未公布，按最后一个频段结束后次日推定 2027-01-22；本版为跨年联动版，未套用近5版42天周期。",
+            "sources": [
+              "https://zenless.hoyoverse.com/zh-cn/news/167399",
+              "https://zenless.hoyoverse.com/zh-cn/news/167400"
+            ],
+            "estimatedAt": "2026-11-21",
+            "lastCheckedAt": "2026-11-21"
+          }
+        },
+        {
           "version": "3.3",
           "name": "重返天空的旅程",
           "startDate": "2026-10-21",
@@ -684,6 +723,26 @@
       "gameId": "arknights",
       "gameName": "明日方舟",
       "versions": [
+        {
+          "version": "SideStory 星星不愿入睡",
+          "name": "星星不愿入睡",
+          "startDate": "2026-12-04",
+          "endDate": "2026-12-25",
+          "banners": [],
+          "dateEstimation": {
+            "pending": true,
+            "fields": [
+              "startDate",
+              "endDate"
+            ],
+            "basis": "官方《制作组通讯#71期》(2026-11-18) 公布 SideStory「星星不愿入睡」12月上旬开启，未给具体日期与干员。按该游戏近期 SideStory 常见周期21天、常见更新日周五，取12月上旬周五 2026-12-04 暂估开始日，endDate 按21天推算 2026-12-25；UP干员未公布，故不写卡池。",
+            "sources": [
+              "https://ak.hypergryph.com/news/3029"
+            ],
+            "estimatedAt": "2026-11-21",
+            "lastCheckedAt": "2026-11-21"
+          }
+        },
         {
           "version": "SideStory 时间啊，向前！",
           "name": "时间啊，向前！",
