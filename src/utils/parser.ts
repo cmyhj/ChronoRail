@@ -91,6 +91,14 @@ export const GAME_CONFIGS: Record<string, GameConfig> = {
     color: '#8796e8',
     icon: 'azurpromilia',
   },
+  // 网易 - 无限大
+  ananta: {
+    id: 'ananta',
+    name: '无限大',
+    autoFetch: true,
+    color: '#c8455e',
+    icon: 'ananta',
+  },
   // 米哈游 - 星布谷地
   petitplanet: {
     id: 'petitplanet',

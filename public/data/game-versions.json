@@ -1428,6 +1428,17 @@
           }
         }
       ]
+    },
+    "ananta": {
+      "gameId": "ananta",
+      "gameName": "无限大",
+      "versions": [
+        {
+          "version": "1.0",
+          "name": "全球公测",
+          "startDate": "2027-01-15"
+        }
+      ]
     }
   }
 }

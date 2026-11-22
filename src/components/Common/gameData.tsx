@@ -3,6 +3,7 @@ import { GAME_CONFIGS } from '../../utils/parser';
 
 // 游戏官方图标URL（来自App Store）
 export const gameIconUrls: Record<string, string> = {
+  ananta: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/aa/d8/20/aad820d2-fb14-17df-88d4-41f475ee7531/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg',
   petitplanet: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a8/a5/fa/a8a5fa94-0782-1255-6e6a-22f58ce3712a/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg',
   genshin: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/27/b6/e4/27b6e435-c1df-2563-9eb1-73b99fadb1d0/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg',
   starrail: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/16/6d/07/166d07c4-f11c-33f3-eda9-a2cfa839fc85/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg',
@@ -71,6 +72,12 @@ export const gameIcons: Record<string, React.ReactNode> = {
   default: (
     <svg viewBox="0 0 24 24" fill="currentColor">
       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+    </svg>
+  ),
+  ananta: (
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <circle cx="12" cy="12" r="9.5" stroke="currentColor" strokeWidth="1.4" fill="none"/>
+      <path d="M12 4.5c3.6 0 6 2.6 6 5.2s-2.2 4.1-5.1 4.1H9.6c-.6 0-1 .4-1 .9 0 .5.4.9 1 .9h6.8c.5 0 .9.4.9.9s-.4.9-.9.9H9.2a2.6 2.6 0 0 1-2.6-2.6c0-1.4 1.1-2.6 2.6-2.6h3.3c1.6 0 2.6-.9 2.6-2.1S14.2 7 12 7" stroke="currentColor" strokeWidth="1.4" fill="none" strokeLinecap="round"/>
     </svg>
   ),
   azurpromilia: (
