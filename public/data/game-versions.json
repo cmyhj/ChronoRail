@@ -1432,6 +1432,14 @@
           "version": "1.0",
           "name": "正式公测",
           "startDate": "2026-11-26",
+          "banners": [
+            {
+              "name": "弦定观测「桃笺为契」",
+              "character": "涂山小玉（限定5★·猛攻·风&光）",
+              "startDate": "2026-11-26",
+              "endDate": "2026-12-17"
+            }
+          ],
           "livestream": {
             "version": "1.0",
             "startAt": "2026-11-20T19:00:00+08:00",
