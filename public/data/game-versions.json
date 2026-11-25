@@ -1409,7 +1409,13 @@
         {
           "version": "公测",
           "name": "公测开启",
-          "startDate": "2026-12-04"
+          "startDate": "2026-12-04",
+          "livestream": {
+            "version": "公测",
+            "name": "公测前瞻特别节目",
+            "startAt": "2026-11-01T19:00:00+08:00",
+            "officialUrl": "https://live.bilibili.com/1975601649"
+          }
         }
       ]
     },
