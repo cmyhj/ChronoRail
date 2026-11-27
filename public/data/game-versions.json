@@ -1113,14 +1113,15 @@
             "fields": [
               "endDate"
             ],
-            "basis": "版本与卡池均来自官方：《新版本导览》专题页（endfield.hypergryph.com/version_briefing/latest，2026-11-21 20:00 公告 cid=5970）载明版本开启 2026/11/25 07:00、加载窗口至 2027/01/07 06:00，closeTime 对应下一版本更新维护，故 endDate 记 2027-01-07；官方 TapTap 前瞻情报（11-21）与官网页脚仍显示 1.6，1.7《版本更新说明》尚未发布，正式版本结束日待确认。卡池日期为官方前瞻长图原文：小刻特许寻访至 2026/12/23 11:59、洁尔佩塔重构寻访#1 至 2026/12/16 11:59、洛茜重构寻访#1 自 2026/12/16 12:00 起至版本更新维护前。",
+            "basis": "版本与卡池均来自官方：《新版本导览》专题页（endfield.hypergryph.com/version_briefing/latest，2026-11-21 公告 cid=5970）载明版本开启 2026/11/25 07:00、加载窗口至 2027/01/07 06:00；2026-11-25 发布的 1.7《版本更新说明》（endfield.hypergryph.com/news/5979）载明小刻特许寻访「锻砧、行囊与蜜糖」至 2026/12/23 11:59、洁尔佩塔重构寻访1 至 2026/12/16 11:59、洛茜重构寻访1 自 2026/12/16 12:00 起至版本更新维护前，并载明限时活动「理智补给」末段 2026/12/31 04:00 - 2027/01/07 04:00（服务器时间），与版本导览 closeTime 一致，故版本结束日暂记 2027-01-07；官方正文仍未以文字公布版本结束日（更新说明只写「版本更新维护前」），保持暂估。",
             "sources": [
               "https://endfield.hypergryph.com/news/5970",
               "https://endfield.hypergryph.com/version_briefing/latest",
-              "https://live.bilibili.com/1921300321"
+              "https://live.bilibili.com/1921300321",
+              "https://endfield.hypergryph.com/news/5979"
             ],
             "estimatedAt": "2026-11-22",
-            "lastCheckedAt": "2026-11-27"
+            "lastCheckedAt": "2026-11-28"
           }
         },
         {

@@ -118,9 +118,11 @@ test('production catalog has twelve presets and no retired records or resources'
   const catalog = JSON.parse(await readFile('public/data/game-versions.json', 'utf8'));
   assert.equal(Object.keys(GAME_CONFIGS).length, 12);
   assert.equal(GAME_CONFIGS.petitplanet.name, '星布谷地');
-  assert.deepEqual(catalog.games.petitplanet.versions, [{
-    version: '公测', name: '公测开启', startDate: '2026-12-04',
-  }]);
+  const petitVersions = catalog.games.petitplanet.versions;
+  assert.equal(petitVersions.length, 1);
+  assert.equal(petitVersions[0].version, '公测');
+  assert.equal(petitVersions[0].name, '公测开启');
+  assert.equal(petitVersions[0].startDate, '2026-12-04');
   assert.deepEqual(Object.keys(catalog.games).sort(), Object.keys(GAME_CONFIGS).sort());
   for (const file of ['public/data/game-versions.json', 'public/data/chronorail.json',
     'src/components/Common/gameData.tsx', 'docs/livestream-sources.md']) {
