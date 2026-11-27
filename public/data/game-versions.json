@@ -370,7 +370,7 @@
               "https://zenless.hoyoverse.com/zh-cn/news/167400"
             ],
             "estimatedAt": "2026-11-21",
-            "lastCheckedAt": "2026-11-21"
+            "lastCheckedAt": "2026-11-27"
           }
         },
         {
@@ -726,21 +726,27 @@
         {
           "version": "SideStory 星星不愿入睡",
           "name": "星星不愿入睡",
-          "startDate": "2026-12-04",
-          "endDate": "2026-12-25",
-          "banners": [],
+          "startDate": "2026-12-02",
+          "endDate": "2026-12-23",
+          "banners": [
+            {
+              "name": "【惊奇幻想夜】限时寻访",
+              "character": "莫菲丝",
+              "startDate": "2026-12-02",
+              "endDate": "2026-12-16"
+            }
+          ],
           "dateEstimation": {
-            "pending": true,
-            "fields": [
-              "startDate",
-              "endDate"
-            ],
-            "basis": "官方《制作组通讯#71期》(2026-11-18) 公布 SideStory「星星不愿入睡」12月上旬开启，未给具体日期与干员。按该游戏近期 SideStory 常见周期21天、常见更新日周五，取12月上旬周五 2026-12-04 暂估开始日，endDate 按21天推算 2026-12-25；UP干员未公布，故不写卡池。",
+            "pending": false,
+            "fields": [],
+            "basis": "官方《[活动预告]SideStory「星星不愿入睡」限时活动即将开启》（ak.hypergryph.com/news/4913，2026-11-27）载明活动时间 12月02日12:00–12月23日03:59、【惊奇幻想夜】限时寻访 12月02日12:00–12月16日03:59、UP六星莫菲丝（占6★出率50%），另经官方B站活动宣传PV（BV19k1Jz5Ea8，同日发布）交叉验证活动名。原按21天周期的暂估日期（12-04/12-25）已全部由官方日期替换。",
             "sources": [
+              "https://ak.hypergryph.com/news/4913",
+              "https://www.bilibili.com/video/BV19k1Jz5Ea8",
               "https://ak.hypergryph.com/news/3029"
             ],
             "estimatedAt": "2026-11-21",
-            "lastCheckedAt": "2026-11-21"
+            "lastCheckedAt": "2026-11-27"
           }
         },
         {
@@ -1114,7 +1120,7 @@
               "https://live.bilibili.com/1921300321"
             ],
             "estimatedAt": "2026-11-22",
-            "lastCheckedAt": "2026-11-22"
+            "lastCheckedAt": "2026-11-27"
           }
         },
         {
